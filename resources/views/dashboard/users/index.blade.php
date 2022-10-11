@@ -31,11 +31,11 @@
                                 <div class="card-tools">
                                     <form action="{{ route('users.index') }}" method="GET">
                                         <div class="input-group input-group-sm" style="width: 300px;">
-                                            <select name="order_by" class="custom-select form-control-borde">
-                                                <option value="" selected>Order By</option>
-                                                <option value="listing_count" {{ isset($_GET['order_by']) && $_GET['order_by'] == 'listing_count' ? 'selected' : '' }}>Listing count</option>
-                                                <option value="created_at" {{ isset($_GET['order_by']) && $_GET['order_by'] == 'created_at' ? 'selected' : '' }}>Created At</option>
-                                            </select>
+{{--                                            <select name="order_by" class="custom-select form-control-borde">--}}
+{{--                                                <option value="" selected>Order By</option>--}}
+{{--                                                <option value="listing_count" {{ isset($_GET['order_by']) && $_GET['order_by'] == 'listing_count' ? 'selected' : '' }}>Listing count</option>--}}
+{{--                                                <option value="created_at" {{ isset($_GET['order_by']) && $_GET['order_by'] == 'created_at' ? 'selected' : '' }}>Created At</option>--}}
+{{--                                            </select>--}}
                                             <input type="text" name="search" class="form-control float-right"
                                                    placeholder="Search" value="{{ $_GET['search'] ?? '' }}">
 
@@ -55,35 +55,34 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Naziv</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
                                         <th>Email</th>
+                                        <th>Age</th>
                                         <th>Role</th>
                                         <th>Status</th>
-                                        <th>Število oglasov</th>
-                                        <th>Paket</th>
-                                        <th>Ustvarjen</th>
-                                        <th>Uredi / izbriši</th>
+                                        <th>Created At</th>
+                                        <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($users as $user)
-{{--                                        @dump($user->maliOglases)--}}
                                         <tr>
                                             <td>{{ $user->id }}</td>
-                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->first_name }}</td>
+                                            <td>{{ $user->last_name }}</td>
                                             <td>{{ $user->email }}</td>
-                                            <td>{{ $user->role->name }}</td>
-                                            @if($user->customer->status == 1)
+                                            <td>{{ $user->age }}</td>
+                                            <td>{{ $user->role }}</td>
+                                            @if($user->status == 1)
                                                 <td>
-                                                    <i class="text-success">Aktiven</i>
+                                                    <i class="text-success">Active</i>
                                                 </td>
                                             @else
                                                 <td>
-                                                    <i class="text-danger">Neaktiven</i>
+                                                    <i class="text-danger">Inactive</i>
                                                 </td>
                                             @endif
-                                            <td>{{ isset($user->customer) ? count($user->customer->maliOglases) : 0 }}</td>
-                                            <td>{{ isset($user->customer) && isset($user->customer->activePackage) ? $user->customer->activePackage->paidItem->title : '' }}</td>
                                             <td>{{ $user->created_at }}</td>
                                             <td>
                                                 <a href="{{ route('users.edit', $user->id) }}" class="btn" title="Edit details">
@@ -92,11 +91,11 @@
 
                                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST"
                                                       style="display: none"
-                                                      onsubmit="return confirm('Ali ste prepričani?')">
+                                                      onsubmit="return confirm('Are you sure?')">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
-                                                <a href="#" onclick="$(this).prev().submit()" title="{{__('Izbriši')}}">
+                                                <a href="#" onclick="$(this).prev().submit()" title="Delete">
                                                     <i class="text-danger nav-icon fas fa-trash"></i>
                                                 </a>
                                             </td>

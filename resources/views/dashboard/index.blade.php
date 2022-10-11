@@ -1,10 +1,10 @@
 @extends('.dashboard.layouts.app')
 <script>
 
-    setTimeout(function () {
-        drawGraph({{$data_users}},{{$data_months}},"bar","Uporabniki");
-        drawGraph({{$data_listings}},{{$data_months_listings}},"line","Ogalsi");
-    }, 3000);
+    {{--setTimeout(function () {--}}
+    {{--    drawGraph({{$data_users}},{{$data_months}},"bar","Uporabniki");--}}
+    {{--    drawGraph({{$data_listings}},{{$data_months_listings}},"line","Ogalsi");--}}
+    {{--}, 3000);--}}
 
 </script>
 @section('content')
@@ -32,7 +32,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>{{ $regularUser }}</h3>
+{{--                                <h3>{{ $regularUser }}</h3>--}}
 
                                 <p>Regular Users</p>
                             </div>
@@ -45,7 +45,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>{{ $companyUser }}</h3>
+{{--                                <h3>{{ $companyUser }}</h3>--}}
 
                                 <p>Company Users</p>
                             </div>
@@ -58,7 +58,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>{{ $nonLoggedListing }}</h3>
+{{--                                <h3>{{ $nonLoggedListing }}</h3>--}}
 
                                 <p>Non Logged User's Listings</p>
                             </div>
@@ -71,7 +71,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>{{ $loggedListing }}</h3>
+{{--                                <h3>{{ $loggedListing }}</h3>--}}
 
                                 <p>logged Users Listings</p>
                             </div>
@@ -84,7 +84,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-secondary">
                             <div class="inner">
-                                <h3>{{ $deactivatedListings }}</h3>
+{{--                                <h3>{{ $deactivatedListings }}</h3>--}}
 
                                 <p>Deactivated Listings</p>
                             </div>
@@ -97,7 +97,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-primary">
                             <div class="inner">
-                                <h3>{{ $expiredListings }}</h3>
+{{--                                <h3>{{ $expiredListings }}</h3>--}}
 
                                 <p>Expired Listings</p>
                             </div>
@@ -111,7 +111,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>{{ $totalRevenue }}</h3>
+{{--                                <h3>{{ $totalRevenue }}</h3>--}}
 
                                 <p>Total Daily Revenue</p>
                             </div>
