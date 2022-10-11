@@ -1,8 +1,8 @@
 <footer class="main-footer">
     <div class="pull-right hidden-xs">
-        <b>Oglasi</b> Dashboard
+        <b>Informa</b> Dashboard
     </div>
-    <strong>Copyright © {{ date('Y') }} Oglasi.</strong>
+    <strong>Copyright © {{ date('Y') }} informa.</strong>
     All rights reserved.
 </footer>
 
