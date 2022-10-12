@@ -123,35 +123,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Število novih uporabnikov</h3>
-                        </div>
-                        <div class="card-body">
-                            <div>
-                                <canvas id="Uporabniki"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Število novih oglasov</h3>
-                        </div>
-                        <div class="card-body">
-                            <div>
-                                <canvas id="Ogalsi"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
         </section>
     </div>
 @endsection
