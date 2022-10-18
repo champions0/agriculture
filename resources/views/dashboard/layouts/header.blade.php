@@ -29,12 +29,12 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            @if(Auth::user()->avatar)
+                            @if(isset(Auth::user()->avatar))
                                 <img src="{{Auth::user()->avatar }}" class="user-image" alt="User Image">
-                            @else
-                                <img
-                                    src="https://secure.gravatar.com/avatar/55e20e28bf9078a7b3833d58d8407b2f?s=96&d=mm&r=g"
-                                    class="user-image" alt="User Image">
+{{--                            @else--}}
+{{--                                <img--}}
+{{--                                    src="https://secure.gravatar.com/avatar/55e20e28bf9078a7b3833d58d8407b2f?s=96&d=mm&r=g"--}}
+{{--                                    class="user-image" alt="User Image">--}}
                             @endif
                             <span class="hidden-xs">{{Auth::user()->first_name}}</span>
                         </a>
@@ -43,10 +43,10 @@
                             <li class="user-header">
                                 @if(Auth::user()->avatar)
                                     <img src="{{Auth::user()->avatar }}" class="img-circle" alt="User Image">
-                                @else
-                                    <img
-                                        src="https://secure.gravatar.com/avatar/55e20e28bf9078a7b3833d58d8407b2f?s=96&d=mm&r=g"
-                                        class="img-circle" alt="User Image">
+{{--                                @else--}}
+{{--                                    <img--}}
+{{--                                        src="https://secure.gravatar.com/avatar/55e20e28bf9078a7b3833d58d8407b2f?s=96&d=mm&r=g"--}}
+{{--                                        class="img-circle" alt="User Image">--}}
                                 @endif
 
                                 <p>

@@ -32,17 +32,19 @@ class AuthServiceProvider extends ServiceProvider
 
 
 //          comment
-        Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');
+//        Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');
+//
+//        Passport::cookie('session');
+//        Passport::tokensExpireIn(now()->addDays(15));
+//        Passport::refreshTokensExpireIn(now()->addDays(30));
 
-        Passport::cookie('session');
-        Passport::tokensExpireIn(now()->addDays(15));
-        Passport::refreshTokensExpireIn(now()->addDays(30));
+        Passport::routes(function ($router) {
+            $router->forAccessTokens();
+            $router->forPersonalAccessTokens();
+            $router->forTransientTokens();
+        });
 
-//        Passport::personalAccessTokensExpireIn(now()->addMonths(6));
-
-//        Passport::useTokenModel(Token::class);
-//        Passport::useClientModel(Client::class);
-//        Passport::useAuthCodeModel(AuthCode::class);
-//        Passport::usePersonalAccessClientModel(PersonalAccessClient::class);
+        Passport::tokensExpireIn(now()->addMinutes(655));
+        Passport::refreshTokensExpireIn(now()->addDays(10));
     }
 }

@@ -17,27 +17,37 @@
                     <a href="{{ route('dashboard') }}" class="nav-link {{Request::segment(2) == '' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Statistika
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('users.index') }}" class="nav-link {{Request::segment(2) == 'users' ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            Users
+                            Վիճակագրություն
                         </p>
                     </a>
                 </li>
 
-{{--                <li class="nav-item">--}}
-{{--                    <a href="{{ route('listings.index') }}" class="nav-link {{Request::segment(2) == 'listings' ? 'active' : ''}}">--}}
-{{--                        <i class="nav-icon fas fa-list"></i>--}}
-{{--                        <p>--}}
-{{--                            Oglasi--}}
-{{--                        </p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
+                <li class="nav-item">
+                    <a href="{{ route('citizens.index') }}" class="nav-link {{Request::segment(2) == 'citizens' ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Քաղաքացիներ
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('users.index') }}" class="nav-link {{Request::segment(2) == 'users' ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Օգտատերեր
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('reports.index') }}" class="nav-link {{Request::segment(2) == 'reports' ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>
+                            Դիմումներ
+                        </p>
+                    </a>
+                </li>
 
 {{--                <li class="nav-item">--}}
 {{--                    <a href="{{ route('filters.index') }}" class="nav-link {{Request::segment(2) == 'filters' ? 'active' : ''}}">--}}

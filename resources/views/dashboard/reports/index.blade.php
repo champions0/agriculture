@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Օգտատերերի ցուցակ</h1>
+                        <h1>Դիմումների ցուցակ</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Գլխավոր</a></li>
-                            <li class="breadcrumb-item active">Օգտատերերի ցուցակ</li>
+                            <li class="breadcrumb-item active">Դիմումների ցուցակ</li>
                         </ol>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Օգտատերեր</h3>
+                                <h3 class="card-title">Դիմումներ</h3>
 
                                 <div class="card-tools">
                                     <form action="{{ route('users.index') }}" method="GET">
@@ -55,45 +55,29 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Անուն</th>
-{{--                                        <th>Ազգանուն</th>--}}
-{{--                                        <th>Հայրանուն</th>--}}
-                                        <th>Էլ․ հասցե</th>
-                                        <th>Տարիք</th>
-                                        <th>Դեր</th>
+                                        <th>Օգտատեր</th>
+{{--                                        <th>նկարագրություն</th>--}}
                                         <th>Կարգավիճակ</th>
                                         <th>Ավելացվել է</th>
                                         <th>Գործողություններ</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($users as $user)
+                                    @foreach($reports as $report)
                                         <tr>
-                                            <td>{{ $user->id }}</td>
-                                            <td>{{ $user->first_name . ' ' . $user->last_nam . ' ' . $user->surname }}</td>
-{{--                                            <td>{{ $user->last_name }}</td>--}}
-{{--                                            <td>{{ $user->surname }}</td>--}}
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->age }}</td>
-                                            <td>{{ $user->role }}</td>
-                                            @if($user->status == 1)
-                                                <td>
-                                                    <i class="text-success">Ակտիվ</i>
-                                                </td>
-                                            @else
-                                                <td>
-                                                    <i class="text-danger">Պասիվ</i>
-                                                </td>
-                                            @endif
-                                            <td>{{ $user->created_at }}</td>
+                                            <td>{{ $report->id }}</td>
+                                            <td>{{ $report->user->first_name }}</td>
+{{--                                            <td>{{ $report->description }}</td>--}}
+                                            <td>{{ $report->status }}</td>
+                                            <td>{{ $report->created_at }}</td>
                                             <td>
-                                                <a href="{{ route('users.edit', $user->id) }}" class="btn" title="Edit details">
+                                                <a href="{{ route('reports.edit', $report->id) }}" class="btn" title="Edit details">
                                                     <i class="text-success nav-icon fas fa-edit"></i>
                                                 </a>
 
-                                                <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                                <form action="{{ route('reports.destroy', $report->id) }}" method="POST"
                                                       style="display: none"
-                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել օգտատիրոջը?')">
+                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել դիմումը?')">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
@@ -105,7 +89,7 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                                {!! $users->links() !!}
+                                {!! $reports->links() !!}
                             </div>
                             <!-- /.card-body -->
                         </div>

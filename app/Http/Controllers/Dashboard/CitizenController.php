@@ -1,30 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\dashboard;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Dashboard\UserUpdateRequest;
-use App\Models\User;
+use App\Models\Citizen;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class CitizenController extends Controller
 {
     /**
      * @return Application|Factory|View
      */
     public function index()
     {
-        $users = User::query()
-            ->where('role', '!=', 'admin');
+        $citizens = Citizen::query();
 
 //        filter service
 
-        $users = $users->paginate(config('constants.per_page'));
-        return view('dashboard.users.index', compact('users'));
+        $citizens = $citizens->paginate(config('constants.per_page'));
+        return view('dashboard.citizens.index', compact('citizens'));
     }
 
     /**
@@ -60,34 +57,26 @@ class UserController extends Controller
     }
 
     /**
-     * @param $id
-     * @return Application|Factory|View
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        return view('dashboard.users.edit', compact('user'));
+        //
     }
 
     /**
-     * @param UserUpdateRequest $request
-     * @param $id
-     * @return RedirectResponse
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $data = $request->validated();
-        $user = User::find($id);
-        $user->update([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'age' => $data['age'],
-            'role' => $data['role'],
-        ]);
-
-        flash()->success('User created successful!');
-        return redirect()->route('users.index');
+        //
     }
 
     /**
@@ -98,6 +87,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        //
     }
 }

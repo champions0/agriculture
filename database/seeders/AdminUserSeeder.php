@@ -16,8 +16,9 @@ class AdminUserSeeder extends Seeder
     public function run()
     {
         User::query()->create([
-            'first_name' => 'admin',
-            'last_name' => 'admin',
+            'first_name' => 'admin firstname',
+            'last_name' => 'admin lastname',
+            'surname' => 'admin surname',
             'email' => 'admin@gmail.com',
             'phone' => '099001122',
             'email_verified_at' => now(),

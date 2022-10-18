@@ -15,7 +15,7 @@ class ResponseRepository extends BaseRepository
      * @return string
      *  Return the model
      */
-    public function model()
+    public function model(): string
     {
         //return YourModel::class;
     }
@@ -32,7 +32,7 @@ class ResponseRepository extends BaseRepository
      * @param int $status
      * @return JsonResponse
      */
-    public function badRequest($data, $message = 'Sorry Something went Wrong.', $status = self::BADREQUEST)
+    public function badRequest($data, string $message = 'Sorry Something went Wrong.', int $status = self::BADREQUEST): JsonResponse
     {
         return $this->_response($data, $message, $status);
     }
@@ -43,7 +43,7 @@ class ResponseRepository extends BaseRepository
      * @param int $status
      * @return JsonResponse
      */
-    public function forEmpty($data, $message = 'Empty Data', $status = self::EMPTY)
+    public function forEmpty($data, string $message = 'Empty Data', int $status = self::EMPTY): JsonResponse
     {
         return $this->_response($data, $message, $status);
     }
@@ -54,7 +54,7 @@ class ResponseRepository extends BaseRepository
      * @param int $status
      * @return JsonResponse
      */
-    public function validationMessageForCustomSize($data, $message = 'This custom size is currently not available for this product. Please select a different combination (switch between width and height values) or try selecting another product from the Print Products Menu. Contact us if you have a Custom Order.', $status = self::FORBIDDEN)
+    public function validationMessageForCustomSize($data, string $message = 'This custom size is currently not available for this product. Please select a different combination (switch between width and height values) or try selecting another product from the Print Products Menu. Contact us if you have a Custom Order.', int $status = self::FORBIDDEN): JsonResponse
     {
         return $this->_response($data, $message, $status);
     }
@@ -65,7 +65,7 @@ class ResponseRepository extends BaseRepository
      * @param int $status
      * @return JsonResponse
      */
-    public function notFound($data, $message = 'Sorry, Resource not found.', $status = self::NOTFOUND)
+    public function notFound($data, string $message = 'Sorry, Resource not found.', int $status = self::NOTFOUND): JsonResponse
     {
         return $this->_response($data, $message, $status);
     }
@@ -76,7 +76,7 @@ class ResponseRepository extends BaseRepository
      * @param int $status
      * @return JsonResponse
      */
-    public function success($data, $message = 'Success', $status = self::SUCCESS)
+    public function success($data, string $message = 'Success', int $status = self::SUCCESS): JsonResponse
     {
         return $this->_response($data, $message, $status);
     }
@@ -87,7 +87,7 @@ class ResponseRepository extends BaseRepository
      * @param $status
      * @return JsonResponse
      */
-    private function _response($data = [], $message = '', $status)
+    private function _response($data = [], $message = '', $status): JsonResponse
     {
         return response()->json([
             'status' => $status,

@@ -6,12 +6,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Խմբագրել օգտատիրոջը</h1>
+                        <h1>Խմբագրել դիմումը</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Գլխավոր</a></li>
-                            <li class="breadcrumb-item active">Խմբագրել օգտատիրոջը</li>
+                            <li class="breadcrumb-item active">Խմբագրել դիմումը</li>
                         </ol>
                     </div>
                 </div>
@@ -21,23 +21,23 @@
 
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Օգտատեր</h3>
+                    <h3 class="card-title">Դիմում</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{{ route('users.update', $user->id) }}" method="POST">
+                <form action="{{ route('reports.update', $report->id) }}" method="POST">
                     @csrf
                     @method('PATCH')
-                    @include('dashboard.users.includes.form', compact('user'))
+{{--                    @include('dashboard.reports.includes.form', compact('report'))--}}
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Հաստատել</button>
-                        <a href="#" type="button" class="btn btn-danger" onclick="$('#delete-user').submit()"
+                        <a href="#" type="button" class="btn btn-danger" onclick="$('#delete-report').submit()"
                            title="delete">Ջնջել</a>
                     </div>
                 </form>
-                <form id="delete-user" action="{{ route('users.destroy', $user->id) }}" method="POST"
+                <form id="delete-report" action="{{ route('reports.destroy', $report->id) }}" method="POST"
                       style="display: none"
-                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել օգտատիրոջը?')">
+                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել դիմումը')">
                     @csrf
                     @method('DELETE')
                 </form>

@@ -41,5 +41,5 @@ Route::get('/test', function (){
 //    $proxy = Request::create('oauth/token', 'post', $params);
 //    $resp = json_decode(app()->handle($proxy)->getContent());
 
-    dd($proxy->json());
+//    dd($proxy->json());
 });

@@ -14,7 +14,7 @@ class AuthController extends Controller
     /**
      * @var ResponseRepository
      */
-    protected $response;
+//    protected $response;
     /**
      * @var UserService
      */
@@ -22,14 +22,13 @@ class AuthController extends Controller
 
 
     /**
-     * AuthController constructor.
-     * @param ResponseRepository $response
      * @param UserService $userService
      */
-    public function __construct(ResponseRepository $response,
-                                UserService $userService)
+    public function __construct(
+//        ResponseRepository $response,
+        UserService $userService)
     {
-        $this->response = $response;
+//        $this->response = $response;
         $this->userService = $userService;
     }
 
@@ -52,4 +51,21 @@ class AuthController extends Controller
             return $this->response->badRequest([], $e->getMessage());
         }
     }
+
+    public function login()
+    {
+//        $data = $request->all();
+//        return response()->json(233);
+        dd(32432);
+        try {
+            dd(32432);
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
+            return $this->response->badRequest([], $e->getMessage());
+        }
+
+
+    }
 }
+
+

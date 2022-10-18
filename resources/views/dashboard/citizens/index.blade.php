@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Օգտատերերի ցուցակ</h1>
+                        <h1>Քաղաքացիների ցուցակ</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Գլխավոր</a></li>
-                            <li class="breadcrumb-item active">Օգտատերերի ցուցակ</li>
+                            <li class="breadcrumb-item active">Քաղաքացիների ցուցակ</li>
                         </ol>
                     </div>
                 </div>
@@ -26,10 +26,10 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Օգտատերեր</h3>
+                                <h3 class="card-title">Քաղաքացիներ</h3>
 
                                 <div class="card-tools">
-                                    <form action="{{ route('users.index') }}" method="GET">
+                                    <form action="{{ route('citizens.index') }}" method="GET">
                                         <div class="input-group input-group-sm" style="width: 300px;">
 {{--                                            <select name="order_by" class="custom-select form-control-borde">--}}
 {{--                                                <option value="" selected>Order By</option>--}}
@@ -46,7 +46,9 @@
                                             </div>
                                         </div>
                                     </form>
-
+                                    <div class="box-tools" style="margin-top: 20px; ">
+                                        <a href="{{route('citizens.create')}}" class="btn btn-primary">Ավելացնել</a>
+                                    </div>
                                 </div>
                             </div>
                             <!-- /.card-header -->
@@ -58,42 +60,44 @@
                                         <th>Անուն</th>
 {{--                                        <th>Ազգանուն</th>--}}
 {{--                                        <th>Հայրանուն</th>--}}
-                                        <th>Էլ․ հասցե</th>
-                                        <th>Տարիք</th>
-                                        <th>Դեր</th>
-                                        <th>Կարգավիճակ</th>
-                                        <th>Ավելացվել է</th>
+                                        <th>Ծննդյան ամսաթիվ</th>
+                                        <th>Սեռ</th>
+                                        <th>Հեռախոսահամար</th>
+                                        <th>Հասցե</th>
+{{--                                        <th>Կարգավիճակ</th>--}}
+{{--                                        <th>Ավելացվել է</th>--}}
                                         <th>Գործողություններ</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($users as $user)
+                                    @foreach($citizens as $citizen)
                                         <tr>
-                                            <td>{{ $user->id }}</td>
-                                            <td>{{ $user->first_name . ' ' . $user->last_nam . ' ' . $user->surname }}</td>
-{{--                                            <td>{{ $user->last_name }}</td>--}}
-{{--                                            <td>{{ $user->surname }}</td>--}}
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->age }}</td>
-                                            <td>{{ $user->role }}</td>
-                                            @if($user->status == 1)
-                                                <td>
-                                                    <i class="text-success">Ակտիվ</i>
-                                                </td>
-                                            @else
-                                                <td>
-                                                    <i class="text-danger">Պասիվ</i>
-                                                </td>
-                                            @endif
-                                            <td>{{ $user->created_at }}</td>
+                                            <td>{{ $citizen->id }}</td>
+                                            <td>{{ $citizen->first_name . ' ' . $citizen->last_name . ' ' . $citizen->surname }}</td>
+{{--                                            <td>{{ $citizen->last_name }}</td>--}}
+{{--                                            <td>{{ $citizen->surname }}</td>--}}
+                                            <td>{{ $citizen->birth_date }}</td>
+                                            <td>{{ $citizen->gender }}</td>
+                                            <td>{{ $citizen->phone }}</td>
+                                            <td>{{ $citizen->address }}</td>
+{{--                                            @if($citizen->status == 1)--}}
+{{--                                                <td>--}}
+{{--                                                    <i class="text-success">Ակտիվ</i>--}}
+{{--                                                </td>--}}
+{{--                                            @else--}}
+{{--                                                <td>--}}
+{{--                                                    <i class="text-danger">Պասիվ</i>--}}
+{{--                                                </td>--}}
+{{--                                            @endif--}}
+{{--                                            <td>{{ $citizen->created_at }}</td>--}}
                                             <td>
-                                                <a href="{{ route('users.edit', $user->id) }}" class="btn" title="Edit details">
+                                                <a href="{{ route('citizens.edit', $citizen->id) }}" class="btn" title="Edit details">
                                                     <i class="text-success nav-icon fas fa-edit"></i>
                                                 </a>
 
-                                                <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                                <form action="{{ route('citizens.destroy', $citizen->id) }}" method="POST"
                                                       style="display: none"
-                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել օգտատիրոջը?')">
+                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել քաղաքացուն?')">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
@@ -105,7 +109,7 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                                {!! $users->links() !!}
+                                {!! $citizens->links() !!}
                             </div>
                             <!-- /.card-body -->
                         </div>
