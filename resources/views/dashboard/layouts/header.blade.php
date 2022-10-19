@@ -40,20 +40,20 @@
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
-                            <li class="user-header">
-                                @if(Auth::user()->avatar)
-                                    <img src="{{Auth::user()->avatar }}" class="img-circle" alt="User Image">
+{{--                            <li class="user-header">--}}
+{{--                                @if(Auth::user()->avatar)--}}
+{{--                                    <img src="{{Auth::user()->avatar }}" class="img-circle" alt="User Image">--}}
 {{--                                @else--}}
 {{--                                    <img--}}
 {{--                                        src="https://secure.gravatar.com/avatar/55e20e28bf9078a7b3833d58d8407b2f?s=96&d=mm&r=g"--}}
 {{--                                        class="img-circle" alt="User Image">--}}
-                                @endif
+{{--                                @endif--}}
 
-                                <p>
-                                    {{ Auth::user()->full_name }}
-                                    <small>Member since: {{ date('M Y', strtotime(Auth::user()->created_at)) }}</small>
-                                </p>
-                            </li>
+{{--                                <p>--}}
+{{--                                    {{ Auth::user()->full_name }}--}}
+{{--                                    <small>Member since: {{ date('M Y', strtotime(Auth::user()->created_at)) }}</small>--}}
+{{--                                </p>--}}
+{{--                            </li>--}}
                             <!-- Menu Body -->
 {{--                            <li class="user-body">--}}
 {{--                                <div class="flex col-xs-12">--}}
@@ -79,7 +79,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        Sign out
+                                        Դուրս գալ
                                     </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf

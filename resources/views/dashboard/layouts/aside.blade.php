@@ -42,7 +42,7 @@
 
                 <li class="nav-item">
                     <a href="{{ route('reports.index') }}" class="nav-link {{Request::segment(2) == 'reports' ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-list"></i>
+                        <i class="nav-icon fas fa-file"></i>
                         <p>
                             Դիմումներ
                         </p>
