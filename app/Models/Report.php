@@ -10,8 +10,14 @@ class Report extends Model
 {
     use HasFactory;
 
+    const PENDING = 0;
+    const SUCCESS = 1;
+    const DECLINE = 2;
+
     protected $fillable = [
         'user_id',
+        'title',
+        'text',
         'description',
         'status',
     ];

@@ -36,7 +36,7 @@
 {{--                                    src="https://secure.gravatar.com/avatar/55e20e28bf9078a7b3833d58d8407b2f?s=96&d=mm&r=g"--}}
 {{--                                    class="user-image" alt="User Image">--}}
                             @endif
-                            <span class="hidden-xs">{{Auth::user()->first_name}}</span>
+                            <span class="hidden-xs">{{Auth::user() !== null ? Auth::user()->first_name: ''}}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->

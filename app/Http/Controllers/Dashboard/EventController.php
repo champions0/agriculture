@@ -3,25 +3,18 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Citizen;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-class CitizenController extends Controller
+class EventController extends Controller
 {
     /**
-     * @return Application|Factory|View
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $citizens = Citizen::query();
-
-//        filter service
-
-        $citizens = $citizens->paginate(config('constants.per_page'));
-        return view('dashboard.citizens.index', compact('citizens'));
+        //
     }
 
     /**

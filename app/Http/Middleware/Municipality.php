@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
-class Admin
+class Municipality
 {
     /**
      * @param Request $request
@@ -19,7 +19,7 @@ class Admin
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
-            if (auth()->user()->role == 'admin')
+            if (auth()->user()->role == 'municipality')
                 return $next($request);
         }
 

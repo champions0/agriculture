@@ -29,13 +29,29 @@
                                 <h3 class="card-title">Դիմումներ</h3>
 
                                 <div class="card-tools">
-                                    <form action="{{ route('users.index') }}" method="GET">
-                                        <div class="input-group input-group-sm" style="width: 300px;">
-{{--                                            <select name="order_by" class="custom-select form-control-borde">--}}
-{{--                                                <option value="" selected>Order By</option>--}}
-{{--                                                <option value="listing_count" {{ isset($_GET['order_by']) && $_GET['order_by'] == 'listing_count' ? 'selected' : '' }}>Listing count</option>--}}
-{{--                                                <option value="created_at" {{ isset($_GET['order_by']) && $_GET['order_by'] == 'created_at' ? 'selected' : '' }}>Created At</option>--}}
-{{--                                            </select>--}}
+                                    <form action="{{ route('reports.index') }}" method="GET">
+                                        <div class="input-group input-group-sm" style="width: 750px;">
+
+                                            <input type="date" class="form-control " name="start_date"
+                                                   value="{{ isset($_GET['start_date']) ? str_replace(' ', 'T', $_GET['start_date']) : '' }}">
+                                            <input type="date" class="form-control " name="end_date"
+                                                   value="{{ isset($_GET['end_date']) ? str_replace(' ', 'T', $_GET['end_date']) : '' }}">
+
+                                            <select name="status" class="custom-select form-control-borde">
+                                                <option value="" selected>Կարգավիճակ</option>
+                                                <option
+                                                    value="{{ \App\Models\Report::PENDING }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\Report::PENDING ? 'selected' : '' }}>
+                                                    Դիտառրվող
+                                                </option>
+                                                <option
+                                                    value="{{ \App\Models\Report::SUCCESS }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\Report::SUCCESS ? 'selected' : '' }}>
+                                                    Հաստատված
+                                                </option>
+                                                <option
+                                                    value="{{ \App\Models\Report::DECLINE }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\Report::DECLINE ? 'selected' : '' }}>
+                                                    Մերժված
+                                                </option>
+                                            </select>
                                             <input type="text" name="search" class="form-control float-right"
                                                    placeholder="Փնտրել" value="{{ $_GET['search'] ?? '' }}">
 
@@ -56,35 +72,52 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Օգտատեր</th>
-{{--                                        <th>նկարագրություն</th>--}}
+                                        <th>Վերնաագիր</th>
                                         <th>Կարգավիճակ</th>
+                                        <th>PDF</th>
                                         <th>Ավելացվել է</th>
-                                        <th>Գործողություններ</th>
+{{--                                        <th>Գործողություններ</th>--}}
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($reports as $report)
                                         <tr>
                                             <td>{{ $report->id }}</td>
-                                            <td>{{ $report->user->first_name }}</td>
-{{--                                            <td>{{ $report->description }}</td>--}}
-                                            <td>{{ $report->status }}</td>
-                                            <td>{{ $report->created_at }}</td>
+                                            <td>{{ $report->user->first_name . ' ' . $report->user->last_name }}</td>
+                                            <td>{{ $report->title }}</td>
                                             <td>
-                                                <a href="{{ route('reports.edit', $report->id) }}" class="btn" title="Edit details">
-                                                    <i class="text-success nav-icon fas fa-edit"></i>
-                                                </a>
-
-                                                <form action="{{ route('reports.destroy', $report->id) }}" method="POST"
-                                                      style="display: none"
-                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել դիմումը?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                                <a href="#" onclick="$(this).prev().submit()" title="Delete">
-                                                    <i class="text-danger nav-icon fas fa-trash"></i>
-                                                </a>
+                                                @if($report->status == \App\Models\Report::PENDING)
+                                                    <p class="text-warning">Դիտարկվող</p>
+                                                @elseif($report->status == \App\Models\Report::SUCCESS)
+                                                    <p class="text-success">Հաստատված</p>
+                                                @else
+                                                    <p class="text-danger">Մերժված</p>
+                                                @endif
                                             </td>
+                                            <td>
+                                                <form action="{{ route('reports.downloadPDF') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="report_id" value="{{ $report->id }}">
+                                                    <button type="submit" class="btn btn-info">Ներբեռնել</button>
+                                                </form>
+                                            </td>
+                                            <td>{{ $report->created_at }}</td>
+{{--                                            <td>--}}
+{{--                                                <a href="{{ route('reports.edit', $report->id) }}" class="btn"--}}
+{{--                                                   title="Edit details">--}}
+{{--                                                    <i class="text-success nav-icon fas fa-edit"></i>--}}
+{{--                                                </a>--}}
+
+{{--                                                <form action="{{ route('reports.destroy', $report->id) }}" method="POST"--}}
+{{--                                                      style="display: none"--}}
+{{--                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել դիմումը?')">--}}
+{{--                                                    @csrf--}}
+{{--                                                    @method('DELETE')--}}
+{{--                                                </form>--}}
+{{--                                                <a href="#" onclick="$(this).prev().submit()" title="Delete">--}}
+{{--                                                    <i class="text-danger nav-icon fas fa-trash"></i>--}}
+{{--                                                </a>--}}
+{{--                                            </td>--}}
                                         </tr>
                                     @endforeach
                                     </tbody>

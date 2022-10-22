@@ -15,8 +15,10 @@ class ReportFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => mt_rand(2, 10),
-            'description' => $this->faker->text(255),
+            'user_id' => mt_rand(3, 40),
+            'title' => $this->faker->text(10),
+            'text' => $this->faker->text(255),
+//            'description' => $this->faker->text(255),
             'status' => mt_rand(0, 3),
         ];
     }

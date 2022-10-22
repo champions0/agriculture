@@ -18,12 +18,14 @@ class UserFactory extends Factory
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'surname' => $this->faker->name(),
+            'number' => mt_rand(1000000, 9999999),
             'email' => $this->faker->unique()->safeEmail(),
+            'phone' => $this->faker->phoneNumber(),
+            'address' => $this->faker->address(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'age' => mt_rand(18, 99),
-            'role' => 'user',
-            'phone' => $this->faker->phoneNumber(),
+            'role' => 'citizen',
+            'birth_date' => date("Y-m-d H:i:s", mt_rand(1262055681,1262055681)),
             'avatar' => $this->faker->image(),
             'remember_token' => Str::random(10),
         ];
