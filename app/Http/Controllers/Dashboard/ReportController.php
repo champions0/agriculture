@@ -10,6 +10,8 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ReportController extends Controller
 {
@@ -25,6 +27,7 @@ class ReportController extends Controller
     {
         $this->filterServices = $filterServices;
     }
+
     /**
      * @return Application|Factory|View
      */
@@ -115,7 +118,33 @@ class ReportController extends Controller
     public function downloadPDF(Request $request): RedirectResponse
     {
         $data = $request->all();
-        dd($data);
-        return redirect()->back();
+        $report = Report::find($data['report_id']);
+
+        $pdf = PDF\Pdf::loadView('files.pdf.report',
+        [
+            'userFirstName' => $report->user->first_name,
+            'userLastName' => $report->user->last_name,
+        ]
+        );
+        $path = 'reports/' . $data['report_id'];
+        Storage::makeDirectory($path);
+
+
+
+
+
+
+//        $pdf->stream();
+        $pdf->save('report.pdf');
+
+        $pdfPath = Storage::putFile($path, $pdf);
+
+//        Storage::makeDirectory($path);
+//        $pdf->save(storage_path('app/public/') . $path . '/report.pdf');
+
+//        dd(123);
+//        $pdf->download('report.pdf');
+//        dd($data);
+//        return redirect()->back();
     }
 }
