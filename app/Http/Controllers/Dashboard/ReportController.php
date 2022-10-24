@@ -146,5 +146,15 @@ class ReportController extends Controller
 //        $pdf->download('report.pdf');
 //        dd($data);
 //        return redirect()->back();
+
+
+//        require_once 'dompdf/autoload.inc.php';
+//    use Dompdf\Dompdf;
+//        $dompdf = new DOMPDF();
+//        $dompdf->loadHtml($html);
+//        $dompdf->setPaper('A4', 'portrait');
+//        $dompdf->render();
+//        ob_end_clean();
+//        $dompdf->stream('contract.pdf',array('Attachment'=>0));
     }
 }
