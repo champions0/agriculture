@@ -82,20 +82,26 @@
                                     <tbody>
                                     @foreach($reports as $report)
                                         <tr>
-                                            <td>{{ $report->id }}</td>
+                                            <td class="report_id">{{ $report->id }}</td>
                                             <td>{{ $report->user->first_name . ' ' . $report->user->last_name }}</td>
                                             <td>{{ $report->title }}</td>
                                             <td>
-                                                @if($report->status == \App\Models\Report::PENDING)
-                                                    <p class="text-warning">Դիտարկվող</p>
-                                                @elseif($report->status == \App\Models\Report::SUCCESS)
-                                                    <p class="text-success">Հաստատված</p>
-                                                @else
-                                                    <p class="text-danger">Մերժված</p>
-                                                @endif
+                                                <select name="status_change" id="status_change" class="custom-select form-control-borde">
+                                                    <option {{ $report->status == \App\Models\Report::PENDING ? 'selected' : '' }} value="{{ \App\Models\Report::PENDING }}">Դիտարկվող</option>
+                                                    <option {{ $report->status == \App\Models\Report::SUCCESS ? 'selected' : '' }} value="{{ \App\Models\Report::SUCCESS }}">Հաստատված</option>
+                                                    <option {{ $report->status == \App\Models\Report::DECLINE ? 'selected' : '' }} value="{{ \App\Models\Report::DECLINE }}">Մերժված</option>
+                                                </select>
+
+{{--                                                @if($report->status == \App\Models\Report::PENDING)--}}
+{{--                                                    <p class="text-warning">Դիտարկվող</p>--}}
+{{--                                                @elseif($report->status == \App\Models\Report::SUCCESS)--}}
+{{--                                                    <p class="text-success">Հաստատված</p>--}}
+{{--                                                @else--}}
+{{--                                                    <p class="text-danger">Մերժված</p>--}}
+{{--                                                @endif--}}
                                             </td>
                                             <td>
-                                                <form action="{{ route('reports.downloadPDF') }}" method="POST">
+                                                <form action="{{ route('reports.downloadPDF') }}" method="POST" formtarget="_blank" target="_blank">
                                                     @csrf
                                                     <input type="hidden" name="report_id" value="{{ $report->id }}">
                                                     <button type="submit" class="btn btn-info">Ներբեռնել</button>
@@ -133,3 +139,4 @@
         </section>
     </div>
 @endsection
+

@@ -4,14 +4,19 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Report;
+use App\Services\FileServices;
 use App\Services\FilterServices;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade as PDF;
+//use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class ReportController extends Controller
 {
@@ -19,13 +24,20 @@ class ReportController extends Controller
      * @var FilterServices
      */
     private $filterServices;
+    /**
+     * @var FileServices
+     */
+    private $fileServices;
 
     /**
      * @param FilterServices $filterServices
+     * @param FileServices $fileServices
      */
-    public function __construct(FilterServices $filterServices)
+    public function __construct(FilterServices $filterServices,
+                                FileServices $fileServices)
     {
         $this->filterServices = $filterServices;
+        $this->fileServices = $fileServices;
     }
 
     /**
@@ -48,7 +60,7 @@ class ReportController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -59,7 +71,7 @@ class ReportController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -70,7 +82,7 @@ class ReportController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -81,7 +93,7 @@ class ReportController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -93,7 +105,7 @@ class ReportController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -104,7 +116,7 @@ class ReportController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
@@ -113,48 +125,49 @@ class ReportController extends Controller
 
     /**
      * @param Request $request
-     * @return RedirectResponse
+     * @return mixed
      */
-    public function downloadPDF(Request $request): RedirectResponse
+    public function downloadPDF(Request $request)
     {
         $data = $request->all();
         $report = Report::find($data['report_id']);
+        $pdfData = [
+            'user' => $report->user,
+            'report' => $report,
+        ];
 
-        $pdf = PDF\Pdf::loadView('files.pdf.report',
-        [
-            'userFirstName' => $report->user->first_name,
-            'userLastName' => $report->user->last_name,
-        ]
-        );
-        $path = 'reports/' . $data['report_id'];
-        Storage::makeDirectory($path);
+        $pdf = $this->fileServices->createPDF('files.pdf.report', $pdfData);
+
+        return $pdf->stream();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function reportStatus(Request $request)
+    {
+        $data = $request->all();
+        $reportStatus = $data['reportStatus'];
+        $report = Report::find($data['report_id']);
+
+        try {
+//            dd($data);
+            if($reportStatus == Report::DECLINE){
+                return response()->json([
+                    'reportStatus' => $reportStatus,
+                    'report_id' => $data['report_id']
+                ], 400);
+            }
+            $report->status = $reportStatus;
+            $report->save();
 
 
+            return response()->json($data, 200);
 
-
-
-
-//        $pdf->stream();
-        $pdf->save('report.pdf');
-
-        $pdfPath = Storage::putFile($path, $pdf);
-
-//        Storage::makeDirectory($path);
-//        $pdf->save(storage_path('app/public/') . $path . '/report.pdf');
-
-//        dd(123);
-//        $pdf->download('report.pdf');
-//        dd($data);
-//        return redirect()->back();
-
-
-//        require_once 'dompdf/autoload.inc.php';
-//    use Dompdf\Dompdf;
-//        $dompdf = new DOMPDF();
-//        $dompdf->loadHtml($html);
-//        $dompdf->setPaper('A4', 'portrait');
-//        $dompdf->render();
-//        ob_end_clean();
-//        $dompdf->stream('contract.pdf',array('Attachment'=>0));
+        } catch (\Exception $e) {
+//            dd($e->getMessage());
+            DB::rollback();
+        }
     }
 }

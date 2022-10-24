@@ -21,5 +21,6 @@ Route::prefix('dashboard')
 //
 //        });
         Route::post('/download-pdf', [ReportController::class, 'downloadPDF'])->name('reports.downloadPDF');
+        Route::post('/report-status', [ReportController::class, 'reportStatus'])->name('reports.status');
 
     });
