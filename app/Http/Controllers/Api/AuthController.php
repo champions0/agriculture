@@ -14,7 +14,7 @@ class AuthController extends Controller
     /**
      * @var ResponseRepository
      */
-//    protected $response;
+    protected $response;
     /**
      * @var UserService
      */
@@ -22,13 +22,14 @@ class AuthController extends Controller
 
 
     /**
+     * @param ResponseRepository $response
      * @param UserService $userService
      */
     public function __construct(
-//        ResponseRepository $response,
+        ResponseRepository $response,
         UserService $userService)
     {
-//        $this->response = $response;
+        $this->response = $response;
         $this->userService = $userService;
     }
 

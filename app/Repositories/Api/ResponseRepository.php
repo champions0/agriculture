@@ -2,14 +2,14 @@
 
 namespace App\Repositories\Api;
 
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+//use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use Illuminate\Http\JsonResponse;
 //use Your Model
 
 /**
  * Class ResponseRepository.
  */
-class ResponseRepository extends BaseRepository
+class ResponseRepository
 {
     /**
      * @return string
