@@ -19,7 +19,7 @@ class ReportFactory extends Factory
             'title' => $this->faker->text(10),
             'text' => $this->faker->text(255),
 //            'description' => $this->faker->text(255),
-            'status' => mt_rand(0, 3),
+            'status' => mt_rand(0, 2),
         ];
     }
 }

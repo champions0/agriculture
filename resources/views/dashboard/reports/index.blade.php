@@ -76,7 +76,7 @@
                                         <th>Կարգավիճակ</th>
                                         <th>PDF</th>
                                         <th>Ավելացվել է</th>
-{{--                                        <th>Գործողություններ</th>--}}
+                                        {{--                                        <th>Գործողություններ</th>--}}
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -86,22 +86,36 @@
                                             <td>{{ $report->user->first_name . ' ' . $report->user->last_name }}</td>
                                             <td>{{ $report->title }}</td>
                                             <td>
-                                                <select name="status_change" id="status_change" class="custom-select form-control-borde">
-                                                    <option {{ $report->status == \App\Models\Report::PENDING ? 'selected' : '' }} value="{{ \App\Models\Report::PENDING }}">Դիտարկվող</option>
-                                                    <option {{ $report->status == \App\Models\Report::SUCCESS ? 'selected' : '' }} value="{{ \App\Models\Report::SUCCESS }}">Հաստատված</option>
-                                                    <option {{ $report->status == \App\Models\Report::DECLINE ? 'selected' : '' }} value="{{ \App\Models\Report::DECLINE }}">Մերժված</option>
-                                                </select>
+                                                @if(auth()->user()->role == 'municipality')
+                                                    <select name="status_change"
+                                                            class="custom-select form-control-borde status_change">
+                                                        <option
+                                                            {{ $report->status == \App\Models\Report::PENDING ? 'selected' : '' }} value="{{ \App\Models\Report::PENDING }}">
+                                                            Դիտարկվող
+                                                        </option>
+                                                        <option
+                                                            {{ $report->status == \App\Models\Report::SUCCESS ? 'selected' : '' }} value="{{ \App\Models\Report::SUCCESS }}">
+                                                            Հաստատված
+                                                        </option>
+                                                        <option
+                                                            {{ $report->status == \App\Models\Report::DECLINE ? 'selected' : '' }} value="{{ \App\Models\Report::DECLINE }}">
+                                                            Մերժված
+                                                        </option>
+                                                    </select>
+                                                @else
+                                                    @if($report->status == \App\Models\Report::PENDING)
+                                                        <p class="text-warning">Դիտարկվող</p>
+                                                    @elseif($report->status == \App\Models\Report::SUCCESS)
+                                                        <p class="text-success">Հաստատված</p>
+                                                    @else
+                                                        <p style="cursor: pointer;" class="text-danger decline_message">Մերժված</p>
+                                                    @endif
 
-{{--                                                @if($report->status == \App\Models\Report::PENDING)--}}
-{{--                                                    <p class="text-warning">Դիտարկվող</p>--}}
-{{--                                                @elseif($report->status == \App\Models\Report::SUCCESS)--}}
-{{--                                                    <p class="text-success">Հաստատված</p>--}}
-{{--                                                @else--}}
-{{--                                                    <p class="text-danger">Մերժված</p>--}}
-{{--                                                @endif--}}
+                                                @endif
                                             </td>
                                             <td>
-                                                <form action="{{ route('reports.downloadPDF') }}" method="POST" formtarget="_blank" target="_blank">
+                                                <form action="{{ route('reports.downloadPDF') }}" method="POST"
+                                                      formtarget="_blank" target="_blank">
                                                     @csrf
                                                     <input type="hidden" name="report_id" value="{{ $report->id }}">
                                                     <button type="submit" class="btn btn-info">Ներբեռնել</button>
@@ -137,6 +151,43 @@
                 </div>
             </div>
         </section>
-    </div>
+
+{{--        Description modal--}}
+        <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Նկարագրություն</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @if(auth()->user()->role == 'municipality')
+                    <form action="{{ route('report.decline') }}" method="POST">
+                        @csrf
+
+                    <div class="modal-body">
+                            <input id="reportId" type="hidden" name="report_id" value="">
+                            <textarea required placeholder="Մերժման պատճառը" name="description" rows="5"
+                                      style="width: 100%;"></textarea>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Փակել</button>
+                        <button type="submit" class="btn btn-primary">Հաստատել</button>
+                    </div>
+                    </form>
+                    @else
+                        <div class="modal-body">
+                            <p id="showDescription"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Փակել</button>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
 @endsection
 

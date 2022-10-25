@@ -1,9 +1,9 @@
 <footer class="main-footer">
     <div class="pull-right hidden-xs">
-        <b>Informa</b> Dashboard
+        <b>Informa</b> Վահանակ
     </div>
-    <strong>Copyright © {{ date('Y') }} informa.</strong>
-    All rights reserved.
+    <strong>© {{ date('Y') }} informa.</strong>
+    Բոլոր իրավունքները պաշտպանված են:
 </footer>
 
 
