@@ -9,6 +9,7 @@ use App\Services\FilterServices;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -143,7 +144,7 @@ class ReportController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function reportStatus(Request $request)
     {
@@ -152,18 +153,51 @@ class ReportController extends Controller
         $report = Report::find($data['report_id']);
 
         try {
-//            dd($data);
             if($reportStatus == Report::DECLINE){
                 return response()->json([
                     'reportStatus' => $reportStatus,
                     'report_id' => $data['report_id']
-                ], 400);
+                ], 422);
             }
             $report->status = $reportStatus;
+            $report->description = null;
             $report->save();
 
 
             return response()->json($data, 200);
+
+        } catch (\Exception $e) {
+//            dd($e->getMessage());
+            DB::rollback();
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function reportDecline(Request $request)
+    {
+        $data = $request->all();
+        $report = Report::find($data['report_id']);
+        $report->status = Report::DECLINE;
+        $report->description = $data['description'];
+        $report->save();
+
+        return back();
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function reportDescription(Request $request)
+    {
+        $data = $request->all();
+        try {
+            $report = Report::find($data['report_id']);
+
+            return response()->json(['description' => $report->description ?? ''], 200);
 
         } catch (\Exception $e) {
 //            dd($e->getMessage());

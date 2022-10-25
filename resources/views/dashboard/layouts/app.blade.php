@@ -115,8 +115,7 @@
         theme: 'bootstrap4'
     })
 
-    $('#status_change').change(function () {
-        // $(this).selected();
+    $('.status_change').change(function () {
         let reportStatus = $(this).val();
         let reportId = $(this).parents('tr').find('.report_id').text();
         $.ajax({
@@ -130,17 +129,34 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (response) {
-                console.log(response, 'response')
+                window.location.reload();
 
             },
             error: (data) => {
-                // console.log(data)
-                if(data){
-                    //open description modal
-                }
+                let report_id = data.responseJSON.report_id;
+                    $('#reportId').val(report_id);
+                    $('#descriptionModal').modal('show');
             },
         })
-        // console.log($(this).val(), '$(this).selected()')
+    });
+
+    $('.decline_message').click(function () {
+        let reportId = $(this).parents('tr').find('.report_id').text();
+        $.ajax({
+            url: "/dashboard/report-description",
+            method: 'POST',
+            data: {
+                report_id: reportId
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                let description = response.description;
+                $('#showDescription').text(description);
+                $('#descriptionModal').modal('show');
+            },
+        })
     });
 
 </script>
