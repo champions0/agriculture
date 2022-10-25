@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bb105341fcd7e681a27c1d1702dfb61",
+    "content-hash": "3b1874037afdc8b75f04505bed674d69",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -840,6 +840,68 @@
             "time": "2022-02-23T14:25:13+00:00"
         },
         {
+            "name": "getsolaris/laravel-make-service",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/getsolaris/laravel-make-service.git",
+                "reference": "10970fcb6d887cc7de3db1b4d05804d0f29b3f3a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/getsolaris/laravel-make-service/zipball/10970fcb6d887cc7de3db1b4d05804d0f29b3f3a",
+                "reference": "10970fcb6d887cc7de3db1b4d05804d0f29b3f3a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "~5.6.34|~5.7.0|~5.8.0|^6.0|^7.0|^8.0|^9.0",
+                "illuminate/support": "~5.6.34|~5.7.0|~5.8.0|^6.0|^7.0|^8.0|^9.0",
+                "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Getsolaris\\LaravelMakeService\\LaravelMakeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Getsolaris\\LaravelMakeService\\": "src/"
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "getsolaris",
+                    "email": "im@getsolaris.kr"
+                }
+            ],
+            "description": "A MVCS pattern create a service command for Laravel 5+",
+            "keywords": [
+                "contract",
+                "laravel",
+                "mvcs",
+                "pattern",
+                "service"
+            ],
+            "support": {
+                "issues": "https://github.com/getsolaris/laravel-make-service/issues",
+                "source": "https://github.com/getsolaris/laravel-make-service/tree/v1.1.0"
+            },
+            "time": "2022-06-10T12:56:14+00:00"
+        },
+        {
             "name": "graham-campbell/result-type",
             "version": "v1.1.0",
             "source": {
@@ -1231,6 +1293,53 @@
                 }
             ],
             "time": "2022-08-28T14:45:39+00:00"
+        },
+        {
+            "name": "jason-guru/laravel-make-repository",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jason-guru/laravel-make-repository.git",
+                "reference": "391680cc328d3a75c678328a6fd2d7ca1a5fdbd2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jason-guru/laravel-make-repository/zipball/391680cc328d3a75c678328a6fd2d7ca1a5fdbd2",
+                "reference": "391680cc328d3a75c678328a6fd2d7ca1a5fdbd2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JasonGuru\\LaravelMakeRepository\\RepositoryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JasonGuru\\LaravelMakeRepository\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "G Jason Sharma",
+                    "email": "g.jason.sharma@gmail.com"
+                }
+            ],
+            "description": "A simple package to create a make:repository command for Laravel 5+",
+            "support": {
+                "issues": "https://github.com/jason-guru/laravel-make-repository/issues",
+                "source": "https://github.com/jason-guru/laravel-make-repository/tree/master"
+            },
+            "time": "2019-11-01T04:16:57+00:00"
         },
         {
             "name": "laracasts/flash",
@@ -7396,68 +7505,6 @@
             "time": "2022-01-07T12:00:00+00:00"
         },
         {
-            "name": "getsolaris/laravel-make-service",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/getsolaris/laravel-make-service.git",
-                "reference": "10970fcb6d887cc7de3db1b4d05804d0f29b3f3a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/getsolaris/laravel-make-service/zipball/10970fcb6d887cc7de3db1b4d05804d0f29b3f3a",
-                "reference": "10970fcb6d887cc7de3db1b4d05804d0f29b3f3a",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/console": "~5.6.34|~5.7.0|~5.8.0|^6.0|^7.0|^8.0|^9.0",
-                "illuminate/support": "~5.6.34|~5.7.0|~5.8.0|^6.0|^7.0|^8.0|^9.0",
-                "php": "^7.1|^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Getsolaris\\LaravelMakeService\\LaravelMakeServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Getsolaris\\LaravelMakeService\\": "src/"
-                },
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "getsolaris",
-                    "email": "im@getsolaris.kr"
-                }
-            ],
-            "description": "A MVCS pattern create a service command for Laravel 5+",
-            "keywords": [
-                "contract",
-                "laravel",
-                "mvcs",
-                "pattern",
-                "service"
-            ],
-            "support": {
-                "issues": "https://github.com/getsolaris/laravel-make-service/issues",
-                "source": "https://github.com/getsolaris/laravel-make-service/tree/v1.1.0"
-            },
-            "time": "2022-06-10T12:56:14+00:00"
-        },
-        {
             "name": "hamcrest/hamcrest-php",
             "version": "v2.0.1",
             "source": {
@@ -7507,53 +7554,6 @@
                 "source": "https://github.com/hamcrest/hamcrest-php/tree/v2.0.1"
             },
             "time": "2020-07-09T08:09:16+00:00"
-        },
-        {
-            "name": "jason-guru/laravel-make-repository",
-            "version": "0.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jason-guru/laravel-make-repository.git",
-                "reference": "391680cc328d3a75c678328a6fd2d7ca1a5fdbd2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jason-guru/laravel-make-repository/zipball/391680cc328d3a75c678328a6fd2d7ca1a5fdbd2",
-                "reference": "391680cc328d3a75c678328a6fd2d7ca1a5fdbd2",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "JasonGuru\\LaravelMakeRepository\\RepositoryServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "JasonGuru\\LaravelMakeRepository\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "G Jason Sharma",
-                    "email": "g.jason.sharma@gmail.com"
-                }
-            ],
-            "description": "A simple package to create a make:repository command for Laravel 5+",
-            "support": {
-                "issues": "https://github.com/jason-guru/laravel-make-repository/issues",
-                "source": "https://github.com/jason-guru/laravel-make-repository/tree/master"
-            },
-            "time": "2019-11-01T04:16:57+00:00"
         },
         {
             "name": "laravel/sail",

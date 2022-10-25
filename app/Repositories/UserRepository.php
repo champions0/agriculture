@@ -3,13 +3,13 @@
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
-use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
+//use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use App\Models\User;
 
 /**
  * Class UserRepository.
  */
-class UserRepository extends BaseRepository
+class UserRepository
 {
     /**
      * @return string
@@ -27,7 +27,7 @@ class UserRepository extends BaseRepository
     public function createUser(array $data)
     {
         DB::beginTransaction();
-        $data['user'] = parent::create($data);
+        $data['user'] = User::create($data);
 //        $data['user'] = parent::create($data);
 
         DB::commit();
