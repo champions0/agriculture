@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\DashboardController;
-use App\Http\Controllers\dashboard\UserController;
-use App\Http\Controllers\dashboard\ReportController;
-use App\Http\Controllers\dashboard\EventController;
+use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Dashboard\ReportController;
+use App\Http\Controllers\Dashboard\EventController;
 
 Route::prefix('dashboard')
     ->middleware(['adminPanel']) //municipality
