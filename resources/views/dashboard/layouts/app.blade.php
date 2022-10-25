@@ -29,7 +29,7 @@
     <!-- Date picker -->
     <link rel="stylesheet" href="{{asset('/assets/plugins/daterangepicker/daterangepicker.css')}}">
 
-    <link rel="stylesheet" href="{{asset('/assets/css/core.css')}}">
+{{--    <link rel="stylesheet" href="{{asset('/assets/css/core.css')}}">--}}
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{asset('/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     @yield('styles')
@@ -44,8 +44,8 @@
     <link rel="stylesheet" href="{{asset('/assets/plugins/daterangepicker/daterangepicker.js')}}">
 
     <!-- jQuery -->
-    <link rel="stylesheet" href="{{asset('/assets/js/jui/jquery-ui.min.css')}}" type="text/css"/>
-    <link rel="stylesheet" href="{{asset('/assets/js/jui/jquery-ui.structure.min.css')}}" type="text/css"/>
+{{--    <link rel="stylesheet" href="{{asset('/assets/js/jui/jquery-ui.min.css')}}" type="text/css"/>--}}
+{{--    <link rel="stylesheet" href="{{asset('/assets/js/jui/jquery-ui.structure.min.css')}}" type="text/css"/>--}}
 
     <!-- InputMask -->
     <script src="{{asset('/assets/plugins/moment/moment.min.js')}}"></script>
@@ -80,7 +80,7 @@
 
 {{--<script src="https://cdn.tailwindcss.com"></script>--}}
 
-<script src="{{asset('/assets/js/core.js')}}"></script>
+{{--<script src="{{asset('/assets/js/core.js')}}"></script>--}}
 
 <!-- AdminLTE App -->
 <script src="{{asset('/assets/plugins/jquery/jquery.min.js')}}"></script>
@@ -115,6 +115,33 @@
         theme: 'bootstrap4'
     })
 
+    $('#status_change').change(function () {
+        // $(this).selected();
+        let reportStatus = $(this).val();
+        let reportId = $(this).parents('tr').find('.report_id').text();
+        $.ajax({
+            url: "/dashboard/report-status",
+            method: 'POST',
+            data: {
+                reportStatus: reportStatus,
+                report_id: reportId
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                console.log(response, 'response')
+
+            },
+            error: (data) => {
+                // console.log(data)
+                if(data){
+                    //open description modal
+                }
+            },
+        })
+        // console.log($(this).val(), '$(this).selected()')
+    });
 
 </script>
 <script>
@@ -123,7 +150,7 @@
         $.ajax({
             url: '/dashboard/filter/get-type?filter_type=' + filterType,
             type: "GET",
-            success: function(response) {
+            success: function (response) {
                 $('.filter-options').css("display", "none");
                 $('.hide-options').css("display", "none");
                 $('#' + response).css("display", "block");
@@ -151,18 +178,18 @@
         getChildeCat($(this).val())
     });
 
-    function getChildeCat(parent_id){
+    function getChildeCat(parent_id) {
         let urlParams = new URLSearchParams(window.location.search);
         let cat_id = urlParams.get('child_category_id');
         let html = `<option value="">Child Category</option>`;
 
-        if(parent_id && parent_id !== ''){
-            for(let i = 0; i < categories.length; i++ ){
-                if(categories[i].parent_id == parent_id){
-                    if(cat_id == categories[i].id) {
-                        html+=`<option selected value="${categories[i].id}">${categories[i].tip}</option>`
+        if (parent_id && parent_id !== '') {
+            for (let i = 0; i < categories.length; i++) {
+                if (categories[i].parent_id == parent_id) {
+                    if (cat_id == categories[i].id) {
+                        html += `<option selected value="${categories[i].id}">${categories[i].tip}</option>`
                     } else {
-                        html+=`<option value="${categories[i].id}">${categories[i].tip}</option>`
+                        html += `<option value="${categories[i].id}">${categories[i].tip}</option>`
                     }
 
                 }
@@ -174,43 +201,37 @@
         $('#child_category_id').append(html);
     }
 
-
-
 </script>
 <script>
-function drawGraph(x,y,z,a) {
-  const labels = y;
+    function drawGraph(x, y, z, a) {
+        const labels = y;
 
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: a,
-      showLabel: false,
-      backgroundColor: '#007bff',
-      borderColor: '#007bff',
-      data: x,
-    }]
-  };
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: a,
+                showLabel: false,
+                backgroundColor: '#007bff',
+                borderColor: '#007bff',
+                data: x,
+            }]
+        };
 
-  const config = {
-    type: z,
-    data: data,
-    options: {}
-  };
+        const config = {
+            type: z,
+            data: data,
+            options: {}
+        };
 
-  const myChart = new Chart(
-    document.getElementById(a),
-    config
-  );
-
-
+        const myChart = new Chart(
+            document.getElementById(a),
+            config
+        );
 
 
-
-}
+    }
 </script>
-<script>
-</script>
+
 
 </body>
 </html>

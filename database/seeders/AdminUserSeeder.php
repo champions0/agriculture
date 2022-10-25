@@ -16,13 +16,18 @@ class AdminUserSeeder extends Seeder
     public function run()
     {
         User::query()->create([
-            'first_name' => 'admin',
-            'last_name' => 'admin',
+            'first_name' => 'admin firstname',
+            'last_name' => 'admin lastname',
+            'surname' => 'admin surname',
+            'number' => '1111223',
             'email' => 'admin@gmail.com',
+            'phone' => '099001122',
+            'address' => 'Gavar Admin',
             'email_verified_at' => now(),
-            'role' => 'admin',
-            'status' => '1',
             'password' => Hash::make('password'),
+            'role' => 'admin',
+            'birth_date' => date("Y-m-d H:i:s", mt_rand(1262055681,1262055681)),
+            'status' => '1',
         ]);
     }
 }

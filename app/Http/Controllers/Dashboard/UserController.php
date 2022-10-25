@@ -5,6 +5,7 @@ namespace App\Http\Controllers\dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\UserUpdateRequest;
 use App\Models\User;
+use App\Services\FilterServices;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,12 +15,32 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
+     * @var FilterServices
+     */
+    private $filterServices;
+
+    /**
+     * @param FilterServices $filterServices
+     */
+    public function __construct(FilterServices $filterServices)
+    {
+        $this->filterServices = $filterServices;
+    }
+
+    /**
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data = $request->all();
         $users = User::query()
-            ->where('role', '!=', 'admin')
+            ->where('role', '!=', 'admin');
+
+//        filter service
+        $users = $this->filterServices->user($users, $data);
+
+        $users = $users
+            ->orderByDesc('id')
             ->paginate(config('constants.per_page'));
         return view('dashboard.users.index', compact('users'));
     }
