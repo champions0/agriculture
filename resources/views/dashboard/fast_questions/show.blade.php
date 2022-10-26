@@ -103,7 +103,15 @@
                             <h4 class="mt-3">Օգտատեր՝</h4>
                             <div class="btn-group">
                                 @if($fastQuestion->is_anonymous)
-                                    <p>Անանուն</p>
+                                    @if(auth()->user()->role == 'municipality')
+                                        <p>Անանուն</p>
+                                    @else
+                                        <a target="_blank"
+                                           href="{{ route('users.show', $fastQuestion->user->id) }}"
+                                           title="Show details">
+                                            {{ $fastQuestion->user->first_name . ' ' . $fastQuestion->user->last_name }}
+                                        </a>(Անանուն)
+                                    @endif
                                 @else
                                     <p>
                                         <a href="{{ route('users.show', $fastQuestion->user->id) }}"

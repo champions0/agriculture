@@ -87,9 +87,18 @@
                                             <td>{{ $fastQuestion->number }}</td>
                                             <td>
                                                 @if($fastQuestion->is_anonymous)
-                                                    Անանուն
+                                                    @if(auth()->user()->role == 'municipality')
+                                                        Անանուն
+                                                    @else
+                                                        <a target="_blank"
+                                                           href="{{ route('users.show', $fastQuestion->user->id) }}"
+                                                           title="Show details">
+                                                            {{ $fastQuestion->user->first_name . ' ' . $fastQuestion->user->last_name }}
+                                                        </a>(Անանուն)
+                                                    @endif
                                                 @else
-                                                    <a target="_blank" href="{{ route('users.show', $fastQuestion->user->id) }}"
+                                                    <a target="_blank"
+                                                       href="{{ route('users.show', $fastQuestion->user->id) }}"
                                                        title="Show details">
                                                         {{ $fastQuestion->user->first_name . ' ' . $fastQuestion->user->last_name }}
                                                     </a>
@@ -98,7 +107,8 @@
                                             <td>{{ $fastQuestion->category->name }}</td>
                                             <td>{{ $fastQuestion->address }}</td>
                                             <td>
-                                                <input type="hidden" class="fast_question_id" name="fast_question_id" value="{{ $fastQuestion->id }}">
+                                                <input type="hidden" class="fast_question_id" name="fast_question_id"
+                                                       value="{{ $fastQuestion->id }}">
                                                 @if(auth()->user()->role == 'municipality')
                                                     <select name="status_fast_change"
                                                             class="custom-select form-control-borde fast_status_change">
@@ -131,7 +141,8 @@
 
                                             <td>{{ $fastQuestion->created_at }}</td>
                                             <td>
-                                                <a href="{{ route('fast-questions.show', $fastQuestion->id) }}" class="btn"
+                                                <a href="{{ route('fast-questions.show', $fastQuestion->id) }}"
+                                                   class="btn"
                                                    title="Show details">
                                                     <i class="text-success nav-icon fas fa-eye"></i>
                                                 </a>
