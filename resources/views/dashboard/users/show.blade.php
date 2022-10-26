@@ -12,7 +12,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Գլխավոր</a></li>
-                            <li class="breadcrumb-item active">Շտապ հարց</li>
+                            <li class="breadcrumb-item active">Օգտատեր</li>
                         </ol>
                     </div>
                 </div>
@@ -30,7 +30,15 @@
                             <div class="card-body box-profile">
                                 <div class="text-center">
                                     <img class="profile-user-img img-fluid img-circle"
-                                         src="{{ asset('/assets/dist/img/user4-128x128.jpg') }}"
+                                         @if(isset($user->avatar))
+                                            src="{{ asset('/assets/dist/img/user4-128x128.jpg') }}"
+                                         @else
+                                             @if($user->gender == 'male')
+                                                src="{{ asset('/assets/dist/img/hePhoto.jpg') }}"
+                                             @else
+                                                src="{{ asset('/assets/dist/img/shePhoto.jpg') }}"
+                                             @endif
+                                         @endif
                                          alt="User profile picture">
                                 </div>
 
@@ -40,31 +48,39 @@
 
                                 <ul class="list-group list-group-unbordered mb-3">
                                     <li class="list-group-item">
-                                        <b>Համար՝</b> <p class="float-right">{{ $user->number }}</p>
+                                        <b>Համար՝</b>
+                                        <p class="float-right">{{ $user->number }}</p>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Էլ. հասցե՝</b> <a href="mailto:{{ $user->email }}" class="float-right">{{ $user->email }}</a>
+                                        <b>Էլ. հասցե՝</b> <a href="mailto:{{ $user->email }}"
+                                                             class="float-right">{{ $user->email }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Հեռախոսահամար՝</b> <a href="tel:{{ $user->phone }}" class="float-right">{{ $user->phone }}</a>
+                                        <b>Հեռախոսահամար՝</b> <a href="tel:{{ $user->phone }}"
+                                                                 class="float-right">{{ $user->phone }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Հասցե՝</b> <p class="float-right">{{ $user->address }}</p>
+                                        <b>Հասցե՝</b>
+                                        <p class="float-right">{{ $user->address }}</p>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Ծննդյան ամսաթիվ՝</b> <p class="float-right">{{ $user->birth_date }}</p>
+                                        <b>Ծննդյան ամսաթիվ՝</b>
+                                        <p class="float-right">{{ $user->birth_date }}</p>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Կարգավիճակ՝</b> <p class="float-right">{{ $user->status == 1 ? 'Ակտիվ' : 'Պասիվ' }}</p>
+                                        <b>Կարգավիճակ՝</b>
+                                        <p class="float-right">{{ $user->status == 1 ? 'Ակտիվ' : 'Պասիվ' }}</p>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Դիմումների քանակ՝</b> <p class="float-right">{{ $user->reports->count() }}</p>
+                                        <b>Դիմումների քանակ՝</b>
+                                        <p class="float-right">{{ $user->reports->count() }}</p>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Գրանցման ամսաթիվ՝</b> <p class="float-right">{{ date('Y-m-d', strtotime($user->created_at)) }}</p>
+                                        <b>Գրանցման ամսաթիվ՝</b>
+                                        <p class="float-right">{{ date('Y-m-d', strtotime($user->created_at)) }}</p>
                                     </li>
                                 </ul>
-{{--                                <a onclick="window.print()"><i class="fal fa-print"></i> Natisni oglas</a>--}}
+                                {{--                                <a onclick="window.print()"><i class="fal fa-print"></i> Natisni oglas</a>--}}
 
                             </div>
                             <!-- /.card-body -->
