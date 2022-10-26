@@ -64,6 +64,7 @@
                                         <b>Գրանցման ամսաթիվ՝</b> <p class="float-right">{{ date('Y-m-d', strtotime($user->created_at)) }}</p>
                                     </li>
                                 </ul>
+{{--                                <a onclick="window.print()"><i class="fal fa-print"></i> Natisni oglas</a>--}}
 
                             </div>
                             <!-- /.card-body -->
