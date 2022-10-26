@@ -34,7 +34,7 @@ class SettingsController extends Controller
             $categories = Category::query()
                 ->pluck('name', 'id');
 
-            return $this->response->success($categories);
+            return $this->response->success(['categories' => $categories]);
 
         } catch (\Throwable $e) {
             return $this->response->badRequest([], $e->getMessage());
