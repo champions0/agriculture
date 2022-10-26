@@ -19,6 +19,7 @@ class UserFactory extends Factory
             'last_name' => $this->faker->lastName(),
             'surname' => $this->faker->name(),
             'number' => mt_rand(1000000, 9999999),
+            'passport' => Str::random(8),
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),
