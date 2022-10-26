@@ -50,6 +50,15 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('fast-questions.index') }}"
+                       class="nav-link {{Request::segment(2) == 'fast-questions' ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Շտապ հարցեր
+                        </p>
+                    </a>
+                </li>
 
                 @if(auth()->user()->role == 'admin')
                     <li class="nav-item">

@@ -17,11 +17,12 @@ class CreateFastQuestionsTable extends Migration
             $table->id();
             $table->string('number');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('category');
+            $table->unsignedBigInteger('category_id');
             $table->string('address');
             $table->string('description')->nullable();
+            $table->string('decline_description')->nullable();
             $table->tinyInteger('status')->default(0);
-            $table->boolean('is_not_anonymous')->default(1);
+            $table->boolean('is_anonymous')->default(0);
             $table->timestamps();
         });
     }

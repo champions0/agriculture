@@ -58,11 +58,12 @@
                                         <th>Համար</th>
                                         <th>Անուն</th>
                                         <th>Էլ․ հասցե</th>
+                                        <th>Հեռախոսահամար</th>
                                         <th>Ծննդյան ամսաթիվ</th>
                                         <th>Դեր</th>
                                         <th>Կարգավիճակ</th>
                                         <th>Ավելացվել է</th>
-{{--                                        <th>Գործողություններ</th>--}}
+                                        <th>Գործողություններ</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -70,8 +71,14 @@
                                         <tr>
                                             <td>{{ $user->id }}</td>
                                             <td>{{ $user->number }}</td>
-                                            <td>{{ $user->first_name . ' ' . $user->last_nam . ' ' . $user->surname }}</td>
+                                            <td>
+                                                <a target="_blank" href="{{ route('users.show', $user->id) }}"
+                                                   title="Show details">
+                                                    {{ $user->first_name . ' ' . $user->last_nam . ' ' . $user->surname }}
+                                                </a>
+                                            </td>
                                             <td>{{ $user->email }}</td>
+                                            <td>{{ $user->phone }}</td>
                                             <td>{{ $user->birth_date }}</td>
                                             <td>{{ $user->role }}</td>
                                             @if($user->status == 1)
@@ -84,21 +91,13 @@
                                                 </td>
                                             @endif
                                             <td>{{ $user->created_at }}</td>
-{{--                                            <td>--}}
-{{--                                                <a href="{{ route('users.edit', $user->id) }}" class="btn" title="Edit details">--}}
-{{--                                                    <i class="text-success nav-icon fas fa-edit"></i>--}}
-{{--                                                </a>--}}
+                                            <td>
+                                                <a href="{{ route('users.show', $user->id) }}" class="btn"
+                                                   title="Show details">
+                                                    <i class="text-success nav-icon fas fa-eye"></i>
+                                                </a>
+                                            </td>
 
-{{--                                                <form action="{{ route('users.destroy', $user->id) }}" method="POST"--}}
-{{--                                                      style="display: none"--}}
-{{--                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել օգտատիրոջը?')">--}}
-{{--                                                    @csrf--}}
-{{--                                                    @method('DELETE')--}}
-{{--                                                </form>--}}
-{{--                                                <a href="#" onclick="$(this).prev().submit()" title="Delete">--}}
-{{--                                                    <i class="text-danger nav-icon fas fa-trash"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </td>--}}
                                         </tr>
                                     @endforeach
                                     </tbody>
