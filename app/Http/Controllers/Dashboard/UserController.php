@@ -67,14 +67,13 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return Application|Factory|View
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        return view('dashboard.users.show', compact('user'));
     }
 
     /**

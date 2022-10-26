@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Դիմումների ցուցակ</h1>
+                        <h1>Արագ հարցերի ցուցակ</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Գլխավոր</a></li>
-                            <li class="breadcrumb-item active">Դիմումների ցուցակ</li>
+                            <li class="breadcrumb-item active">Արագ հարցերի ցուցակ</li>
                         </ol>
                     </div>
                 </div>
@@ -26,10 +26,10 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Դիմումներ</h3>
+                                <h3 class="card-title">Արագ հարցեր</h3>
 
                                 <div class="card-tools">
-                                    <form action="{{ route('reports.index') }}" method="GET">
+                                    <form action="{{ route('fast-questions.index') }}" method="GET">
                                         <div class="input-group input-group-sm" style="width: 750px;">
 
                                             <input type="date" class="form-control " name="start_date"
@@ -40,15 +40,15 @@
                                             <select name="status" class="custom-select form-control-borde">
                                                 <option value="" selected>Կարգավիճակ</option>
                                                 <option
-                                                    value="{{ \App\Models\Report::PENDING }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\Report::PENDING ? 'selected' : '' }}>
+                                                    value="{{ \App\Models\FastQuestion::PENDING }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\FastQuestion::PENDING ? 'selected' : '' }}>
                                                     Դիտառրվող
                                                 </option>
                                                 <option
-                                                    value="{{ \App\Models\Report::SUCCESS }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\Report::SUCCESS ? 'selected' : '' }}>
+                                                    value="{{ \App\Models\FastQuestion::SUCCESS }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\FastQuestion::SUCCESS ? 'selected' : '' }}>
                                                     Հաստատված
                                                 </option>
                                                 <option
-                                                    value="{{ \App\Models\Report::DECLINE }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\Report::DECLINE ? 'selected' : '' }}>
+                                                    value="{{ \App\Models\FastQuestion::DECLINE }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\FastQuestion::DECLINE ? 'selected' : '' }}>
                                                     Մերժված
                                                 </option>
                                             </select>
@@ -71,84 +71,76 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>Համար</th>
                                         <th>Օգտատեր</th>
-                                        <th>Վերնաագիր</th>
+                                        <th>Կատեգորիա</th>
+                                        <th>Հասցե</th>
                                         <th>Կարգավիճակ</th>
-                                        <th>PDF</th>
                                         <th>Ավելացվել է</th>
-                                        {{--                                        <th>Գործողություններ</th>--}}
+                                        <th>Գործողություններ</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($reports as $report)
+                                    @foreach($fastQuestions as $fastQuestion)
                                         <tr>
-                                            <td class="report_id">{{ $report->id }}</td>
+                                            <td class="fast_question_id">{{ $fastQuestion->id }}</td>
+                                            <td>{{ $fastQuestion->number }}</td>
                                             <td>
-                                                <a target="_blank" href="{{ route('users.show', $report->user->id) }}"
-                                                   title="Show details">
-                                                    {{ $report->user->first_name . ' ' . $report->user->last_name }}
-                                                </a>
+                                                @if($fastQuestion->is_anonymous)
+                                                    Անանուն
+                                                @else
+                                                    <a target="_blank" href="{{ route('users.show', $fastQuestion->user->id) }}"
+                                                       title="Show details">
+                                                        {{ $fastQuestion->user->first_name . ' ' . $fastQuestion->user->last_name }}
+                                                    </a>
+                                                @endif
                                             </td>
-                                            <td>{{ $report->title }}</td>
+                                            <td>{{ $fastQuestion->category->name }}</td>
+                                            <td>{{ $fastQuestion->address }}</td>
                                             <td>
+                                                <input type="hidden" class="fast_question_id" name="fast_question_id" value="{{ $fastQuestion->id }}">
                                                 @if(auth()->user()->role == 'municipality')
-                                                    <select name="status_change"
-                                                            class="custom-select form-control-borde status_change">
+                                                    <select name="status_fast_change"
+                                                            class="custom-select form-control-borde fast_status_change">
                                                         <option
-                                                            {{ $report->status == \App\Models\Report::PENDING ? 'selected' : '' }} value="{{ \App\Models\Report::PENDING }}">
+                                                            {{ $fastQuestion->status == \App\Models\FastQuestion::PENDING ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::PENDING }}">
                                                             Դիտարկվող
                                                         </option>
                                                         <option
-                                                            {{ $report->status == \App\Models\Report::SUCCESS ? 'selected' : '' }} value="{{ \App\Models\Report::SUCCESS }}">
+                                                            {{ $fastQuestion->status == \App\Models\FastQuestion::SUCCESS ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::SUCCESS }}">
                                                             Հաստատված
                                                         </option>
                                                         <option
-                                                            {{ $report->status == \App\Models\Report::DECLINE ? 'selected' : '' }} value="{{ \App\Models\Report::DECLINE }}">
+                                                            {{ $fastQuestion->status == \App\Models\FastQuestion::DECLINE ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::DECLINE }}">
                                                             Մերժված
                                                         </option>
                                                     </select>
                                                 @else
-                                                    @if($report->status == \App\Models\Report::PENDING)
+                                                    @if($fastQuestion->status == \App\Models\FastQuestion::PENDING)
                                                         <p class="text-warning">Դիտարկվող</p>
-                                                    @elseif($report->status == \App\Models\Report::SUCCESS)
+                                                    @elseif($fastQuestion->status == \App\Models\FastQuestion::SUCCESS)
                                                         <p class="text-success">Հաստատված</p>
                                                     @else
-                                                        <p style="cursor: pointer;" class="text-danger decline_message">
+                                                        <p style="cursor: pointer;"
+                                                           class="text-danger decline_fast_message">
                                                             Մերժված</p>
                                                     @endif
 
                                                 @endif
                                             </td>
-                                            <td>
-                                                <form action="{{ route('reports.downloadPDF') }}" method="POST"
-                                                      formtarget="_blank" target="_blank">
-                                                    @csrf
-                                                    <input type="hidden" name="report_id" value="{{ $report->id }}">
-                                                    <button type="submit" class="btn btn-info">Ներբեռնել</button>
-                                                </form>
-                                            </td>
-                                            <td>{{ $report->created_at }}</td>
-                                            {{--                                            <td>--}}
-                                            {{--                                                <a href="{{ route('reports.edit', $report->id) }}" class="btn"--}}
-                                            {{--                                                   title="Edit details">--}}
-                                            {{--                                                    <i class="text-success nav-icon fas fa-edit"></i>--}}
-                                            {{--                                                </a>--}}
 
-                                            {{--                                                <form action="{{ route('reports.destroy', $report->id) }}" method="POST"--}}
-                                            {{--                                                      style="display: none"--}}
-                                            {{--                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել դիմումը?')">--}}
-                                            {{--                                                    @csrf--}}
-                                            {{--                                                    @method('DELETE')--}}
-                                            {{--                                                </form>--}}
-                                            {{--                                                <a href="#" onclick="$(this).prev().submit()" title="Delete">--}}
-                                            {{--                                                    <i class="text-danger nav-icon fas fa-trash"></i>--}}
-                                            {{--                                                </a>--}}
-                                            {{--                                            </td>--}}
+                                            <td>{{ $fastQuestion->created_at }}</td>
+                                            <td>
+                                                <a href="{{ route('fast-questions.show', $fastQuestion->id) }}" class="btn"
+                                                   title="Show details">
+                                                    <i class="text-success nav-icon fas fa-eye"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
-                                {!! $reports->links() !!}
+                                {!! $fastQuestions->links() !!}
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -158,8 +150,8 @@
             </div>
         </section>
 
-        {{--        Description modal--}}
-        <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog"
+        {{--        Description Fast modal--}}
+        <div class="modal fade" id="descriptionFastModal" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -170,12 +162,12 @@
                         </button>
                     </div>
                     @if(auth()->user()->role == 'municipality')
-                        <form action="{{ route('report.decline') }}" method="POST">
+                        <form action="{{ route('fast-question.decline') }}" method="POST">
                             @csrf
 
                             <div class="modal-body">
-                                <input id="reportId" type="hidden" name="report_id" value="">
-                                <textarea required placeholder="Մերժման պատճառը" name="description" rows="5"
+                                <input id="fastQuestionId" type="hidden" name="fast_question_id" value="">
+                                <textarea required placeholder="Մերժման պատճառը" name="decline_description" rows="5"
                                           style="width: 100%;"></textarea>
 
                             </div>
@@ -186,7 +178,7 @@
                         </form>
                     @else
                         <div class="modal-body">
-                            <p id="showDescription"></p>
+                            <p id="showFastDescription"></p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Փակել</button>

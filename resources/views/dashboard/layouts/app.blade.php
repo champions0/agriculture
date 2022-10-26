@@ -159,6 +159,59 @@
         })
     });
 
+    $('.fast_status_change').change(function () {
+        let fastQuestionStatus = $(this).val();
+        let fastQuestionId = $(this).prev().val();
+        $.ajax({
+            url: "/dashboard/fast-question-status",
+            method: 'POST',
+            data: {
+                fastQuestionStatus: fastQuestionStatus,
+                fast_question_id: fastQuestionId
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                window.location.reload();
+
+            },
+            error: (data) => {
+                let fast_question_id = data.responseJSON.fast_question_id;
+                $('#fastQuestionId').val(fast_question_id);
+                $('#descriptionFastModal').modal('show');
+            },
+        })
+    });
+
+    $('.decline_fast_message').click(function () {
+        let fastQuestionId = $(this).prev().val();
+        $.ajax({
+            url: "/dashboard/fast-question-description",
+            method: 'POST',
+            data: {
+                fast_question_id: fastQuestionId
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                console.log(response)
+                let decline_description = response.decline_description;
+                $('#showFastDescription').text(decline_description);
+                $('#descriptionFastModal').modal('show');
+            },
+        })
+    });
+
+    $(document).ready(function() {
+        $('.product-image-thumb').on('click', function () {
+            var $image_element = $(this).find('img')
+            $('.product-image').prop('src', $image_element.attr('src'))
+            $('.product-image-thumb.active').removeClass('active')
+            $(this).addClass('active')
+        })
+    })
 </script>
 <script>
     $('.form-group .filter_type').change(function () {
