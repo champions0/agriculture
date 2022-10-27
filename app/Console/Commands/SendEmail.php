@@ -41,9 +41,11 @@ class SendEmail extends Command
     public function handle()
     {
         $emails = Emails::query()
-            ->where('status', '=', 0)
+            ->where('status',0)
             ->where('attempts', '<', 3)
             ->get();
+
+        try {
 
         if (count($emails)) {
             foreach ($emails as $email) {
@@ -59,7 +61,7 @@ class SendEmail extends Command
                         }
                     });
                     $email->date_sent = date('Y-m-d h:i:s');
-                    $email->status = config(1);
+                    $email->status = 1;
                 } catch (\Throwable $e){
 
                 }
@@ -68,6 +70,9 @@ class SendEmail extends Command
                 $email->save();
             }
         }
-
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
+            return $this->response->badRequest([], $e->getMessage());
+        }
     }
 }

@@ -17,6 +17,7 @@ class Emails extends Model
         'template_name',
         'email_type',
         'from_email',
-        'attachment',
+        'attempts',
+        'status'
     ];
 }
