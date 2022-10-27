@@ -36,7 +36,8 @@ class EmailServices
             'content' => $content,
             'template_name' => $templateName,
             'email_type' => $emailType,
-            'from_email' => $fromEmail ?? config('mail.default_mail'),
+//            'from_email' => $fromEmail ?? config('mail.default_mail'),
+            'from_email' => config('mail.default_mail'),
             'attempts' => $attachment,
         ]);
     }
