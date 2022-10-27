@@ -38,7 +38,7 @@ class EmailServices
             'email_type' => $emailType,
 //            'from_email' => $fromEmail ?? config('mail.default_mail'),
             'from_email' => config('mail.default_mail'),
-            'attempts' => $attachment,
+            'attachment' => $attachment,
         ]);
     }
 }
