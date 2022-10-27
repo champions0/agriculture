@@ -18,19 +18,10 @@ use App\Http\Controllers\Api\SettingsController;
 
 Route::middleware('guest')->group(function () {
     Route::post('register', [AuthController::class, 'register'])->name('oauth.register');
+    Route::get('/emailVerify', [AuthController::class, 'emailVerify'])->name('emailVerify');
     Route::post('login', [AuthController::class, 'login'])->name('login');
-
-
-    Route::get('get-fast-categories', [SettingsController::class, 'getFastCategories'])->name('get.fast.categories');
-
-
-//        Route::post('login', function (){
-//            dd(234);
-//        })->name('oauth.login');
-
 });
 
-
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('get-fast-categories', [SettingsController::class, 'getFastCategories'])->name('get.fast.categories');
+});

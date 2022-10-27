@@ -26,12 +26,10 @@ class UserRepository
      */
     public function createUser(array $data)
     {
-        DB::beginTransaction();
-        $data['user'] = User::create($data);
-//        $data['user'] = parent::create($data);
+//        DB::beginTransaction();
+//        dd($data);
+        //        DB::commit();
 
-        DB::commit();
-
-        return $data;
+        return User::create($data);
     }
 }

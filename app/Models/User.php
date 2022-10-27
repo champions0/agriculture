@@ -22,6 +22,7 @@ class User extends Authenticatable
         'number',
         'passport',
         'email',
+        'country_code',
         'phone',
         'address',
         'birth_date',
