@@ -31,7 +31,8 @@
                                 <div class="text-center">
                                     <img class="profile-user-img img-fluid img-circle"
                                          @if(isset($user->avatar))
-                                            src="{{ env('APP_URL'). '/storage/' . $user->avatar }}"
+{{--                                            src="{{ env('APP_URL'). '/storage/' . $user->avatar }}"--}}
+                                            src="{{ \App\Services\FileServices::getImageAttribute($user->avatar) }}"
                                          @else
                                              @if($user->gender == 'male')
                                                 src="{{ asset('/assets/dist/img/hePhoto.jpg') }}"
