@@ -78,7 +78,7 @@
                                                 </a>
                                             </td>
                                             <td>{{ $user->email }}</td>
-                                            <td>{{ $user->phone }}</td>
+                                            <td>{{ $user->country_code . $user->phone }}</td>
                                             <td>{{ $user->birth_date }}</td>
                                             <td>{{ $user->role }}</td>
                                             @if($user->status == 1)
