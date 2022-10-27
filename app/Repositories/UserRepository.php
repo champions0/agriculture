@@ -28,7 +28,7 @@ class UserRepository
     {
 //        DB::beginTransaction();
 //        dd($data);
-        //        DB::commit();
+//        DB::commit();
 
         return User::create($data);
     }

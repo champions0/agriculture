@@ -35,7 +35,7 @@ class UserCreateRequest extends FormRequest
             'phone' => ['required', 'string', 'max:20'],
             'address' => ['required', 'string', 'max:255'],
             'birth_date' => ['required', 'string', 'max:50'],
-            'avatar' => ['image', 'mimes:jpeg,png,jpg', 'max:5000'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:5000'],
         ];
     }
 }
