@@ -40,4 +40,13 @@ class FileServices
 
         return $filePath;
     }
+
+    public function getImageAttribute($value): string
+    {
+        if ($value) {
+            return Storage::url($value);
+        }
+
+        return '';
+    }
 }
