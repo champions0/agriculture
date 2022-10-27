@@ -60,8 +60,8 @@
                                                              class="float-right">{{ $user->email }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Հեռախոսահամար՝</b> <a href="tel:{{ $user->phone }}"
-                                                                 class="float-right">{{ $user->phone }}</a>
+                                        <b>Հեռախոսահամար՝</b> <a href="tel:{{ $user->country_code . $user->phone }}"
+                                                                 class="float-right">{{ $user->country_code . $user->phone }}</a>
                                     </li>
                                     <li class="list-group-item">
                                         <b>Հասցե՝</b>
