@@ -5,16 +5,20 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginRequest;
 use App\Http\Requests\UserCreateRequest;
+use App\Models\Image;
 use App\Models\User;
 use App\Repositories\Api\ResponseRepository;
 use App\Services\CryptServices;
 use App\Services\EmailServices;
+use App\Services\FileServices;
 use App\Services\ProxyRequestServices;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Mockery\Exception;
 
 class AuthController extends Controller
@@ -39,6 +43,10 @@ class AuthController extends Controller
      * @var ProxyRequestServices
      */
     private $proxyRequestServices;
+    /**
+     * @var FileServices
+     */
+    private $fileServices;
 
 
     /**
@@ -47,19 +55,22 @@ class AuthController extends Controller
      * @param EmailServices $emailServices
      * @param CryptServices $cryptServices
      * @param ProxyRequestServices $proxyRequestServices
+     * @param FileServices $fileServices
      */
     public function __construct(
         ResponseRepository $response,
         UserService $userService,
         EmailServices $emailServices,
         CryptServices $cryptServices,
-        ProxyRequestServices $proxyRequestServices)
+        ProxyRequestServices $proxyRequestServices,
+        FileServices $fileServices)
     {
         $this->response = $response;
         $this->userService = $userService;
         $this->emailServices = $emailServices;
         $this->cryptServices = $cryptServices;
         $this->proxyRequestServices = $proxyRequestServices;
+        $this->fileServices = $fileServices;
     }
 
     /**
@@ -72,12 +83,31 @@ class AuthController extends Controller
         $data['number'] = mt_rand(1000000, 9999999);
         $data['password'] = Hash::make($data['password']);
 
+//        dd($data['avatar']);
+
         try {
+            DB::beginTransaction();
             $user = $this->userService->create($data);
 //            dd($user);
             $emailData['hash'] = $this->cryptServices->getResetPasswordHash($user);
             $emailData['user'] = $user;
 
+            if(isset($data['avatar'])){
+                $imageFileName = rand(1000000, 99999999999) . Str::slug($data['avatar']->getClientOriginalName(), '.');
+                $path = $this->fileServices->savePhoto(500, $data['avatar'], 'avatars/' . $user['id'], $imageFileName);
+//                $user['avatar'] = $path;
+                $user->update([
+                    'avatar' => $path // '/storage/' . $path
+                ]);
+//                Image::create([
+//                    'path' => $path,
+//                    'type' => 'avatar',
+//                    'imageable_type' => User::class,
+//                    'imageable_id' => $user['id'],
+//                ]);
+
+            }
+            DB::commit();
             $this->emailServices->sendEmail($user, 'emails.registrationVerify', $emailData, config('constants.email_type.registrationVerify'));
 
             return $this->response->success(['user' => $emailData['user']],
