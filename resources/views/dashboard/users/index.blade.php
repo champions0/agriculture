@@ -74,7 +74,7 @@
                                             <td>
                                                 <a target="_blank" href="{{ route('users.show', $user->id) }}"
                                                    title="Show details">
-                                                    {{ $user->first_name . ' ' . $user->last_nam . ' ' . $user->surname }}
+                                                    {{ $user->first_name . ' ' . $user->last_name . ' ' . $user->surname }}
                                                 </a>
                                             </td>
                                             <td>{{ $user->email }}</td>
