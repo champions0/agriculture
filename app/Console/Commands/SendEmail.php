@@ -41,7 +41,7 @@ class SendEmail extends Command
     public function handle()
     {
         $emails = Emails::query()
-            ->where('status', '=', 1)
+            ->where('status', '=', 0)
             ->where('attempts', '<', 3)
             ->get();
 
@@ -69,6 +69,5 @@ class SendEmail extends Command
             }
         }
 
-        return 0;
     }
 }
