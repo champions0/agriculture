@@ -27,32 +27,35 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-3 col-6">
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <p>Բոլոր օգտատերերը՝</p>
-                                <h3>{{ $allUsers }}</h3>
+                    @if(auth()->user()->role == 'admin')
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <p>Բոլոր օգտատերերը՝</p>
+                                    <h3>{{ $allUsers }}</h3>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="{{ route('users.index') }}" class="small-box-footer">Դիտել ամբողջը <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-                            <a href="{{ route('users.index') }}" class="small-box-footer">Դիտել ամբողջը <i
-                                    class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-6">
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <p>Ակտիվ օգտատերերը՝</p>
-                                <h3>{{ $activeUsers }}</h3>
+                        <div class="col-lg-3 col-6">
+                            <div class="small-box bg-success">
+                                <div class="inner">
+                                    <p>Ակտիվ օգտատերերը՝</p>
+                                    <h3>{{ $activeUsers }}</h3>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-stats-bars"></i>
+                                </div>
+                                <a href="{{ route('users.index', ['status' => 1]) }}" class="small-box-footer">Դիտել
+                                    ամբողջը
+                                    <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
-                            </div>
-                            <a href="{{ route('users.index', ['status' => 1]) }}" class="small-box-footer">Դիտել ամբողջը
-                                <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                    </div>
+                    @endif
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-warning">
                             <div class="inner">

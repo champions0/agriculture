@@ -11,11 +11,12 @@ Route::prefix('dashboard')
     ->middleware(['adminPanel'])
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        Route::resource('users', UserController::class);
         Route::resource('reports', ReportController::class);
         Route::resource('fast-questions', FastQuestionController::class);
+        Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 
         Route::middleware('admin')->group(function (){
+            Route::resource('users', UserController::class);
             Route::resource('events', EventController::class);
             Route::post('/report-description', [ReportController::class, 'reportDescription'])->name('report.description');
             Route::post('/fast-question-description', [FastQuestionController::class, 'fastQuestionDescription'])->name('fast-question.description');
