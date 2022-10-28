@@ -31,8 +31,11 @@
 
                             <div class="col-12">
                                 @if(count($fastQuestion->images))
-                                    <img src="{{ \App\Services\FileServices::getImageAttribute($fastQuestion->images[0]['path']) }}" class="product-image"
-                                         alt="Product Image">
+                                    <img src="{{ \App\Services\FileServices::getImageAttribute($fastQuestion->images[0]['path']) }}"
+                                         class="product-image"
+                                         alt="Product Image"
+                                         style="object-fit: contain; height: 500px;"
+                                    >
                                     @else
                                     Նկարներ չկան
 
