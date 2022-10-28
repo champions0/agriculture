@@ -66,14 +66,20 @@
                                             {{ $fastQuestion->status == \App\Models\FastQuestion::DECLINE ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::DECLINE }}">
                                             Մերժված
                                         </option>
+                                        <option
+                                            {{ $fastQuestion->status == \App\Models\FastQuestion::NOTFOUND ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::NOTFOUND }}">
+                                            Չգտնված
+                                        </option>
                                     </select>
                                 @else
                                     @if($fastQuestion->status == \App\Models\FastQuestion::PENDING)
                                         <p class="text-warning">Դիտարկվող</p>
                                     @elseif($fastQuestion->status == \App\Models\FastQuestion::SUCCESS)
                                         <p class="text-success">Հաստատված</p>
-                                    @else
+                                    @elseif($fastQuestion->status == \App\Models\FastQuestion::DECLINE)
                                         <p class="text-danger">Մերժված</p>
+                                    @else
+                                        <p class="text-danger">Չգտնված</p>
                                     @endif
 
                                 @endif

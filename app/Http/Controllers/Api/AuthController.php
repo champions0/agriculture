@@ -8,6 +8,7 @@ use App\Http\Requests\UserCreateRequest;
 use App\Models\Image;
 use App\Models\User;
 use App\Repositories\Api\ResponseRepository;
+use App\Services\Api\AuthServices;
 use App\Services\CryptServices;
 use App\Services\EmailServices;
 use App\Services\FileServices;
@@ -28,10 +29,6 @@ class AuthController extends Controller
      */
     protected $response;
     /**
-     * @var UserService
-     */
-    private $userService;
-    /**
      * @var EmailServices
      */
     private $emailServices;
@@ -40,37 +37,28 @@ class AuthController extends Controller
      */
     private $cryptServices;
     /**
-     * @var ProxyRequestServices
+     * @var AuthServices
      */
-    private $proxyRequestServices;
-    /**
-     * @var FileServices
-     */
-    private $fileServices;
+    private $authServices;
 
 
     /**
+     * AuthController constructor.
+     * @param AuthServices $authServices
      * @param ResponseRepository $response
-     * @param UserService $userService
      * @param EmailServices $emailServices
      * @param CryptServices $cryptServices
-     * @param ProxyRequestServices $proxyRequestServices
-     * @param FileServices $fileServices
      */
     public function __construct(
+        AuthServices $authServices,
         ResponseRepository $response,
-        UserService $userService,
         EmailServices $emailServices,
-        CryptServices $cryptServices,
-        ProxyRequestServices $proxyRequestServices,
-        FileServices $fileServices)
+        CryptServices $cryptServices)
     {
+        $this->authServices = $authServices;
         $this->response = $response;
-        $this->userService = $userService;
         $this->emailServices = $emailServices;
         $this->cryptServices = $cryptServices;
-        $this->proxyRequestServices = $proxyRequestServices;
-        $this->fileServices = $fileServices;
     }
 
     /**
@@ -80,46 +68,48 @@ class AuthController extends Controller
     public function register(UserCreateRequest $request)
     {
         $data = $request->validated();
-        $data['number'] = mt_rand(1000000, 9999999);
-        $data['password'] = Hash::make($data['password']);
-
-//        dd($data['avatar']);
-
         try {
-            DB::beginTransaction();
-            $user = $this->userService->create($data);
-//            dd($user);
-            $emailData['hash'] = $this->cryptServices->getResetPasswordHash($user);
-            $emailData['user'] = $user;
-
-            if(isset($data['avatar'])){
-                $imageFileName = rand(1000000, 99999999999) . Str::slug($data['avatar']->getClientOriginalName(), '.');
-                $path = $this->fileServices->savePhoto(500, $data['avatar'], 'avatars/' . $user['id'], $imageFileName);
-//                $user['avatar'] = $path;
-                $user->update([
-                    'avatar' => $path // '/storage/' . $path
-                ]);
-//                Image::create([
-//                    'path' => $path,
-//                    'type' => 'avatar',
-//                    'imageable_type' => User::class,
-//                    'imageable_id' => $user['id'],
-//                ]);
-
-            }
-            DB::commit();
-            $this->emailServices->sendEmail($user, 'emails.registrationVerify', $emailData, config('constants.email_type.registrationVerify'));
-
-            return $this->response->success(['user' => $emailData['user']],
+            $user = $this->authServices->register($data);
+            return $this->response->success(['user' => $user],
                 'User created successful!'
             );
-//            $access_token = $user->createToken('default')->accessToken;
 
         } catch (\Throwable $e) {
 //            dd($e->getMessage());
             return $this->response->badRequest([], $e->getMessage());
         }
     }
+
+    public function smsVerify()
+    {
+        $phone = "+37496574750";
+        $url = '';
+//        $sendData = [
+//            "messages" => [
+//                "template" =>,
+//                "recipient" =>,
+//                "message-id" =>,
+//                "variables" => [
+//                    "NAME" =>,
+//                    "SURNAME" =>,
+//                ],
+//            ]
+//        ];
+
+
+        //{
+        //"messages":
+        //[
+        //{
+        //"template-id": "111",
+        //"recipient": "79990009900",
+        //"message-id": "2016-11-07-18-29-32",
+        //"variables": {"NAME":"IVAN", "SURNAME":"IVANOV"}
+        //}
+        //]
+        //}
+    }
+
 
     /**
      * @param Request $request
@@ -141,7 +131,7 @@ class AuthController extends Controller
                 return $this->response->success([
                     'user' => $user,
                     'access_token' => $access_token
-                    ],
+                ],
 //                'A verification link has been sent to your email address'
                     'User created successful! Check your email'
                 );
@@ -165,25 +155,17 @@ class AuthController extends Controller
         $user = User::query()
             ->where('email', $data['email'])
             ->first();
+
         try {
-            if (!$user) {
-                throw new Exception('This combination does not exists.', 403);
-            }
-//            if (empty($user->email_verified_at) || $user->email_verified_at == null) {
-//                throw new Exception('Please verify your email.', 403);
-//            }
-            if (!Hash::check($data['password'], $user->password)) {
-                throw new Exception('This combination does not exists.', 403);
-            }
-//
-              $resp = $this->proxyRequestServices->grantPasswordToken($data['email'], $data['password']);
+
+            $resp = $this->authServices->login($data, $user);
 
             return $this->response->success([
                 'access_token' => $resp->access_token,
                 'expires_in' => $resp->expires_in,
                 'refresh_token' => $resp->refresh_token,
                 "user" => $user,
-                ],
+            ],
                 'You have been logged in.'
             );
 
