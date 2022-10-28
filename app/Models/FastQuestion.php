@@ -13,6 +13,7 @@ class FastQuestion extends Model
     const PENDING = 0;
     const SUCCESS = 1;
     const DECLINE = 2;
+    const NOTFOUND = 3;
 
     protected $fillable = [
         'number',

@@ -109,7 +109,7 @@
                                                     </select>
                                                 @else
                                                     @if($report->status == \App\Models\Report::PENDING)
-                                                        <p class="text-warning">Դիտարկվող</p>
+                                                        <p class="text-secondary">Դիտարկվող</p>
                                                     @elseif($report->status == \App\Models\Report::SUCCESS)
                                                         <p class="text-success">Հաստատված</p>
                                                     @else

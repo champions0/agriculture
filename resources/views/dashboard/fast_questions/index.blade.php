@@ -51,6 +51,10 @@
                                                     value="{{ \App\Models\FastQuestion::DECLINE }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\FastQuestion::DECLINE ? 'selected' : '' }}>
                                                     Մերժված
                                                 </option>
+                                                <option
+                                                    value="{{ \App\Models\FastQuestion::NOTFOUND }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\FastQuestion::NOTFOUND ? 'selected' : '' }}>
+                                                    Չգտնված
+                                                </option>
                                             </select>
                                             <input type="text" name="search" class="form-control float-right"
                                                    placeholder="Փնտրել" value="{{ $_GET['search'] ?? '' }}">
@@ -124,16 +128,24 @@
                                                             {{ $fastQuestion->status == \App\Models\FastQuestion::DECLINE ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::DECLINE }}">
                                                             Մերժված
                                                         </option>
+                                                        <option
+                                                            {{ $fastQuestion->status == \App\Models\FastQuestion::NOTFOUND ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::NOTFOUND }}">
+                                                            Չգտնված
+                                                        </option>
                                                     </select>
                                                 @else
                                                     @if($fastQuestion->status == \App\Models\FastQuestion::PENDING)
-                                                        <p class="text-warning">Դիտարկվող</p>
+                                                        <p class="text-secondary">Դիտարկվող</p>
                                                     @elseif($fastQuestion->status == \App\Models\FastQuestion::SUCCESS)
                                                         <p class="text-success">Հաստատված</p>
-                                                    @else
+                                                    @elseif($fastQuestion->status == \App\Models\FastQuestion::DECLINE)
                                                         <p style="cursor: pointer;"
                                                            class="text-danger decline_fast_message">
                                                             Մերժված</p>
+                                                    @else
+                                                        <p style="cursor: pointer;"
+                                                           class="text-warning decline_fast_message">
+                                                            Չգտնված</p>
                                                     @endif
 
                                                 @endif
