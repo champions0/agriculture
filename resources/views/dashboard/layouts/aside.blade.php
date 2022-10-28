@@ -41,16 +41,6 @@
                 {{--                </li>--}}
 
                 <li class="nav-item">
-                    <a style="color: #fff;" href="{{ route('users.index') }}"
-                       class="nav-link {{Request::segment(2) == 'users' ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>
-                            Օգտատերեր
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
                     <a style="color: #fff;" href="{{ route('reports.index') }}"
                        class="nav-link {{Request::segment(2) == 'reports' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-file"></i>
@@ -70,6 +60,15 @@
                 </li>
 
                 @if(auth()->user()->role == 'admin')
+                    <li class="nav-item">
+                        <a style="color: #fff;" href="{{ route('users.index') }}"
+                           class="nav-link {{Request::segment(2) == 'users' ? 'active' : ''}}">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>
+                                Օգտատերեր
+                            </p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a style="color: #fff;" href="{{ route('events.index') }}"
                            class="nav-link {{Request::segment(2) == 'events' ? 'active' : ''}}">
