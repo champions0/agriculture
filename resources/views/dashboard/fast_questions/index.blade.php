@@ -30,30 +30,41 @@
 
                                 <div class="card-tools">
                                     <form action="{{ route('fast-questions.index') }}" method="GET">
-                                        <div class="input-group input-group-sm" style="width: 750px;">
+                                        <div class="input-group input-group-sm" style="width: 900px;">
 
                                             <input type="date" class="form-control " name="start_date"
                                                    value="{{ isset($_GET['start_date']) ? str_replace(' ', 'T', $_GET['start_date']) : '' }}">
                                             <input type="date" class="form-control " name="end_date"
                                                    value="{{ isset($_GET['end_date']) ? str_replace(' ', 'T', $_GET['end_date']) : '' }}">
 
+                                            <select name="category_id" class="custom-select form-control-borde">
+                                                <option value="" selected>Կատեգորիաներ</option>
+                                                @foreach($categories as $key => $category)
+                                                    <option value="{{ $key }}" {{ isset($_GET['category_id']) && $_GET['category_id'] == $key ? 'selected' : '' }}>{{ $category }}</option>
+                                                @endforeach
+                                            </select>
+
                                             <select name="status" class="custom-select form-control-borde">
                                                 <option value="" selected>Կարգավիճակ</option>
                                                 <option
                                                     value="{{ \App\Models\FastQuestion::PENDING }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\FastQuestion::PENDING ? 'selected' : '' }}>
-                                                    Դիտառրվող
+                                                    Ընթացիկ
                                                 </option>
                                                 <option
                                                     value="{{ \App\Models\FastQuestion::SUCCESS }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\FastQuestion::SUCCESS ? 'selected' : '' }}>
-                                                    Հաստատված
+                                                    Լուծված
                                                 </option>
                                                 <option
                                                     value="{{ \App\Models\FastQuestion::DECLINE }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\FastQuestion::DECLINE ? 'selected' : '' }}>
                                                     Մերժված
                                                 </option>
                                                 <option
+                                                    value="{{ \App\Models\FastQuestion::REVIEW }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\FastQuestion::REVIEW ? 'selected' : '' }}>
+                                                    Վերանայման ենթական
+                                                </option>
+                                                <option
                                                     value="{{ \App\Models\FastQuestion::NOTFOUND }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\FastQuestion::NOTFOUND ? 'selected' : '' }}>
-                                                    Չգտնված
+                                                    Չի գտնվել
                                                 </option>
                                             </select>
                                             <input type="text" name="search" class="form-control float-right"
@@ -118,19 +129,23 @@
                                                             class="custom-select form-control-borde fast_status_change">
                                                         <option
                                                             {{ $fastQuestion->status == \App\Models\FastQuestion::PENDING ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::PENDING }}">
-                                                            Դիտարկվող
+                                                            Ընթացիկ
                                                         </option>
                                                         <option
                                                             {{ $fastQuestion->status == \App\Models\FastQuestion::SUCCESS ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::SUCCESS }}">
-                                                            Հաստատված
+                                                            Լուծված
                                                         </option>
                                                         <option
                                                             {{ $fastQuestion->status == \App\Models\FastQuestion::DECLINE ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::DECLINE }}">
                                                             Մերժված
                                                         </option>
                                                         <option
+                                                            {{ $fastQuestion->status == \App\Models\FastQuestion::REVIEW ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::REVIEW }}">
+                                                            Վերանայման ենթական
+                                                        </option>
+                                                        <option
                                                             {{ $fastQuestion->status == \App\Models\FastQuestion::NOTFOUND ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::NOTFOUND }}">
-                                                            Չգտնված
+                                                            Չի գտնվել
                                                         </option>
                                                     </select>
                                                 @else

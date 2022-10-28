@@ -78,6 +78,10 @@ class FilterServices
             $query = $query->where('status', $data['status']);
         }
 
+        if (isset($data['category_id']) && $data['category_id'] !== null) {
+            $query = $query->where('category_id', $data['category_id']);
+        }
+
         if (isset($data['start_date']) && $data['start_date'] !== null) {
             $startDate = str_replace('T', ' ', $data['start_date']);
             $endDate = now();

@@ -14,6 +14,7 @@ class FastQuestion extends Model
     const SUCCESS = 1;
     const DECLINE = 2;
     const NOTFOUND = 3;
+    const REVIEW = 4;
 
     protected $fillable = [
         'number',
@@ -40,6 +41,11 @@ class FastQuestion extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 
 }
