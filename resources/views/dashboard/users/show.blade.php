@@ -34,10 +34,11 @@
 {{--                                            src="{{ env('APP_URL'). '/storage/' . $user->avatar }}"--}}
                                             src="{{ \App\Services\FileServices::getImageAttribute($user->avatar) }}"
                                          @else
-                                             @if($user->gender == 'male')
-                                                src="{{ asset('/assets/dist/img/hePhoto.jpg') }}"
+                                             @if($user->gender == 'female')
+                                                 src="{{ asset('/assets/dist/img/shePhoto.jpg') }}"
+
                                              @else
-                                                src="{{ asset('/assets/dist/img/shePhoto.jpg') }}"
+                                                 src="{{ asset('/assets/dist/img/hePhoto.jpg') }}"
                                              @endif
                                          @endif
                                          alt="User profile picture">
@@ -63,6 +64,10 @@
                                     <li class="list-group-item">
                                         <b>Հեռախոսահամար՝</b> <a href="tel:{{ $user->country_code . $user->phone }}"
                                                                  class="float-right">{{ $user->country_code . $user->phone }}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Տարածաշրջան՝</b>
+                                        <p class="float-right">{{ $user->region }}</p>
                                     </li>
                                     <li class="list-group-item">
                                         <b>Հասցե՝</b>

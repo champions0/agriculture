@@ -20,6 +20,7 @@ class AdminUserSeeder extends Seeder
             'last_name' => 'admin lastname',
             'surname' => 'admin surname',
             'number' => '1111223',
+            'soc_number' => mt_rand(100000000, 999999999),
             'email' => 'admin@gmail.com',
             'country_code' => '+374',
             'phone' => '99001122',

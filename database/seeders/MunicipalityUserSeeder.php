@@ -20,6 +20,7 @@ class MunicipalityUserSeeder extends Seeder
             'last_name' => 'Municipality lastname',
             'surname' => 'Municipality surname',
             'number' => '2223231',
+            'soc_number' => mt_rand(100000000, 999999999),
             'email' => 'municipality@gmail.com',
             'country_code' => '+374',
             'phone' => '99114422',
