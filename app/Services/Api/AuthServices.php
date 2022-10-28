@@ -91,7 +91,7 @@ class AuthServices
 
         }
         DB::commit();
-        $this->emailServices->sendEmail($user, 'emails.registrationVerify', $emailData, config('constants.email_type.registrationVerify'));
+//        $this->emailServices->sendEmail($user, 'emails.registrationVerify', $emailData, config('constants.email_type.registrationVerify'));
 
         return $user;
     }

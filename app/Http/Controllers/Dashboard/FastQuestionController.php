@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\FastQuestion;
 use App\Services\FileServices;
 use App\Services\FilterServices;
@@ -54,7 +55,10 @@ class FastQuestionController extends Controller
             ->orderByDesc('id')
             ->paginate(config('constants.per_page'));
 
-        return view('dashboard.fast_questions.index', compact('fastQuestions'));
+        $categories = Category::query()->pluck('name', 'id');
+
+
+        return view('dashboard.fast_questions.index', compact('fastQuestions', 'categories'));
     }
 
     /**
@@ -84,7 +88,10 @@ class FastQuestionController extends Controller
      */
     public function show($id)
     {
-        $fastQuestion = FastQuestion::find($id);
+        $fastQuestion = FastQuestion::with('images')
+            ->where('id', $id)
+            ->first();
+
         return view('dashboard.fast_questions.show', compact('fastQuestion'));
     }
 

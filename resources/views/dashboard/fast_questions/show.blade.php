@@ -27,22 +27,24 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 col-sm-6">
-                            <h3 class="d-inline-block d-sm-none">LOWA Men’s Renegade GTX Mid Hiking Boots Review</h3>
+                            <h3 class="d-inline-block d-sm-none"></h3>
+
                             <div class="col-12">
-                                <img src="{{ asset('/assets/dist/img/prod-1.jpg') }}" class="product-image"
-                                     alt="Product Image">
+                                @if(count($fastQuestion->images))
+                                    <img src="{{ \App\Services\FileServices::getImageAttribute($fastQuestion->images[0]['path']) }}" class="product-image"
+                                         alt="Product Image">
+                                    @else
+                                    Նկարներ չկան
+
+                                @endif
                             </div>
                             <div class="col-12 product-image-thumbs">
-                                <div class="product-image-thumb active"><img
-                                        src="{{ asset('/assets/dist/img/prod-1.jpg') }}" alt="Product Image"></div>
-                                <div class="product-image-thumb"><img src="{{ asset('/assets/dist/img/prod-2.jpg') }}"
-                                                                      alt="Product Image"></div>
-                                <div class="product-image-thumb"><img src="{{ asset('/assets/dist/img/prod-3.jpg') }}"
-                                                                      alt="Product Image"></div>
-                                <div class="product-image-thumb"><img src="{{ asset('/assets/dist/img/prod-4.jpg') }}"
-                                                                      alt="Product Image"></div>
-                                <div class="product-image-thumb"><img src="{{ asset('/assets/dist/img/prod-5.jpg') }}"
-                                                                      alt="Product Image"></div>
+                                @if(count($fastQuestion->images))
+                                    @foreach($fastQuestion->images as $image)
+                                    <div class="product-image-thumb {{ $loop->first ? 'active' : '' }}"><img
+                                            src="{{ \App\Services\FileServices::getImageAttribute($image->path) }}" alt="Product Image"></div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
@@ -50,36 +52,43 @@
                             <hr>
                             <h4>Կարգավիճակ՝</h4>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <input type="hidden" class="fast_question_id" name="fast_question_id" value="{{ $fastQuestion->id }}">
+                                <input type="hidden" class="fast_question_id" name="fast_question_id"
+                                       value="{{ $fastQuestion->id }}">
                                 @if(auth()->user()->role == 'municipality')
                                     <select name="status_fast_change"
                                             class="custom-select form-control-borde fast_status_change">
                                         <option
                                             {{ $fastQuestion->status == \App\Models\FastQuestion::PENDING ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::PENDING }}">
-                                            Դիտարկվող
+                                            Ընթացիկ
                                         </option>
                                         <option
                                             {{ $fastQuestion->status == \App\Models\FastQuestion::SUCCESS ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::SUCCESS }}">
-                                            Հաստատված
+                                            Լուծված
                                         </option>
                                         <option
                                             {{ $fastQuestion->status == \App\Models\FastQuestion::DECLINE ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::DECLINE }}">
                                             Մերժված
                                         </option>
                                         <option
+                                            {{ $fastQuestion->status == \App\Models\FastQuestion::REVIEW ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::REVIEW }}">
+                                            Վերանայման ենթական
+                                        </option>
+                                        <option
                                             {{ $fastQuestion->status == \App\Models\FastQuestion::NOTFOUND ? 'selected' : '' }} value="{{ \App\Models\FastQuestion::NOTFOUND }}">
-                                            Չգտնված
+                                            Չի գտնվել
                                         </option>
                                     </select>
                                 @else
                                     @if($fastQuestion->status == \App\Models\FastQuestion::PENDING)
-                                        <p class="text-warning">Դիտարկվող</p>
+                                        <p class="text-warning">Ընթացիկ</p>
                                     @elseif($fastQuestion->status == \App\Models\FastQuestion::SUCCESS)
-                                        <p class="text-success">Հաստատված</p>
+                                        <p class="text-success">Լուծված</p>
                                     @elseif($fastQuestion->status == \App\Models\FastQuestion::DECLINE)
                                         <p class="text-danger">Մերժված</p>
+                                    @elseif($fastQuestion->status == \App\Models\FastQuestion::REVIEW)
+                                        <p class="text-danger">Վերանայման ենթական</p>
                                     @else
-                                        <p class="text-danger">Չգտնված</p>
+                                        <p class="text-danger">Չի գտնվել</p>
                                     @endif
 
                                 @endif
@@ -90,7 +99,7 @@
                                 <h6 class="mt-3">Մերժման պատճառը՝</h6>
                                 <div class="btn-group">
 
-                                        <p>{{ $fastQuestion->decline_description ?? '' }}</p>
+                                    <p>{{ $fastQuestion->decline_description ?? '' }}</p>
 
                                 </div>
                             @endif
@@ -132,6 +141,12 @@
                             <div class="btn-group">
                                 <p>{{ $fastQuestion->description }}</p>
 
+                            </div>
+
+                            <h4 class="mt-3">Ավելացվել է՝</h4>
+                            <div class="btn-group">
+{{--                                <p>{{ date('Y-m-d', strtotime($fastQuestion->created_at)) }}</p>--}}
+                                <p>{{ $fastQuestion->created_at }}</p>
                             </div>
                         </div>
                     </div>

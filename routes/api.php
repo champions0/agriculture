@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\SettingsController;
+use App\Http\Controllers\Api\FastQuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,5 +23,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware(['auth:api'])->group(function () {
-    Route::get('get-fast-categories', [SettingsController::class, 'getFastCategories'])->name('get.fast.categories');
+    Route::prefix('fast-question')->group(function () {
+        Route::get('categories', [FastQuestionController::class, 'getFastCategories'])->name('get.fast.categories');
+        Route::post('create', [FastQuestionController::class, 'create'])->name('fast.create');
+    });
 });
