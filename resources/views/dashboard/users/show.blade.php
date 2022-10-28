@@ -58,6 +58,10 @@
                                         <p class="float-right">{{ $user->passport }}</p>
                                     </li>
                                     <li class="list-group-item">
+                                        <b>Սոցքարտի համար՝</b>
+                                        <p class="float-right">{{ $user->soc_number }}</p>
+                                    </li>
+                                    <li class="list-group-item">
                                         <b>Էլ. հասցե՝</b> <a href="mailto:{{ $user->email }}"
                                                              class="float-right">{{ $user->email }}</a>
                                     </li>

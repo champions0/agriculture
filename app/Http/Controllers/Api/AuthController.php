@@ -111,7 +111,7 @@ class AuthController extends Controller
             $this->emailServices->sendEmail($user, 'emails.registrationVerify', $emailData, config('constants.email_type.registrationVerify'));
 
             return $this->response->success(['user' => $emailData['user']],
-                'User created successful! Check your email'
+                'User created successful!'
             );
 //            $access_token = $user->createToken('default')->accessToken;
 
