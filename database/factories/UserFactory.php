@@ -19,10 +19,12 @@ class UserFactory extends Factory
             'last_name' => $this->faker->lastName(),
             'surname' => $this->faker->name(),
             'number' => mt_rand(1000000, 9999999),
+            'soc_number' => mt_rand(100000000, 999999999),
             'passport' => Str::random(8),
             'email' => $this->faker->unique()->safeEmail(),
             'country_code' => '+374',
             'phone' => $this->faker->randomElement(['91', '93', '94', '95', '96', '98',]) . mt_rand(100000, 999999),
+            'region' => $this->faker->city(),
             'address' => $this->faker->address(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
