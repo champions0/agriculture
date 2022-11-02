@@ -27,7 +27,7 @@ class UserCreateRequest extends FormRequest
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'surname' => ['nullable', 'string', 'max:255'],
-            'soc_number' => ['nullable', 'string', 'max:20'],
+            'soc_number' => ['required', 'string', 'max:20'],
 //            'number' => ['required', 'string', 'max:255'],
             'passport' => ['nullable', 'string', 'max:20'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],

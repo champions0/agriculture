@@ -17,6 +17,7 @@ use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -40,6 +41,10 @@ class AuthController extends Controller
      * @var AuthServices
      */
     private $authServices;
+    /**
+     * @var ProxyRequestServices
+     */
+    private $proxyRequestServices;
 
 
     /**
@@ -48,17 +53,20 @@ class AuthController extends Controller
      * @param ResponseRepository $response
      * @param EmailServices $emailServices
      * @param CryptServices $cryptServices
+     * @param ProxyRequestServices $proxyRequestServices
      */
     public function __construct(
         AuthServices $authServices,
         ResponseRepository $response,
         EmailServices $emailServices,
-        CryptServices $cryptServices)
+        CryptServices $cryptServices,
+        ProxyRequestServices $proxyRequestServices)
     {
         $this->authServices = $authServices;
         $this->response = $response;
         $this->emailServices = $emailServices;
         $this->cryptServices = $cryptServices;
+        $this->proxyRequestServices = $proxyRequestServices;
     }
 
     /**
@@ -110,33 +118,6 @@ class AuthController extends Controller
 //            dd($e->getMessage());
             return $this->response->badRequest([], $e->getMessage());
         }
-
-
-//        $url = '';
-//        $sendData = [
-//            "messages" => [
-//                "template" =>,
-//                "recipient" =>,
-//                "message-id" =>,
-//                "variables" => [
-//                    "NAME" =>,
-//                    "SURNAME" =>,
-//                ],
-//            ]
-//        ];
-
-
-        //{
-        //"messages":
-        //[
-        //{
-        //"template-id": "111",
-        //"recipient": "79990009900",
-        //"message-id": "2016-11-07-18-29-32",
-        //"variables": {"NAME":"IVAN", "SURNAME":"IVANOV"}
-        //}
-        //]
-        //}
     }
 
     /**
@@ -152,7 +133,6 @@ class AuthController extends Controller
         try {
             $resp = $this->authServices->checkCode($phone, $code);
 
-
             return response()->json(['message' => $resp['message']], $resp['status']);
 
         } catch (\Throwable $e) {
@@ -160,8 +140,6 @@ class AuthController extends Controller
             return $this->response->badRequest([], $e->getMessage());
         }
     }
-
-
 
 
     /**

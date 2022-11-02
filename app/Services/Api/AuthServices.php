@@ -80,12 +80,13 @@ class AuthServices
      */
     public function register($data)
     {
-        $data['number'] = mt_rand(1000000, 9999999);
+        $data['number'] = $this->cryptServices->encrypt(mt_rand(1000000, 9999999));
+        $data['soc_number'] = $this->cryptServices->encrypt($data['soc_number']);
         $data['password'] = Hash::make($data['password']);
         DB::beginTransaction();
         $user = $this->userService->create($data);
-        $emailData['hash'] = $this->cryptServices->getResetPasswordHash($user);
-        $emailData['user'] = $user;
+//        $emailData['hash'] = $this->cryptServices->getResetPasswordHash($user);
+//        $emailData['user'] = $user;
 
         if(isset($data['avatar'])){
             $imageFileName = rand(1000000, 99999999999) . Str::slug($data['avatar']->getClientOriginalName(), '.');

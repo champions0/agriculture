@@ -18,8 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('surname')->nullable();
-            $table->string('number');
-            $table->string('soc_number')->nullable();
+            $table->string('number', 500);
+            $table->string('soc_number', 500)->nullable();
             $table->string('passport')->nullable();
             $table->string('email')->unique();
             $table->string('country_code');

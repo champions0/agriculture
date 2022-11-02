@@ -70,7 +70,7 @@
                                     @foreach($users as $user)
                                         <tr>
                                             <td>{{ $user->id }}</td>
-                                            <td>{{ $user->number }}</td>
+                                            <td>{{ \Illuminate\Support\Facades\Crypt::decrypt($user->number) }}</td>
                                             <td>
                                                 <a target="_blank" href="{{ route('users.show', $user->id) }}"
                                                    title="Show details">

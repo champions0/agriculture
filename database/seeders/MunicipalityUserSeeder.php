@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
 class MunicipalityUserSeeder extends Seeder
@@ -19,8 +20,8 @@ class MunicipalityUserSeeder extends Seeder
             'first_name' => 'Municipality firstname',
             'last_name' => 'Municipality lastname',
             'surname' => 'Municipality surname',
-            'number' => '2223231',
-            'soc_number' => mt_rand(100000000, 999999999),
+            'number' => Crypt::encrypt(mt_rand(100000, 999999)),
+            'soc_number' => Crypt::encrypt(mt_rand(1000000, 9999999)),
             'email' => 'municipality@gmail.com',
             'country_code' => '+374',
             'phone' => '99114422',

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
@@ -18,8 +19,8 @@ class UserFactory extends Factory
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'surname' => $this->faker->name(),
-            'number' => mt_rand(1000000, 9999999),
-            'soc_number' => mt_rand(100000000, 999999999),
+            'number' => Crypt::encrypt(mt_rand(1000000, 9999999)),
+            'soc_number' => Crypt::encrypt(mt_rand(100000000, 999999999)),
             'passport' => Str::random(8),
             'email' => $this->faker->unique()->safeEmail(),
             'country_code' => '+374',
