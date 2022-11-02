@@ -33,6 +33,7 @@ class User extends Authenticatable
         'role',
         'gender',
         'avatar',
+        'sms_verified_at',
     ];
 
     use HasApiTokens, HasFactory, Notifiable;

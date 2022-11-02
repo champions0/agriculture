@@ -70,8 +70,14 @@ class AuthController extends Controller
         $data = $request->validated();
         try {
             $user = $this->authServices->register($data);
-            return $this->response->success(['user' => $user],
-                'User created successful!'
+            $resp = $this->authServices->smsVerify($user['id'],$data['country_code'] . $data['phone'], 'test');
+
+
+            return $this->response->success([
+                'user' => $user,
+                'code' => $resp['code'],
+            ],
+                 $resp['message']
             );
 
         } catch (\Throwable $e) {
@@ -80,10 +86,33 @@ class AuthController extends Controller
         }
     }
 
-    public function smsVerify()
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function smsVerify(Request $request)
     {
-        $phone = "+37496574750";
-        $url = '';
+        $data = $request->all();
+        $phone = $data['country_code'] . $data['phone'];
+        $userId = $data['user_id'];
+
+
+        try {
+            $resp = $this->authServices->smsVerify($userId, $phone, 'test');
+
+            return $this->response->success([
+                'code' => $resp['code'],
+            ],
+                $resp['message']
+            );
+
+        } catch (\Throwable $e) {
+//            dd($e->getMessage());
+            return $this->response->badRequest([], $e->getMessage());
+        }
+
+
+//        $url = '';
 //        $sendData = [
 //            "messages" => [
 //                "template" =>,
@@ -109,6 +138,30 @@ class AuthController extends Controller
         //]
         //}
     }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function checkCode(Request $request)
+    {
+        $data = $request->all();
+        $phone = $data['country_code'] . $data['phone'];
+        $code = $data['code'];
+
+        try {
+            $resp = $this->authServices->checkCode($phone, $code);
+
+
+            return response()->json(['message' => $resp['message']], $resp['status']);
+
+        } catch (\Throwable $e) {
+//            dd($e->getMessage());
+            return $this->response->badRequest([], $e->getMessage());
+        }
+    }
+
+
 
 
     /**
@@ -173,6 +226,16 @@ class AuthController extends Controller
 //            dd($e->getMessage(), $e->getLine());
             return $this->response->badRequest([], $e->getMessage(), 400);
         }
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getUser()
+    {
+         return response()->json([
+             'user' => Auth::user()
+         ]);
     }
 }
 
