@@ -51,15 +51,15 @@
                                 <ul class="list-group list-group-unbordered mb-3">
                                     <li class="list-group-item">
                                         <b>Համար՝</b>
-                                        <p class="float-right">{{ $user->number }}</p>
+                                        <p class="float-right">{{ \Illuminate\Support\Facades\Crypt::decrypt($user->number) }}</p>
                                     </li>
                                     <li class="list-group-item">
                                         <b>Անձնագրի համար՝</b>
-                                        <p class="float-right">{{ $user->passport }}</p>
+                                        <p class="float-right">{{ $user->passport ?? '' }}</p>
                                     </li>
                                     <li class="list-group-item">
                                         <b>Սոցքարտի համար՝</b>
-                                        <p class="float-right">{{ $user->soc_number }}</p>
+                                        <p class="float-right">{{ \Illuminate\Support\Facades\Crypt::decrypt($user->soc_number) }}</p>
                                     </li>
                                     <li class="list-group-item">
                                         <b>Էլ. հասցե՝</b> <a href="mailto:{{ $user->email }}"

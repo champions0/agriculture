@@ -24,6 +24,19 @@ class CryptServices
         ]);
     }
 
+    /**
+     * @param $content
+     * @return string
+     */
+    public function encrypt($content)
+    {
+        return Crypt::encrypt($content);
+    }
+
+    /**
+     * @param $hash
+     * @return mixed
+     */
     public function decrypt($hash)
     {
         return Crypt::decrypt($hash);
