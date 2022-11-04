@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginRequest;
+use App\Http\Requests\Api\UserRegistrationStep1Request;
+use App\Http\Requests\Api\UserRegistrationStep2Request;
 use App\Http\Requests\UserCreateRequest;
 use App\Models\Image;
+use App\Models\SmsVerification;
 use App\Models\User;
 use App\Repositories\Api\ResponseRepository;
 use App\Services\Api\AuthServices;
@@ -70,22 +73,36 @@ class AuthController extends Controller
     }
 
     /**
-     * @param UserCreateRequest $request
+     * @param UserRegistrationStep1Request $request
      * @return JsonResponse
      */
-    public function register(UserCreateRequest $request)
+    public function registerStep1(UserRegistrationStep1Request $request)
     {
         $data = $request->validated();
-        try {
-            $user = $this->authServices->register($data);
-            $resp = $this->authServices->smsVerify($user['id'],$data['country_code'] . $data['phone'], 'test');
+        $phone = $data['country_code'] . $data['phone'];
 
+
+        $phoneVerify = SmsVerification::where('phone', $phone)->where('status', 1)->first();
+        try {
+
+            if (empty($phoneVerify) || $phoneVerify == null) {
+                $message = 'Հեռախոսահամարը հաստատված չէ';
+                return $this->response->badRequest([], $message);
+            }
+            DB::beginTransaction();
+
+            $user = $this->authServices->registerStep1($data);
+
+            $phoneVerify->user_id = $user->id;
+            $phoneVerify->save();
+            DB::commit();
+//            $resp = $this->authServices->smsVerify($user['id'], $data['country_code'] . $data['phone'], 'test');
 
             return $this->response->success([
-                'user' => $user,
-                'code' => $resp['code'],
-            ],
-                 $resp['message']
+                    'user' => $user,
+//                'code' => $resp['code'],
+                ]
+//                $resp['message']
             );
 
         } catch (\Throwable $e) {
@@ -95,6 +112,54 @@ class AuthController extends Controller
     }
 
     /**
+     * @param UserRegistrationStep2Request $request
+     * @return JsonResponse
+     */
+    public function registerStep2(UserRegistrationStep2Request $request)
+    {
+        $data = $request->validated();
+        $userId = $data['user_id'];
+
+        try {
+
+            $user = $this->authServices->registerStep2($userId, $data);
+
+            return $this->response->success([
+                    'user' => $user,
+                ]
+            );
+
+        } catch (\Throwable $e) {
+//            dd($e->getMessage());
+            return $this->response->badRequest([], $e->getMessage());
+        }
+    }
+    /**
+     * @param UserCreateRequest $request
+     * @return JsonResponse
+     */
+//    public function register(UserCreateRequest $request)
+//    {
+//        $data = $request->validated();
+//        try {
+//            $user = $this->authServices->register($data);
+//            $resp = $this->authServices->smsVerify($user['id'], $data['country_code'] . $data['phone'], 'test');
+//
+//
+//            return $this->response->success([
+//                'user' => $user,
+//                'code' => $resp['code'],
+//            ],
+//                $resp['message']
+//            );
+//
+//        } catch (\Throwable $e) {
+////            dd($e->getMessage());
+//            return $this->response->badRequest([], $e->getMessage());
+//        }
+//    }
+
+    /**
      * @param Request $request
      * @return JsonResponse
      */
@@ -102,8 +167,7 @@ class AuthController extends Controller
     {
         $data = $request->all();
         $phone = $data['country_code'] . $data['phone'];
-        $userId = $data['user_id'];
-
+        $userId = $data['user_id'] ?? null;
 
         try {
             $resp = $this->authServices->smsVerify($userId, $phone, 'test');
@@ -184,7 +248,8 @@ class AuthController extends Controller
     {
         $data = $request->validated();
         $user = User::query()
-            ->where('email', $data['email'])
+            ->where('country_code', $data['country_code'])
+            ->where('phone', $data['phone'])
             ->first();
 
         try {
@@ -211,9 +276,9 @@ class AuthController extends Controller
      */
     public function getUser()
     {
-         return response()->json([
-             'user' => Auth::user()
-         ]);
+        return response()->json([
+            'user' => Auth::user()
+        ]);
     }
 }
 

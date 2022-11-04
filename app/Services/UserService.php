@@ -31,4 +31,14 @@ class UserService
     public function create(array $data){
         return $this->userRepository->createUser($data);
     }
+
+    /**
+     * @param $userId
+     * @param array $data
+     * @return mixed
+     */
+    public function update($userId, array $data)
+    {
+        return $this->userRepository->updateUser($userId, $data);
+    }
 }

@@ -78,35 +78,60 @@ class AuthServices
      * @param $data
      * @return array
      */
-    public function register($data)
-    {
-        $data['number'] = $this->cryptServices->encrypt(mt_rand(1000000, 9999999));
-        $data['soc_number'] = $this->cryptServices->encrypt($data['soc_number']);
+    public function registerStep1($data){
+        $data['sms_verified_at'] = now();
         $data['password'] = Hash::make($data['password']);
-        DB::beginTransaction();
-        $user = $this->userService->create($data);
-//        $emailData['hash'] = $this->cryptServices->getResetPasswordHash($user);
-//        $emailData['user'] = $user;
 
-        if(isset($data['avatar'])){
-            $imageFileName = rand(1000000, 99999999999) . Str::slug($data['avatar']->getClientOriginalName(), '.');
-            $path = $this->fileServices->savePhoto(500, $data['avatar'], 'avatars/' . $user['id'], $imageFileName);
-            $user->update([
-                'avatar' => $path // '/storage/' . $path
-            ]);
-//                Image::create([
-//                    'path' => $path,
-//                    'type' => 'avatar',
-//                    'imageable_type' => User::class,
-//                    'imageable_id' => $user['id'],
-//                ]);
-
+        if(empty($data['email']) || $data['email'] == null){
+            $data['email'] = $data['country_code']. $data['phone'];
         }
-        DB::commit();
-//        $this->emailServices->sendEmail($user, 'emails.registrationVerify', $emailData, config('constants.email_type.registrationVerify'));
-
-        return $user;
+        return $this->userService->create($data);
     }
+
+    /**
+     * @param $userId
+     * @param $data
+     * @return mixed
+     */
+    public function registerStep2($userId, $data)
+    {
+        $data['soc_number'] = $this->cryptServices->encrypt($data['soc_number']);
+        return $this->userService->update($userId, $data);
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+//    public function register($data)
+//    {
+//        $data['number'] = $this->cryptServices->encrypt(mt_rand(1000000, 9999999));
+//        $data['soc_number'] = $this->cryptServices->encrypt($data['soc_number']);
+//        $data['password'] = Hash::make($data['password']);
+//        DB::beginTransaction();
+//        $user = $this->userService->create($data);
+////        $emailData['hash'] = $this->cryptServices->getResetPasswordHash($user);
+////        $emailData['user'] = $user;
+//
+//        if(isset($data['avatar'])){
+//            $imageFileName = rand(1000000, 99999999999) . Str::slug($data['avatar']->getClientOriginalName(), '.');
+//            $path = $this->fileServices->savePhoto(500, $data['avatar'], 'avatars/' . $user['id'], $imageFileName);
+//            $user->update([
+//                'avatar' => $path // '/storage/' . $path
+//            ]);
+////                Image::create([
+////                    'path' => $path,
+////                    'type' => 'avatar',
+////                    'imageable_type' => User::class,
+////                    'imageable_id' => $user['id'],
+////                ]);
+//
+//        }
+//        DB::commit();
+////        $this->emailServices->sendEmail($user, 'emails.registrationVerify', $emailData, config('constants.email_type.registrationVerify'));
+//
+//        return $user;
+//    }
 
     /**
      * @param $data
@@ -124,7 +149,7 @@ class AuthServices
         if (!Hash::check($data['password'], $user->password)) {
             throw new Exception('Տվյալները չեն համընկնում', 403);
         }
-        return $this->proxyRequestServices->grantPasswordToken($data['email'], $data['password']);
+        return $this->proxyRequestServices->grantPasswordToken($user['email'], $data['password']);
     }
 
     /**
@@ -183,9 +208,9 @@ class AuthServices
 //        status = 1 is success
         if(isset($smsVerify) && $smsVerify->code == $code){
 
-            $smsVerify->user->update([
-                'sms_verified_at' => now()
-            ]);
+//            $smsVerify->user->update([
+//                'sms_verified_at' => now()
+//            ]);
             $smsVerify->status = 1;
             $smsVerify->save();
             return $resp;
