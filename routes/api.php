@@ -17,7 +17,10 @@ use App\Http\Controllers\Api\FastQuestionController;
 */
 
 Route::middleware('guest')->group(function () {
-    Route::post('register', [AuthController::class, 'register'])->name('oauth.register');
+    Route::post('register-step1', [AuthController::class, 'registerStep1'])->name('oauth.register-step1');
+    Route::post('register-step2', [AuthController::class, 'registerStep2'])->name('oauth.register-step2');
+
+//    Route::post('register', [AuthController::class, 'register'])->name('oauth.register');
     Route::post('sms-verify', [AuthController::class, 'smsVerify'])->name('sms-verify');
     Route::post('check-code', [AuthController::class, 'checkCode'])->name('check-code');
     Route::get('/emailVerify', [AuthController::class, 'emailVerify'])->name('emailVerify');

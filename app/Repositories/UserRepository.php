@@ -32,4 +32,16 @@ class UserRepository
 
         return User::create($data);
     }
+
+    /**
+     * @param $userId
+     * @param array $data
+     * @return mixed
+     */
+    public function updateUser($userId, array $data)
+    {
+        $user = User::find($userId);
+        $user->update($data);
+        return $user;
+    }
 }

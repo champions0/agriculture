@@ -15,7 +15,7 @@ class CreateSmsVerificationsTable extends Migration
     {
         Schema::create('sms_verifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('code');
             $table->string('phone');
             $table->tinyInteger('status');

@@ -63,6 +63,11 @@ class User extends Authenticatable
         return $this->hasMany(Report::class, 'user_id', 'id');
     }
 
+//    public function sms_verifications()
+//    {
+//        return $this->belongsTo(SmsVerification::class, 'user_id', 'id');
+//    }
+
 //    public function image()
 //    {
 //        return $this->morphOne(Image::class, 'imageable');
