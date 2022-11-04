@@ -78,12 +78,13 @@ class AuthServices
      * @param $data
      * @return array
      */
-    public function registerStep1($data){
+    public function registerStep1($data)
+    {
         $data['sms_verified_at'] = now();
         $data['password'] = Hash::make($data['password']);
 
-        if(empty($data['email']) || $data['email'] == null){
-            $data['email'] = $data['country_code']. $data['phone'];
+        if (empty($data['email']) || $data['email'] == null) {
+            $data['email'] = $data['country_code'] . $data['phone'];
         }
         return $this->userService->create($data);
     }
@@ -143,9 +144,9 @@ class AuthServices
         if (!$user) {
             throw new Exception('Օգտատերը չի գտնվել', 403);
         }
-            if (empty($user->sms_verified_at) || $user->sms_verified_at == null) {
-                throw new Exception('Հոռախոսահամարը նույնականացված չէ', 403);
-            }
+        if (empty($user->sms_verified_at) || $user->sms_verified_at == null) {
+            throw new Exception('Հոռախոսահամարը նույնականացված չէ', 403);
+        }
         if (!Hash::check($data['password'], $user->password)) {
             throw new Exception('Տվյալները չեն համընկնում', 403);
         }
@@ -166,12 +167,12 @@ class AuthServices
 
         $smsVerify = SmsVerification::where('phone', $phone)->first();
 
-        if(isset($smsVerify)){
+        if (isset($smsVerify)) {
 //            if($smsVerify->status == 1){
 //                $resp['code']
 //                return $resp;
 //            }
-            if($smsVerify->count >= 3){
+            if ($smsVerify->count >= 3) {
                 $resp['code'] = null;
                 $resp['message'] = "Սպասեք 1 րոպե նոր հաղորդագրություն պատվիռելու համար";
                 return $resp;
@@ -181,7 +182,7 @@ class AuthServices
 
         SmsVerification::updateOrCreate([
             'phone' => $phone,
-        ],[
+        ], [
             'user_id' => $userId,
             'code' => $resp['code'],
             'status' => 0,
@@ -206,7 +207,7 @@ class AuthServices
         $smsVerify = SmsVerification::where('phone', $phone)->first();
 
 //        status = 1 is success
-        if(isset($smsVerify) && $smsVerify->code == $code){
+        if (isset($smsVerify) && $smsVerify->code == $code) {
 
 //            $smsVerify->user->update([
 //                'sms_verified_at' => now()
