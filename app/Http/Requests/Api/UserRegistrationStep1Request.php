@@ -29,7 +29,7 @@ class UserRegistrationStep1Request extends FormRequest
             'surname' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
             'country_code' => ['required', 'string', 'max:10'],
-            'phone' => ['required', 'string', 'max:20'],
+            'phone' => ['required', 'string', 'max:20','unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ];
     }
