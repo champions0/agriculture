@@ -127,7 +127,7 @@ return [
     'starts_with' => ':attribute-ը պետք է սկսվի հետևյալներից մեկով. :values.',
     'string' => 'Դաշտը պետք է լինի տող.',
     'timezone' => ':attribute-ը պետք է լինի վավեր ժամային գոտի.',
-    'unique' => ':attribute-ն արդեն վերցված է.',
+    'unique' => 'Նման տվյալով օգտատեր արդեն արդեն գոյություն ունի',
     'uploaded' => ':attribute-ը չհաջողվեց վերբեռնել.',
     'url' => ':attribute-ը պետք է վավեր URL լինի.',
     'uuid' => ':attribute-ը պետք է լինի վավեր UUID.',
