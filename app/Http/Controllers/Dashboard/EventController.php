@@ -3,18 +3,44 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
+use App\Services\FilterServices;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var FilterServices
      */
-    public function index()
+    private $filterServices;
+
+    /**
+     * @param FilterServices $filterServices
+     */
+    public function __construct(FilterServices $filterServices)
     {
-        //
+        $this->filterServices = $filterServices;
+    }
+
+    /**
+     * @param Request $request
+     * @return Application|Factory|View
+     */
+    public function index(Request $request)
+    {
+        $data = $request->all();
+        $events = Event::query();
+
+//        filter service
+        $events = $this->filterServices->event($events, $data);
+
+        $events = $events
+            ->orderByDesc('id')
+            ->paginate(config('constants.per_page'));
+        return view('dashboard.events.index', compact('events'));
     }
 
     /**

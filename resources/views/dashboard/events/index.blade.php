@@ -46,7 +46,9 @@
                                             </div>
                                         </div>
                                     </form>
-
+                                    <div class="box-tools" style="margin-top: 20px; ">
+                                        <a href="{{route('events.create')}}" class="btn btn-primary">Ավելացնել միջոցառում</a>
+                                    </div>
                                 </div>
                             </div>
                             <!-- /.card-header -->
@@ -55,26 +57,30 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Համար</th>
-                                        <th>Անուն</th>
-                                        <th>Էլ․ հասցե</th>
-                                        <th>Ծննդյան ամսաթիվ</th>
-                                        <th>Դեր</th>
+                                        <th>Վերնագիռ</th>
+                                        <th>Թեմա</th>
+                                        <th>Տարիք</th>
+                                        <th>Սեռ</th>
+                                        <th>Կազմակերպիչ</th>
+                                        <th>Սկիզբ</th>
+                                        <th>Ավարտ</th>
                                         <th>Կարգավիճակ</th>
                                         <th>Ավելացվել է</th>
-{{--                                        <th>Գործողություններ</th>--}}
+                                        <th>Գործողություններ</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($users as $user)
+                                    @foreach($events as $event)
                                         <tr>
-                                            <td>{{ $user->id }}</td>
-                                            <td>{{ $user->number }}</td>
-                                            <td>{{ $user->first_name . ' ' . $user->last_nam . ' ' . $user->surname }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->birth_date }}</td>
-                                            <td>{{ $user->role }}</td>
-                                            @if($user->status == 1)
+                                            <td>{{ $event->id }}</td>
+                                            <td>{{ $event->title }}</td>
+                                            <td>{{ $event->subject->name ?? '' }}</td>
+                                            <td>{{ $event->age }}</td>
+                                            <td>{{ $event->gender }}</td>
+                                            <td>{{ $event->organizer }}</td>
+                                            <td>{{ $event->start_date }}</td>
+                                            <td>{{ $event->end_date }}</td>
+                                            @if($event->status == 1)
                                                 <td>
                                                     <i class="text-success">Ակտիվ</i>
                                                 </td>
@@ -83,27 +89,27 @@
                                                     <i class="text-danger">Պասիվ</i>
                                                 </td>
                                             @endif
-                                            <td>{{ $user->created_at }}</td>
-{{--                                            <td>--}}
-{{--                                                <a href="{{ route('users.edit', $user->id) }}" class="btn" title="Edit details">--}}
-{{--                                                    <i class="text-success nav-icon fas fa-edit"></i>--}}
-{{--                                                </a>--}}
+                                            <td>{{ $event->created_at }}</td>
+                                            <td>
+                                                <a href="{{ route('users.edit', $user->id) }}" class="btn" title="Edit details">
+                                                    <i class="text-success nav-icon fas fa-edit"></i>
+                                                </a>
 
-{{--                                                <form action="{{ route('users.destroy', $user->id) }}" method="POST"--}}
-{{--                                                      style="display: none"--}}
-{{--                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել օգտատիրոջը?')">--}}
-{{--                                                    @csrf--}}
-{{--                                                    @method('DELETE')--}}
-{{--                                                </form>--}}
-{{--                                                <a href="#" onclick="$(this).prev().submit()" title="Delete">--}}
-{{--                                                    <i class="text-danger nav-icon fas fa-trash"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </td>--}}
+                                                <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                                      style="display: none"
+                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել օգտատիրոջը?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                                <a href="#" onclick="$(this).prev().submit()" title="Delete">
+                                                    <i class="text-danger nav-icon fas fa-trash"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
-                                {!! $users->links() !!}
+                                {!! $events->links() !!}
                             </div>
                             <!-- /.card-body -->
                         </div>
