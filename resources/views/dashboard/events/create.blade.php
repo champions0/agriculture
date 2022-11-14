@@ -30,8 +30,10 @@
                                 </div>
 
                                 <form
-                                    action="{{ route('events.create') }}"
-                                    method="POST">
+                                    action="{{ route('events.store') }}"
+                                    method="POST"
+                                    enctype="multipart/form-data"
+                                >
                                     @csrf
 
                                     @include('dashboard.events.includes.form', compact('residences', 'subjects'))

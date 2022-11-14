@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Event;
 use App\Models\EventResidence;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
@@ -36,16 +37,18 @@ class EventServices
             'age' => $data['age'],
             'gender' => $data['gender'],
             'organizer' => $data['organizer'],
-            'start_date' => date('Y-m-d H:i:s', $data['start_date']),
-            'end_date' => date('Y-m-d H:i:s', $data['end_date']),
+            'start_date' => date('Y-m-d H:i:s', strtotime($data['start_date'])),
+            'end_date' => date('Y-m-d H:i:s', strtotime($data['end_date'])),
             'address' => $data['address'],
             'additional_info' => $data['additional_info'],
+            'status' => $data['status']
         ]);
 
+//        dd($data['residences']);
         foreach ($data['residences'] as $residence){
             EventResidence::create([
                 'event_id' => $event->id,
-                'residence' => $residence
+                'residence_id' => $residence
             ]);
         }
 
@@ -55,16 +58,56 @@ class EventServices
             $event->update([
                 'wallpaper' => $path // '/storage/' . $path
             ]);
-//                Image::create([
-//                    'path' => $path,
-//                    'type' => 'avatar',
-//                    'imageable_type' => User::class,
-//                    'imageable_id' => $user['id'],
-//                ]);
-
         }
 
         DB::commit();
+    }
+
+    public function update($event, $data)
+    {
+        DB::beginTransaction();
+        $event->update([
+            'title' => $data['title'],
+            'subject_id' => $data['subject_id'],
+            'short_description' => $data['short_description'],
+            'age' => $data['age'],
+            'gender' => $data['gender'],
+            'organizer' => $data['organizer'],
+            'start_date' => date('Y-m-d H:i:s', strtotime($data['start_date'])),
+            'end_date' => date('Y-m-d H:i:s', strtotime($data['end_date'])),
+            'address' => $data['address'],
+            'additional_info' => $data['additional_info'],
+            'status' => $data['status']
+        ]);
+
+        if (isset($data['wallpaper'])) {
+            if(isset($event->wallpaper)){
+                Storage::delete('public/' . $event->wallpaper);
+
+            }
+            $imageFileName = rand(1000000, 99999999999) . Str::slug($data['wallpaper']->getClientOriginalName(), '.');
+            $path = $this->fileServices->savePhoto(500, $data['wallpaper'], 'wallpaper/' . $event['id'], $imageFileName);
+            $event->update([
+                'wallpaper' => $path // '/storage/' . $path
+            ]);
+        }
+
+        if(count($data['residences'])){
+            foreach ($event->residences as $item){
+                $item->delete();
+            }
+
+
+            foreach ($data['residences'] as $residence){
+                EventResidence::create([
+                    'event_id' => $event->id,
+                    'residence_id' => $residence
+                ]);
+            }
+        }
+
+        DB::commit();
+
     }
 
 }

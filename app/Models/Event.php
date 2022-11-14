@@ -10,6 +10,10 @@ class Event extends Model
 {
     use HasFactory;
 
+    const INACTIVE = 0;
+    const ACTIVE = 1;
+    const CANCELED = 2;
+
     protected $fillable = [
         'title',
         'subject_id',
@@ -22,10 +26,18 @@ class Event extends Model
         'end_date',
         'address',
         'additional_info',
+        'status',
     ];
+
+
 
     public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class);
+    }
+
+    public function residences()
+    {
+        return $this->hasMany(EventResidence::class);
     }
 }

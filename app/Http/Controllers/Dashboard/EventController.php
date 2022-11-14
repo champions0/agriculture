@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\EventCreateRequest;
 use App\Models\Event;
 use App\Models\Residence;
 use App\Models\Subject;
@@ -75,62 +76,70 @@ class EventController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param EventCreateRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(EventCreateRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
 
         $this->eventServices->create($data);
 
-
+        return redirect()->route('events.index');
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return Application|Factory|View
      */
     public function show($id)
     {
-        //
+        $event = Event::with('residences.residence')
+            ->where('id', $id)
+            ->first();
+        return view('dashboard.events.show', compact('event'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return Application|Factory|View
      */
     public function edit($id)
     {
-        //
+        $event = Event::find($id);
+        $residences = Residence::query()->pluck('name', 'id');
+        $eventResidences = [];
+        foreach ($event->residences as $item){
+            $eventResidences[] = $item->residence_id;
+        }
+//            $event->residences()->pluck('residence_id');
+        $subjects = Subject::query()->pluck('name', 'id');
+        return view('dashboard.events.edit', compact('event', 'residences', 'subjects', 'eventResidences'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+//        dd($data);
+        $event = Event::find($id);
+        $this->eventServices->update($event, $data);
+
+        return redirect()->route('events.index');
+
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return RedirectResponse
      */
     public function destroy($id)
     {
-        //
+        Event::destroy($id);
+        return redirect()->route('events.index');
     }
 }
