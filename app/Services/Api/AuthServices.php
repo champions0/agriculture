@@ -172,11 +172,11 @@ class AuthServices
 //                $resp['code']
 //                return $resp;
 //            }
-            if ($smsVerify->count >= 3) {
-                $resp['code'] = null;
-                $resp['message'] = "Սպասեք 1 րոպե նոր հաղորդագրություն պատվիռելու համար";
-                return $resp;
-            }
+//            if ($smsVerify->count >= 3) {
+//                $resp['code'] = null;
+//                $resp['message'] = "Սպասեք 1 րոպե նոր հաղորդագրություն պատվիռելու համար";
+//                return $resp;
+//            }
             $count = $smsVerify->count += 1;
         }
 
