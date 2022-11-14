@@ -109,13 +109,30 @@ class FilterServices
     public function event($query, $data){
         if (isset($data['search']) && $data['search'] !== null) {
             $query = $query->where(function ($q) use ($data) {
-                $q->where('number', $data['search'])
-                    ->orWhere('id', $data['search'])
-                    ->orWhereHas('category', function ($query) use ($data) {
-                        $query->where('name', $data['search']);
-                    });
+                $q->where('title', 'like', '%' . $data['search'] . '%')
+                    ->orWhere('organizer', 'like', '%' . $data['search'] . '%')
+                    ->orWhere('id', $data['search']);
             });
         }
+
+        if (isset($data['status']) && $data['status'] !== null) {
+            $query = $query->where('status', $data['status']);
+        }
+
+        if (isset($data['start_date']) && $data['start_date'] !== null) {
+            $startDate = str_replace('T', ' ', $data['start_date']);
+            $endDate = now();
+            if (isset($data['end_date']) && $data['end_date'] !== null) {
+                $endDate = $data['end_date'];
+            }
+
+//            dd(date('Y-m-d H:i:s', strtotime($startDate)));
+
+
+            $query = $query
+                ->whereBetween('created_at', [date('Y-m-d H:i:s', strtotime($startDate)), date('Y-m-d H:i:s', strtotime($endDate))]);
+        }
+
         return $query;
     }
 }

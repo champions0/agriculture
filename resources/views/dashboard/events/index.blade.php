@@ -30,11 +30,17 @@
 
                                 <div class="card-tools">
                                     <form action="{{ route('events.index') }}" method="GET">
-                                        <div class="input-group input-group-sm" style="width: 450px;">
+                                        <div class="input-group input-group-sm" style="width: 300px;">
+{{--                                            <input type="date" class="form-control " name="start_date"--}}
+{{--                                                   value="{{ isset($_GET['start_date']) ? str_replace(' ', 'T', $_GET['start_date']) : '' }}">--}}
+{{--                                            <input type="date" class="form-control " name="end_date"--}}
+{{--                                                   value="{{ isset($_GET['end_date']) ? str_replace(' ', 'T', $_GET['end_date']) : '' }}">--}}
+
                                             <select name="status" class="custom-select form-control-borde">
                                                 <option value="" selected>Կարգավիճակ</option>
-                                                <option value="1" {{ isset($_GET['status']) && $_GET['status'] == '1' ? 'selected' : '' }}>Ակտիվ</option>
-                                                <option value="0" {{ isset($_GET['status']) && $_GET['status'] == '0' ? 'selected' : '' }}>Պասիվ</option>
+                                                <option value="{{ \App\Models\Event::ACTIVE }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\Event::ACTIVE ? 'selected' : '' }}>Ակտիվ</option>
+                                                <option value="{{ \App\Models\Event::INACTIVE }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\Event::INACTIVE ? 'selected' : '' }}>Պասիվ</option>
+                                                <option value="{{ \App\Models\Event::CANCELED }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\Event::CANCELED ? 'selected' : '' }}>Ավարտված</option>
                                             </select>
                                             <input type="text" name="search" class="form-control float-right"
                                                    placeholder="Փնտրել" value="{{ $_GET['search'] ?? '' }}">
@@ -46,7 +52,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div class="box-tools" style="margin-top: 20px; ">
+                                    <div class="box-tools mr-0" style="margin-top: 20px; float: right">
                                         <a href="{{route('events.create')}}" class="btn btn-primary">Ավելացնել միջոցառում</a>
                                     </div>
                                 </div>
@@ -84,6 +90,10 @@
                                                 <td>
                                                     <i class="text-success">Ակտիվ</i>
                                                 </td>
+                                            @elseif($event->status == 2)
+                                                <td>
+                                                    <i class="text-warning">Ավարտված</i>
+                                                </td>
                                             @else
                                                 <td>
                                                     <i class="text-danger">Պասիվ</i>
@@ -103,6 +113,10 @@
                                                 </form>
                                                 <a href="#" onclick="$(this).prev().submit()" title="Delete">
                                                     <i class="text-danger nav-icon fas fa-trash"></i>
+                                                </a>
+                                                <a href="{{ route('events.show', $event->id) }}" class="btn"
+                                                   title="Show details">
+                                                    <i class="text-success nav-icon fas fa-eye"></i>
                                                 </a>
                                             </td>
                                         </tr>

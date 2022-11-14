@@ -15,4 +15,9 @@ class EventResidence extends Model
         'event_id',
         'residence_id'
     ];
+
+    public function residence()
+    {
+        return $this->hasOne(Residence::class, 'id', 'residence_id');
+    }
 }
