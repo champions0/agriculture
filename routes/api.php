@@ -25,6 +25,10 @@ Route::middleware('guest')->group(function () {
 //    Route::post('register', [AuthController::class, 'register'])->name('oauth.register');
     Route::get('/emailVerify', [AuthController::class, 'emailVerify'])->name('emailVerify');
     Route::post('login', [AuthController::class, 'login'])->name('login');
+
+    Route::get('get-residences', [AuthController::class, 'getResidences'])->name('get-residences');
+    Route::get('get-subjects', [AuthController::class, 'getSubjects'])->name('get-subjects');
+
 });
 
 Route::middleware(['auth:api'])->group(function () {

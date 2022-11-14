@@ -8,7 +8,9 @@ use App\Http\Requests\Api\UserRegistrationStep1Request;
 use App\Http\Requests\Api\UserRegistrationStep2Request;
 use App\Http\Requests\UserCreateRequest;
 use App\Models\Image;
+use App\Models\Residence;
 use App\Models\SmsVerification;
+use App\Models\Subject;
 use App\Models\User;
 use App\Repositories\Api\ResponseRepository;
 use App\Services\Api\AuthServices;
@@ -278,6 +280,22 @@ class AuthController extends Controller
     {
         return response()->json([
             'user' => Auth::user()
+        ]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getResidences()
+    {
+        return response()->json([
+            'residences' => Residence::query()->pluck('name', 'id')
+        ]);
+    }
+    public function getSubjects()
+    {
+        return response()->json([
+            'subjects' => Subject::query()->pluck('name', 'id')
         ]);
     }
 }
