@@ -21,6 +21,7 @@ class Event extends Model
         'start_date',
         'end_date',
         'address',
+        'additional_info',
     ];
 
     public function subject(): BelongsTo

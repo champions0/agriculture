@@ -23,6 +23,7 @@ class User extends Authenticatable
         'soc_number',
         'passport',
         'email',
+        'user_name',
         'country_code',
         'phone',
         'region',

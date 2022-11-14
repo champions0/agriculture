@@ -28,6 +28,7 @@ class UserRegistrationStep1Request extends FormRequest
             'last_name' => ['required', 'string', 'max:255'],
             'surname' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
+//            'user_name' => ['nullable', 'string', 'max:191', 'unique:users'],
             'country_code' => ['required', 'string', 'max:10'],
             'phone' => ['required', 'string', 'max:20','unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],

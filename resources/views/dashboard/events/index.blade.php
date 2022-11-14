@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Օգտատերերի ցուցակ</h1>
+                        <h1>Միջոցառումների ցուցակ</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Գլխավոր</a></li>
-                            <li class="breadcrumb-item active">Օգտատերերի ցուցակ</li>
+                            <li class="breadcrumb-item active">Միջոցառումների ցուցակ</li>
                         </ol>
                     </div>
                 </div>
@@ -26,10 +26,10 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Օգտատերեր</h3>
+                                <h3 class="card-title">Միջոցառումներ</h3>
 
                                 <div class="card-tools">
-                                    <form action="{{ route('users.index') }}" method="GET">
+                                    <form action="{{ route('events.index') }}" method="GET">
                                         <div class="input-group input-group-sm" style="width: 450px;">
                                             <select name="status" class="custom-select form-control-borde">
                                                 <option value="" selected>Կարգավիճակ</option>
@@ -91,13 +91,13 @@
                                             @endif
                                             <td>{{ $event->created_at }}</td>
                                             <td>
-                                                <a href="{{ route('users.edit', $user->id) }}" class="btn" title="Edit details">
+                                                <a href="{{ route('events.edit', $event->id) }}" class="btn" title="Edit details">
                                                     <i class="text-success nav-icon fas fa-edit"></i>
                                                 </a>
 
-                                                <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                                <form action="{{ route('events.destroy', $event->id) }}" method="POST"
                                                       style="display: none"
-                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել օգտատիրոջը?')">
+                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել միջոցառումը?')">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
