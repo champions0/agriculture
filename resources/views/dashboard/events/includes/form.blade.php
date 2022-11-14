@@ -1,134 +1,126 @@
-<div class="card-body row">
-    <div class="form-group col-lg-4">
-        <label for="exampleInputEmail1">Naziv</label>
-        <input type="text" class="form-control" name="name" value="{{ $user->name ?? old('name') }}"
-            placeholder="Enter name">
-        @error('name')
-            <div class="error text-danger">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="form-group col-lg-4">
-        <label for="exampleInputEmail1">Email</label>
-        <input type="email" class="form-control" name="email" value="{{ $user->email ?? old('email') }}"
-            placeholder="Enter email">
-        @error('email')
-            <div class="error text-danger">{{ $message }}</div>
-        @enderror
-    </div>
-    {{-- <div class="form-group col-lg-4">
-        <label for="exampleInputPassword1">Role</label>
-        <select name="role_id" class="custom-select form-control-borde">
-            <option value="" selected>Role</option>
-            @foreach ($roles as $role)
-                <option value="{{ $role->id }}" @if (($user && $user->role_id && $user->role_id == $role->id) || old('role_id') == $role->id) selected @endif>
-                    {{ $role->name }}</option>
-            @endforeach
-        </select>
-        @error('role_id')
-            <div class="error text-danger">{{ $message }}</div>
-        @enderror
-    </div> --}}
-{{-- {{dd($user->customer->subjekt)}} --}}
-    <div class="form-group col-lg-4">
-        <label for="">Paket</label>
-        <select name="package_id" class="custom-select form-control-borde">
-            <option value="" selected>Packages</option>
-            @if($user->customer->subjekt==1)
-                @foreach ($packages_normal as $package)
-                    <option value="{{ $package->id }}" @if (($user &&
-                        $user->customer &&
-                        $user->customer->activePackage &&
-                        $user->customer->activePackage->paidItem->id == $package->id) ||
-                        old('package_id') == $package->id) selected @endif>
-                        {{ $package->title }}</option>
-                @endforeach
-            @else
-                @foreach ($packages_company as $package)
-                    <option value="{{ $package->id }}" @if (($user &&
-                        $user->customer &&
-                        $user->customer->activePackage &&
-                        $user->customer->activePackage->paidItem->id == $package->id) ||
-                        old('package_id') == $package->id) selected @endif>
-                        {{ $package->title }}</option>
-                @endforeach
-            @endif
-        </select>
-        @error('package_id')
-            <div class="error text-danger">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="form-group col-lg-4">
-        <label>Trajanje paketa</label>
-        <input type="datetime-local" class="form-control " name="package_duration"
-            value="{{ isset($user->customer) && isset($user->customer->activePackage) ? str_replace(' ', 'T', $user->customer->activePackage->package_duration) : '' }}">
-        @error('package_duration')
-            <div class="error text-danger">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="form-group col-lg-1">
-        <label>Code</label>
-        <select class="custom-select form-control-borde" name="country_code">
-            <option selected value="">Country Code</option>
-            <option value="385" @if (($user && $user->customer && $user->customer->country_code == '385') || old('country_code') == '385') selected @endif>
-                385
-            </option>
-            <option value="386" @if (($user && $user->customer && $user->customer->country_code == '386') || old('country_code') == '386') selected @endif>
-                386
-            </option>
-        </select>
-        @error('country_code')
-            <div class="error text-danger">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="form-group col-lg-3">
-        <label>Telefonska številka</label>
-        <input type="text" class="form-control" name="phone"
-            value="{{ isset($user->customer) && $user->customer->telefon ? $user->customer->telefon : old('phone') }}">
-        @error('phone')
-            <div class="error text-danger">{{ $message }}</div>
-        @enderror
-    </div>
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" class="form-control" name="title" value="{{ old('title') ?? ($event->title ?? '' )}}">
+                @error('title')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
 
-    <div class="form-group col-lg-4">
-        <label for="exampleInputPassword1">Regija</label>
-        <select name="regija_id" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger"
-            style="width: 100%;">
-            <option value="" selected>Regije</option>
-            @foreach ($regions as $region)
-                <option value="{{ $region->id }}" @if (($user && isset($user->customer) && $user->customer->regija_id == $region->id) ||
-                    old('regija_id') == $region->id) selected @endif>
-                    {{ $region->regija }}</option>
-            @endforeach
-        </select>
-        @error('regija_id')
-            <div class="error text-danger">{{ $message }}</div>
-        @enderror
-    </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Թեմա</label>
+                <select class="form-control" name="subject">
+                    @foreach ($subjects as $key => $subject)
+                        <option {{ old('subject') == $key ? 'selected' : (isset($event) && $event->subject_id == $key ? 'selected' : '') }} value="{{ $key }}">{{ $subject }}</option>
+                    @endforeach
+                </select>
+                @error('subject')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
 
-    <div class="form-group col-lg-4">
-        <label for="exampleInputPassword1">Naslov</label>
-        <input type="text" class="form-control" name="naslov"
-            value="{{ isset($user->customer) && $user->customer->naslov ? $user->customer->naslov : old('naslov') }}">
-        @error('naslov')
-            <div class="error text-danger">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="form-group col-lg-4">
-        <label for="exampleInputPassword1">Status</label>
-        <select name="status" class="custom-select form-control-borde">
-            <option value="1" @if (($user && $user->customer && $user->customer->status == 1) ) selected @endif>
-                Aktiven
-            </option>
-            <option value="0" @if (($user && $user->customer && $user->customer->status == 0) ) selected @endif>
-                Neaktiven
-            </option>
-        </select>
-        @error('status')
-            <div class="error text-danger">{{ $message }}</div>
-        @enderror
-        <input type="hidden" name="user_id" value="{{ $user->id }}">
-    </div>
-    
-    <input type="hidden" name="user_id" value="{{ $user->id }}">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Նկար</label>
+                <input type="file" class="form-control" name="wallpaper">
+                @error('wallpaper')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
 
-    <!-- /.card-body -->
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Տարիքային սահման</label>
+                <input type="text" class="form-control" name="age" value="{{ old('age') ?? ($event->age ?? '' )}}">
+                @error('age')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Կազմակերպիչ</label>
+                <input type="text" class="form-control" name="organizer" value="{{ old('organizer') ?? ($event->organizer ?? '' )}}">
+                @error('organizer')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Սկիզբ</label>
+                <input type="datetime-local" class="form-control " name="start_date"
+                       value="{{ old('start_date') ? str_replace(' ', 'T', old('start_date')) : (isset($event) ? str_replace(' ', 'T', $event->start_date) : '') }}">
+                @error('start_date')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Ավարտ</label>
+                <input type="datetime-local" class="form-control " name="end_date"
+                       value="{{ old('end_date') ? str_replace(' ', 'T', old('end_date')) : (isset($event) ? str_replace(' ', 'T', $event->end_date) : '') }}">
+                @error('end_date')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Հասցե</label>
+                <input type="text" class="form-control" name="address" value="{{ old('address') ?? ($event->address ?? '' )}}">
+                @error('address')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Կարճ նկարագրություն</label>
+                <textarea name="short_description" class="form-control"></textarea>
+                @error('short_description')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Այլ տեղեկություններ</label>
+                <textarea name="additional_info" class="form-control"></textarea>
+                @error('additional_info')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Սեռ</label><br>
+                <label for="male">Արական
+                    <input type="radio" id="male" value="male" name="gender" {{ old('gender') == 'male'  ? 'checked' : (isset($event) && $event->gender == 'male' ? 'checked' : '') }}">
+                </label>
+                <label for="female">Իգական
+                    <input type="radio" id="female" value="female" name="gender" {{ old('gender') == 'male'  ? 'checked' : (isset($event) && $event->gender == 'male' ? 'checked' : '') }}">
+                </label>
+                <label for="all">Բոլորը
+                    <input type="radio" id="all" value="all" name="gender" {{ old('gender') == 'male'  ? 'checked' : (isset($event) && $event->gender == 'male' ? 'checked' : '') }}">
+                </label>
+                @error('gender')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+    </div>
+</div>

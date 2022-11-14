@@ -62,6 +62,11 @@ class FilterServices
         return $query;
     }
 
+    /**
+     * @param $query
+     * @param $data
+     * @return mixed
+     */
     public function fastQuestions($query, $data)
     {
         if (isset($data['search']) && $data['search'] !== null) {
@@ -93,6 +98,24 @@ class FilterServices
                 ->whereBetween('created_at', [date('Y-m-d H:i:s', strtotime($startDate)), date('Y-m-d H:i:s', strtotime($endDate))]);
         }
 
+        return $query;
+    }
+
+    /**
+     * @param $query
+     * @param $data
+     * @return mixed
+     */
+    public function event($query, $data){
+        if (isset($data['search']) && $data['search'] !== null) {
+            $query = $query->where(function ($q) use ($data) {
+                $q->where('number', $data['search'])
+                    ->orWhere('id', $data['search'])
+                    ->orWhereHas('category', function ($query) use ($data) {
+                        $query->where('name', $data['search']);
+                    });
+            });
+        }
         return $query;
     }
 }
