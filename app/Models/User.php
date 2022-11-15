@@ -10,6 +10,10 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    const INACTIVE = 0;
+    const ACTIVE = 1;
+    const DRAFT = 2;
+
     /**
      * The attributes that are mass assignable.
      *
