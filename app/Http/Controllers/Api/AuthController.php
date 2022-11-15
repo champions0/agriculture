@@ -179,9 +179,11 @@ class AuthController extends Controller
         try {
             if($user){
                 if($user->status == User::DRAFT){
-                    return $this->response->badRequest($user, 'Գրանցումն ավարտված չէ');
+                    $resp = $this->authServices->smsVerify($userId, $phone, 'test');
+                    return $this->response->badRequest(['user' => $user, 'code' => $resp['code']], 'Գրանցումն ավարտված չէ');
+
                 }
-                return $this->response->badRequest($user, 'Այս հեռախոսահամրով օգտատեր գօըւտյուն ունի');
+                return $this->response->badRequest(['user' => $user, 'status' => 'USER_ALREADY_EXISTS'], 'Այս հեռախոսահամրով օգտատեր գոյըւտյուն ունի');
             }
 
 
