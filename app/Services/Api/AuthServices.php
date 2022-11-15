@@ -82,6 +82,7 @@ class AuthServices
     {
         $data['sms_verified_at'] = now();
         $data['password'] = Hash::make($data['password']);
+        $data['status'] = User::DRAFT;
 
         if (empty($data['email']) || $data['email'] == null) {
             $data['email'] = $data['country_code'] . $data['phone'];

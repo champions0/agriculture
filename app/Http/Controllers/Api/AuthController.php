@@ -125,6 +125,8 @@ class AuthController extends Controller
         try {
 
             $user = $this->authServices->registerStep2($userId, $data);
+            $user->status = User::ACTIVE;
+            $user->save();
 
             return $this->response->success([
                     'user' => $user,
@@ -171,7 +173,18 @@ class AuthController extends Controller
         $phone = $data['country_code'] . $data['phone'];
         $userId = $data['user_id'] ?? null;
 
+        $user = User::where('country_code', $data['country_code'])
+            ->where('phone', $data['phone'])
+            ->first();
         try {
+            if($user){
+                if($user->status == User::DRAFT){
+                    return $this->response->badRequest($user, 'Գրանցումն ավարտված չէ');
+                }
+                return $this->response->badRequest($user, 'Այս հեռախոսահամրով օգտատեր գօըւտյուն ունի');
+            }
+
+
             $resp = $this->authServices->smsVerify($userId, $phone, 'test');
 
             return $this->response->success([
