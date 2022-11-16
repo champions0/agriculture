@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginRequest;
+use App\Http\Requests\Api\ForgotPasswordRequest;
 use App\Http\Requests\Api\UserRegistrationStep1Request;
 use App\Http\Requests\Api\UserRegistrationStep2Request;
 use App\Http\Requests\UserCreateRequest;
@@ -177,13 +178,13 @@ class AuthController extends Controller
             ->where('phone', $data['phone'])
             ->first();
         try {
-            if($user){
-                if($user->status == User::DRAFT){
+            if ($user) {
+                if ($user->status == User::DRAFT) {
                     $resp = $this->authServices->smsVerify($userId, $phone, 'test');
                     return $this->response->badRequest(['user' => $user, 'code' => $resp['code']], 'Գրանցումն ավարտված չէ');
 
                 }
-                return $this->response->badRequest(['user' => $user, 'status' => 'USER_ALREADY_EXISTS'], 'Այս հեռախոսահամրով օգտատեր գոյըւտյուն ունի');
+                return $this->response->badRequest(['user' => $user, 'status' => 'USER_ALREADY_EXISTS'], 'Այս հեռախոսահամրով օգտատեր գոյություն ունի');
             }
 
 
@@ -199,6 +200,66 @@ class AuthController extends Controller
 //            dd($e->getMessage());
             return $this->response->badRequest([], $e->getMessage());
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function sendSms(Request $request)
+    {
+        $data = $request->all();
+        $phone = $data['country_code'] . $data['phone'];
+        $user = User::where('country_code', $data['country_code'])
+            ->where('phone', $data['phone'])
+            ->first();
+        try {
+            if ($user) {
+                $resp = $this->authServices->smsVerify($user->id, $phone, 'test');
+
+                return $this->response->success([
+                    'code' => $resp['code'],
+                ],
+                    $resp['message']
+                );
+            }
+            return $this->response->badRequest(['status' => 'USER_NOT_FOUND'], 'Այս հեռախոսահամրով օգտատեր գոյություն չունի');
+
+        } catch (\Throwable $e) {
+            return $this->response->badRequest([], $e->getMessage());
+        }
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+        $data = $request->validated();
+//        $phone = $data['country_code'] . $data['phone'];
+        $user = User::where('country_code', $data['country_code'])
+            ->where('phone', $data['phone'])
+            ->first();
+
+        try {
+            if($user){
+                $user->password = Hash::make($data['password']);
+                $user->save();
+
+                $resp = $this->authServices->login($data, $user);
+
+                return $this->response->success([
+                    'access_token' => $resp->access_token,
+                    'expires_in' => $resp->expires_in,
+                    'refresh_token' => $resp->refresh_token,
+                    "user" => $user,
+                ],
+                    'Դուք մուտք գործեցիք համակարգ'
+                );
+            }
+            return $this->response->badRequest(['status' => 'USER_NOT_FOUND'], 'Այս հեռախոսահամրով օգտատեր գոյություն չունի');
+
+        } catch (\Throwable $e) {
+            return $this->response->badRequest([], $e->getMessage());
+        }
+
     }
 
     /**
@@ -279,7 +340,7 @@ class AuthController extends Controller
                 'refresh_token' => $resp->refresh_token,
                 "user" => $user,
             ],
-                'You have been logged in.'
+                'Դուք մուտք գործեցիք համակարգ'
             );
 
         } catch (\Exception $e) {
@@ -307,6 +368,7 @@ class AuthController extends Controller
             'residences' => Residence::query()->pluck('name', 'id')
         ]);
     }
+
     public function getSubjects()
     {
         return response()->json([

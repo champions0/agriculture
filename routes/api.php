@@ -23,7 +23,10 @@ Route::middleware('guest')->group(function () {
     Route::post('register-step2', [AuthController::class, 'registerStep2'])->name('oauth.register-step2');
 
 //    Route::post('register', [AuthController::class, 'register'])->name('oauth.register');
-    Route::get('/emailVerify', [AuthController::class, 'emailVerify'])->name('emailVerify');
+//    Route::get('/emailVerify', [AuthController::class, 'emailVerify'])->name('emailVerify');
+
+    Route::post('send-sms', [AuthController::class, 'sendSms'])->name('sendSms');
+    Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
     Route::post('login', [AuthController::class, 'login'])->name('login');
 
     Route::get('get-residences', [AuthController::class, 'getResidences'])->name('get-residences');
