@@ -61,10 +61,10 @@
                                         <b>Սոցքարտի համար՝</b>
                                         <p class="float-right">{{ isset($user->soc_number) ? \Illuminate\Support\Facades\Crypt::decrypt($user->soc_number) : '' }}</p>
                                     </li>
-                                    <li class="list-group-item">
-                                        <b>Էլ. հասցե՝</b> <a href="mailto:{{ $user->email }}"
-                                                             class="float-right">{{ $user->email }}</a>
-                                    </li>
+{{--                                    <li class="list-group-item">--}}
+{{--                                        <b>Էլ. հասցե՝</b> <a href="mailto:{{ $user->email }}"--}}
+{{--                                                             class="float-right">{{ $user->email }}</a>--}}
+{{--                                    </li>--}}
                                     <li class="list-group-item">
                                         <b>Հեռախոսահամար՝</b> <a href="tel:{{ $user->country_code . $user->phone }}"
                                                                  class="float-right">{{ $user->country_code . $user->phone }}</a>
