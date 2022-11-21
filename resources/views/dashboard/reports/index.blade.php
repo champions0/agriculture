@@ -114,7 +114,7 @@
                                                         <p class="text-success">Հաստատված</p>
                                                     @else
                                                         <p style="cursor: pointer;" class="text-danger decline_message">
-                                                            Մերժված</p>
+                                                            Մերժված <i class="nav-icon fas fa-info-circle"></i></p>
                                                     @endif
 
                                                 @endif

@@ -139,30 +139,6 @@ class AuthController extends Controller
             return $this->response->badRequest([], $e->getMessage());
         }
     }
-    /**
-     * @param UserCreateRequest $request
-     * @return JsonResponse
-     */
-//    public function register(UserCreateRequest $request)
-//    {
-//        $data = $request->validated();
-//        try {
-//            $user = $this->authServices->register($data);
-//            $resp = $this->authServices->smsVerify($user['id'], $data['country_code'] . $data['phone'], 'test');
-//
-//
-//            return $this->response->success([
-//                'user' => $user,
-//                'code' => $resp['code'],
-//            ],
-//                $resp['message']
-//            );
-//
-//        } catch (\Throwable $e) {
-////            dd($e->getMessage());
-//            return $this->response->badRequest([], $e->getMessage());
-//        }
-//    }
 
     /**
      * @param Request $request
@@ -181,6 +157,10 @@ class AuthController extends Controller
             if ($user) {
                 if ($user->status == User::DRAFT) {
                     $resp = $this->authServices->smsVerify($userId, $phone, 'test');
+                    if($resp['status'] !== 200){
+                        return $this->response->badRequest(['user' => $user, 'code' => $resp['code'], 'sms error code' => $resp['status'] ], 'Ձեր համարին հաստատման կոդ չի ուղառկվել');
+                    }
+
                     return $this->response->badRequest(['user' => $user, 'code' => $resp['code']], 'Գրանցումն ավարտված չէ');
 
                 }
@@ -189,6 +169,7 @@ class AuthController extends Controller
 
 
             $resp = $this->authServices->smsVerify($userId, $phone, 'test');
+
 
             return $this->response->success([
                 'code' => $resp['code'],
