@@ -57,7 +57,7 @@
                                         <th>ID</th>
                                         <th>Համար</th>
                                         <th>Անուն</th>
-                                        <th>Էլ․ հասցե</th>
+{{--                                        <th>Էլ․ հասցե</th>--}}
                                         <th>Հեռախոսահամար</th>
                                         <th>Ծննդյան ամսաթիվ</th>
                                         <th>Դեր</th>
@@ -77,7 +77,7 @@
                                                     {{ $user->first_name . ' ' . $user->last_name . ' ' . $user->surname }}
                                                 </a>
                                             </td>
-                                            <td>{{ $user->email }}</td>
+{{--                                            <td>{{ $user->email }}</td>--}}
                                             <td>{{ $user->country_code . $user->phone }}</td>
                                             <td>{{ $user->birth_date }}</td>
                                             <td>{{ $user->role }}</td>

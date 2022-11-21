@@ -48,15 +48,19 @@ class AuthServices
      * @var ResponseRepository
      */
     private $response;
+    /**
+     * @var SmsServices
+     */
+    private $smsServices;
 
     /**
-     * AuthServices constructor.
      * @param UserService $userService
      * @param EmailServices $emailServices
      * @param CryptServices $cryptServices
      * @param FileServices $fileServices
      * @param ProxyRequestServices $proxyRequestServices
      * @param ResponseRepository $response
+     * @param SmsServices $smsServices
      */
     public function __construct(
         UserService $userService,
@@ -64,7 +68,8 @@ class AuthServices
         CryptServices $cryptServices,
         FileServices $fileServices,
         ProxyRequestServices $proxyRequestServices,
-        ResponseRepository $response)
+        ResponseRepository $response,
+        SmsServices $smsServices)
     {
         $this->userService = $userService;
         $this->emailServices = $emailServices;
@@ -72,6 +77,7 @@ class AuthServices
         $this->fileServices = $fileServices;
         $this->proxyRequestServices = $proxyRequestServices;
         $this->response = $response;
+        $this->smsServices = $smsServices;
     }
 
     /**
@@ -100,40 +106,6 @@ class AuthServices
         $data['soc_number'] = $this->cryptServices->encrypt($data['soc_number']);
         return $this->userService->update($userId, $data);
     }
-
-    /**
-     * @param $data
-     * @return array
-     */
-//    public function register($data)
-//    {
-//        $data['number'] = $this->cryptServices->encrypt(mt_rand(1000000, 9999999));
-//        $data['soc_number'] = $this->cryptServices->encrypt($data['soc_number']);
-//        $data['password'] = Hash::make($data['password']);
-//        DB::beginTransaction();
-//        $user = $this->userService->create($data);
-////        $emailData['hash'] = $this->cryptServices->getResetPasswordHash($user);
-////        $emailData['user'] = $user;
-//
-//        if(isset($data['avatar'])){
-//            $imageFileName = rand(1000000, 99999999999) . Str::slug($data['avatar']->getClientOriginalName(), '.');
-//            $path = $this->fileServices->savePhoto(500, $data['avatar'], 'avatars/' . $user['id'], $imageFileName);
-//            $user->update([
-//                'avatar' => $path // '/storage/' . $path
-//            ]);
-////                Image::create([
-////                    'path' => $path,
-////                    'type' => 'avatar',
-////                    'imageable_type' => User::class,
-////                    'imageable_id' => $user['id'],
-////                ]);
-//
-//        }
-//        DB::commit();
-////        $this->emailServices->sendEmail($user, 'emails.registrationVerify', $emailData, config('constants.email_type.registrationVerify'));
-//
-//        return $user;
-//    }
 
     /**
      * @param $data
@@ -166,22 +138,7 @@ class AuthServices
         $resp['code'] = rand(1000, 9999);
         $resp['message'] = 'Մուտքագրեք Ձեր համարին ուղարկված գաղտնաբառը';
 
-        $smsVerify = SmsVerification::where('phone', $phone)->first();
-
-        if (isset($smsVerify)) {
-//            if($smsVerify->status == 1){
-//                $resp['code']
-//                return $resp;
-//            }
-//            if ($smsVerify->count >= 3) {
-//                $resp['code'] = null;
-//                $resp['message'] = "Սպասեք 1 րոպե նոր հաղորդագրություն պատվիռելու համար";
-//                return $resp;
-//            }
-            $count = $smsVerify->count += 1;
-        }
-
-        SmsVerification::updateOrCreate([
+        $smsVerify = SmsVerification::updateOrCreate([
             'phone' => $phone,
         ], [
             'user_id' => $userId,
@@ -190,6 +147,8 @@ class AuthServices
             'count' => $count,
             'last_send' => now(),
         ]);
+
+        $resp['status'] = $this->smsServices->sendSms($phone, $resp['code'], $smsVerify->id);
 
         return $resp;
     }
