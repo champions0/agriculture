@@ -31,12 +31,9 @@ class SmsServices
             ]
         ];
 
-
         $response = \Illuminate\Support\Facades\Http::withHeaders([
             'Content-Type' => 'application/json', "charset" => "utf-8", "Accept" => "application/json", 'Authorization' => "Basic " . $base64
         ])->post($url, $message);
-
-//        dd($response->status());
 
         return $response->status();
     }

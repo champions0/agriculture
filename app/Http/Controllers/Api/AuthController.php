@@ -158,10 +158,17 @@ class AuthController extends Controller
                 if ($user->status == User::DRAFT) {
                     $resp = $this->authServices->smsVerify($userId, $phone, 'test');
                     if($resp['status'] !== 200){
-                        return $this->response->badRequest(['user' => $user, 'code' => $resp['code'], 'sms error code' => $resp['status'] ], 'Ձեր համարին հաստատման կոդ չի ուղառկվել');
+                        return $this->response->badRequest([
+                            'user' => $user,
+//                            'code' => $resp['code'],
+                            'sms error code' => $resp['status']
+                        ], 'Ձեր համարին հաստատման կոդ չի ուղառկվել');
                     }
 
-                    return $this->response->badRequest(['user' => $user, 'code' => $resp['code']], 'Գրանցումն ավարտված չէ');
+                    return $this->response->badRequest([
+                        'user' => $user,
+//                        'code' => $resp['code']
+                    ], 'Գրանցումն ավարտված չէ');
 
                 }
                 return $this->response->badRequest(['user' => $user, 'status' => 'USER_ALREADY_EXISTS'], 'Այս հեռախոսահամրով օգտատեր գոյություն ունի');
@@ -172,7 +179,7 @@ class AuthController extends Controller
 
 
             return $this->response->success([
-                'code' => $resp['code'],
+//                'code' => $resp['code'],
             ],
                 $resp['message']
             );
