@@ -206,7 +206,7 @@ class AuthController extends Controller
                 $resp = $this->authServices->smsVerify($user->id, $phone, 'test');
 
                 return $this->response->success([
-                    'code' => $resp['code'],
+//                    'code' => $resp['code'],
                 ],
                     $resp['message']
                 );
