@@ -36,6 +36,7 @@ class EventCreateRequest extends FormRequest
             'address' => ['required', 'string', 'max:255'],
             'additional_info' => ['required', 'string', 'max:500'],
             'status' => ['required', 'string', 'max:20'],
+            'residences' => ['required'],
         ];
     }
 }
