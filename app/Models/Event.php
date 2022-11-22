@@ -26,6 +26,7 @@ class Event extends Model
         'end_date',
         'address',
         'additional_info',
+        'fee',
         'status',
     ];
 

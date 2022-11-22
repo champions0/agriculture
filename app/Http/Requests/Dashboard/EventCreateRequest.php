@@ -27,7 +27,7 @@ class EventCreateRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'subject_id' => ['required', 'numeric'],
             'wallpaper' => ['image', 'mimes:jpeg,png,jpg', 'max:8000'],
-            'short_description' => ['required', 'string', 'max:1000'],
+//            'short_description' => ['required', 'string', 'max:1000'],
             'age' => ['required', 'string', 'max:20'],
             'gender' => ['required', 'string', 'max:50'],
             'organizer' => ['required', 'string', 'max:255'],
@@ -35,6 +35,7 @@ class EventCreateRequest extends FormRequest
             'end_date' => ['required', 'string', 'max:50'],
             'address' => ['required', 'string', 'max:255'],
             'additional_info' => ['required', 'string', 'max:500'],
+            'fee' => ['nullable', 'string', 'max:10'],
             'status' => ['required', 'string', 'max:20'],
             'residences' => ['required'],
         ];
