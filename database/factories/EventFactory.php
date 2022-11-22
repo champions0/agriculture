@@ -26,6 +26,7 @@ class EventFactory extends Factory
             'address' => $this->faker->address(),
             'additional_info' => $this->faker->text(255),
             'status' => mt_rand(0, 2),
+            'fee' => mt_rand(1000, 12000),
         ];
     }
 }

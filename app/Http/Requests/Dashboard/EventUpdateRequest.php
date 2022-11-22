@@ -27,7 +27,7 @@ class EventUpdateRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'subject_id' => ['required', 'numeric'],
             'wallpaper' => ['image', 'mimes:jpeg,png,jpg', 'max:8000'],
-            'short_description' => ['required', 'string', 'max:1000'],
+//            'short_description' => ['required', 'string', 'max:1000'],
             'age' => ['required', 'string', 'max:20'],
             'gender' => ['required', 'string', 'max:50'],
             'organizer' => ['required', 'string', 'max:255'],

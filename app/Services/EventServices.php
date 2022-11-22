@@ -33,7 +33,7 @@ class EventServices
             'title' => $data['title'],
             'subject_id' => $data['subject_id'],
 //            'wallpaper' => $data['wallpaper'],
-            'short_description' => $data['short_description'],
+//            'short_description' => $data['short_description'],
             'age' => $data['age'],
             'gender' => $data['gender'],
             'organizer' => $data['organizer'],
@@ -41,10 +41,10 @@ class EventServices
             'end_date' => date('Y-m-d H:i:s', strtotime($data['end_date'])),
             'address' => $data['address'],
             'additional_info' => $data['additional_info'],
+            'fee' => $data['fee'] ?? '',
             'status' => $data['status']
         ]);
 
-//        dd($data['residences']);
         foreach ($data['residences'] as $residence){
             EventResidence::create([
                 'event_id' => $event->id,
@@ -69,7 +69,7 @@ class EventServices
         $event->update([
             'title' => $data['title'],
             'subject_id' => $data['subject_id'],
-            'short_description' => $data['short_description'],
+//            'short_description' => $data['short_description'],
             'age' => $data['age'],
             'gender' => $data['gender'],
             'organizer' => $data['organizer'],
@@ -77,6 +77,7 @@ class EventServices
             'end_date' => date('Y-m-d H:i:s', strtotime($data['end_date'])),
             'address' => $data['address'],
             'additional_info' => $data['additional_info'],
+            'fee' => $data['fee'] ?? '',
             'status' => $data['status']
         ]);
 

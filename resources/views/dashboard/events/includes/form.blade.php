@@ -80,20 +80,30 @@
                 <label>Հասցե</label>
                 <input type="text" class="form-control" name="address" value="{{ old('address') ?? ($event->address ?? '' )}}">
                 @error('address')
-                <div class="text-danger">{{ $message }}</div>
+                    <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
         </div>
 
         <div class="col-md-3">
             <div class="form-group">
-                <label>Կարճ նկարագրություն</label>
-                <textarea name="short_description" class="form-control">{{ $event->short_description ?? '' }}</textarea>
-                @error('short_description')
-                <div class="text-danger">{{ $message }}</div>
+                <label>Մասնակցության վճար</label>
+                <input type="number" class="form-control" name="fee" value="{{ old('fee') ?? ($event->fee ?? '' )}}">
+                @error('fee')
+                    <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
         </div>
+
+{{--        <div class="col-md-3">--}}
+{{--            <div class="form-group">--}}
+{{--                <label>Կարճ նկարագրություն</label>--}}
+{{--                <textarea name="short_description" class="form-control">{{ $event->short_description ?? '' }}</textarea>--}}
+{{--                @error('short_description')--}}
+{{--                <div class="text-danger">{{ $message }}</div>--}}
+{{--                @enderror--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
         <div class="col-md-3">
             <div class="form-group">
