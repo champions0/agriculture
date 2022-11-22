@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FastQuestionController;
+use App\Http\Controllers\Api\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,11 @@ Route::middleware('guest')->group(function () {
 
     Route::get('get-residences', [AuthController::class, 'getResidences'])->name('get-residences');
     Route::get('get-subjects', [AuthController::class, 'getSubjects'])->name('get-subjects');
+
+    Route::prefix('home')->group(function (){
+        Route::get('get-events', [HomeController::class, 'getEvents'])->name('home.get-events');
+        Route::get('single-events/{event_id}', [HomeController::class, 'singleEvent'])->name('home.single-events');
+    });
 
 });
 
