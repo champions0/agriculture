@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Repositories\Api\ResponseRepository;
+use App\Services\FilterServices;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -14,15 +15,22 @@ class HomeController extends Controller
      * @var ResponseRepository
      */
     private $response;
+    /**
+     * @var FilterServices
+     */
+    private $filterServices;
 
     /**
      * HomeController constructor.
      * @param ResponseRepository $response
+     * @param FilterServices $filterServices
      */
     public function __construct(
-        ResponseRepository $response)
+        ResponseRepository $response,
+        FilterServices $filterServices)
     {
         $this->response = $response;
+        $this->filterServices = $filterServices;
     }
 
     /**
@@ -35,8 +43,11 @@ class HomeController extends Controller
 
         try {
             $events = Event::query()
-                ->select('id', 'title', 'additional_info', 'address', 'start_date', 'wallpaper')
-                ->paginate($data['size'] ?? 20);
+                ->select('id', 'title', 'additional_info', 'address', 'start_date', 'wallpaper', 'subject_id');
+
+            $events = $this->filterServices->event($events, $data);
+
+            $events = $events->paginate($data['size'] ?? 20);
 
             return $this->response->success(['events' => $events]);
 
