@@ -61,7 +61,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    @if(auth()->user()->role == 'municipality')
+                                    @if(auth()->user()->role == 'admin')
                                         <div class="box-tools mr-0" style="margin-top: 20px; float: right">
                                             <a href="{{route('statements.create')}}" class="btn btn-primary">Ավելացնել
                                                 հայտարարություն</a>
@@ -106,7 +106,7 @@
                                             @endif
                                             <td>{{ $statement->created_at }}</td>
                                             <td>
-                                                @if(auth()->user()->role == 'municipality')
+                                                @if(auth()->user()->role == 'admin')
                                                     <a href="{{ route('statements.edit', $statement->id) }}" class="btn"
                                                        title="Edit details">
                                                         <i class="text-success nav-icon fas fa-edit"></i>
