@@ -126,11 +126,17 @@ class FilterServices
                 $endDate = $data['end_date'];
             }
 
-//            dd(date('Y-m-d H:i:s', strtotime($startDate)));
-
-
             $query = $query
                 ->whereBetween('created_at', [date('Y-m-d H:i:s', strtotime($startDate)), date('Y-m-d H:i:s', strtotime($endDate))]);
+        }
+
+        if(isset($data['subject_id']) && $data['subject_id'] !== null){
+            $query = $query->where('subject_id', $data['subject_id']);
+//            $query = $query->where(function($q) use ($data) {
+//                $q->whereHas('subject', function ($query) use ($data){
+//                    $query->where
+//                });
+//            });
         }
 
         return $query;
