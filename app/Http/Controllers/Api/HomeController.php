@@ -47,7 +47,9 @@ class HomeController extends Controller
 
             $events = $this->filterServices->event($events, $data);
 
-            $events = $events->paginate($data['size'] ?? 20);
+            $events = $events
+                ->orderByDesc('id')
+                ->paginate($data['size'] ?? 20);
 
             return $this->response->success(['events' => $events]);
 

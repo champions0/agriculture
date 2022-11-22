@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\EventCreateRequest;
+use App\Http\Requests\Dashboard\EventUpdateRequest;
 use App\Models\Event;
 use App\Models\Residence;
 use App\Models\Subject;
@@ -118,13 +119,13 @@ class EventController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param EventUpdateRequest $request
      * @param $id
      * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(EventUpdateRequest $request, $id)
     {
-        $data = $request->all();
+        $data = $request->validated();
 //        dd($data);
         $event = Event::find($id);
         $this->eventServices->update($event, $data);
