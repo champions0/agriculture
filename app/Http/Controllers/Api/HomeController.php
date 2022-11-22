@@ -35,7 +35,7 @@ class HomeController extends Controller
 
         try {
             $events = Event::query()
-                ->select('id', 'title', 'short_description')
+                ->select('id', 'title', 'additional_info', 'address', 'start_date', 'wallpaper')
                 ->paginate($data['size'] ?? 20);
 
             return $this->response->success(['events' => $events]);
