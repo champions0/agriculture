@@ -8,6 +8,7 @@ use App\Http\Requests\Dashboard\EventUpdateRequest;
 use App\Models\Event;
 use App\Models\Residence;
 use App\Models\Subject;
+use App\Services\DeleteService;
 use App\Services\EventServices;
 use App\Services\FileServices;
 use App\Services\FilterServices;
@@ -33,19 +34,26 @@ class EventController extends Controller
      * @var EventServices
      */
     private $eventServices;
+    /**
+     * @var DeleteService
+     */
+    private $deleteService;
 
     /**
      * @param FilterServices $filterServices
      * @param FileServices $fileServices
      * @param EventServices $eventServices
+     * @param DeleteService $deleteService
      */
     public function __construct(FilterServices $filterServices,
                                 FileServices $fileServices,
-                                EventServices $eventServices)
+                                EventServices $eventServices,
+                                DeleteService $deleteService)
     {
         $this->filterServices = $filterServices;
         $this->fileServices = $fileServices;
         $this->eventServices = $eventServices;
+        $this->deleteService = $deleteService;
     }
 
     /**
@@ -140,7 +148,7 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        Event::destroy($id);
+        $this->deleteService->event($id);
         return redirect()->route('events.index');
     }
 }

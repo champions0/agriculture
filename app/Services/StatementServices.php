@@ -46,7 +46,7 @@ class StatementServices
 
         if (isset($data['wallpaper'])) {
             $imageFileName = rand(1000000, 99999999999) . Str::slug($data['wallpaper']->getClientOriginalName(), '.');
-            $path = $this->fileServices->savePhoto(500, $data['wallpaper'], 'statement/' . $statement['id'], $imageFileName);
+            $path = $this->fileServices->savePhoto(500, $data['wallpaper'], 'statements/' . $statement['id'], $imageFileName);
             $statement->update([
                 'wallpaper' => $path // '/storage/' . $path
             ]);

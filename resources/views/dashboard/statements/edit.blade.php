@@ -30,7 +30,7 @@
                                 </div>
 
                                 <form
-                                    action="{{ route('events.update', $event->id) }}"
+                                    action="{{ route('statements.update', $statement->id) }}"
                                     method="POST"
                                     enctype="multipart/form-data"
                                 >

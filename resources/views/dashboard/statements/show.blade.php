@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Միջոցառում</h1>
+                        <h1>Հայտարարություն</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Գլխավոր</a></li>
-                            <li class="breadcrumb-item active">Միջոցառում</li>
+                            <li class="breadcrumb-item active">Հայտարարություն</li>
                         </ol>
                     </div>
                 </div>
@@ -30,80 +30,53 @@
                             <div class="card-body box-profile">
                                 <div class="text-center">
                                     <img class=""
-                                         @if(isset($event->wallpaper))
+                                         @if(isset($statement->wallpaper))
                                          {{--                                            src="{{ env('APP_URL'). '/storage/' . $user->avatar }}"--}}
-                                         src="{{ \App\Services\FileServices::getImageAttribute($event->wallpaper) }}"
+                                         src="{{ \App\Services\FileServices::getImageAttribute($statement->wallpaper) }}"
                                          @else
-                                         src="{{ asset('/assets/dist/img/hePhoto.jpg') }}"
-
-                                         {{--                                             @if($user->gender == 'female')--}}
-                                         {{--                                                 src="{{ asset('/assets/dist/img/shePhoto.jpg') }}"--}}
-
-                                         {{--                                             @else--}}
-                                         {{--                                                 src="{{ asset('/assets/dist/img/hePhoto.jpg') }}"--}}
-                                         {{--                                             @endif--}}
+                                         src="{{ asset('/assets/dist/img/noImage.jpg') }}"
                                          @endif
-                                         alt="User profile picture">
+                                         alt="Statement profile picture">
                                 </div>
 
-                                <h3 class="profile-username text-center">{{ $event->title }}</h3>
+                                <h3 class="profile-username text-center">{{ $statement->title }}</h3>
 
-                                <p class="text-muted text-center">{{ $event->subject->name }}</p>
+{{--                                <p class="text-muted text-center">{{ $statement->subject->name }}</p>--}}
 
                                 <ul class="list-group list-group-unbordered mb-3">
                                     <li class="list-group-item">
-                                        <b>Կազմակերպիչը՝</b>
-                                        <p class="float-right">{{ $event->organizer }}</p>
+                                        <b>Հայտարարողի աանունը՝</b>
+                                        <p class="float-right">{{ $statement->declarant_first_name }}</p>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Տարիքային սահմանափակումը՝</b>
-                                        <p class="float-right">{{ $event->age }}</p>
+                                        <b>Հայտարարողի ազգանունը՝</b>
+                                        <p class="float-right">{{ $statement->declarant_last_name }}</p>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Սեռը՝</b>
-                                        <p class="float-right">
-                                            @if($event->gender == 'male')
-                                                Տղաներ
-                                            @elseif($event->gender == 'female')
-                                                Աղջիկներ
-                                            @else
-                                                Բոլորը
-                                            @endif
-                                        </p>
+                                        <b>Հայտարարման ամսաթիվը՝</b>
+                                        <p class="float-right">{{ $statement->statement_date }}</p>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Սկիզբը՝</b>
-                                        <p class="float-right">{{ $event->start_date }}</p>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <b>Ավարտը՝</b>
-                                        <p class="float-right">{{ $event->end_date }}</p>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <b>Հասցեն՝</b>
-                                        <p class="float-right">{{ $event->address }}</p>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <b>Բնակավայրերը՝</b>
-                                        <p class="float-right">
-                                            @foreach($event->residences as $residence)
-                                                {{ $residence->residence->name }}<br>
-                                            @endforeach
-                                        </p>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <b>Լրացուցիչ տեղեկություններ՝</b>
-                                        <p class="float-right">{{ $event->additional_info }}</p>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <b>Կարճ նկարագրություն՝</b>
-                                        <p class="float-right">{{ $event->short_description }}</p>
+                                        <b>Վերջնաժամկետը՝</b>
+                                        <p class="float-right">{{ $statement->deadline }}</p>
                                     </li>
 
+                                    <li class="list-group-item">
+                                        <b>Նկարագրությունր՝</b>
+                                        <p class="float-right">{{ $statement->description }}</p>
+                                    </li>
 
+                                    <li class="list-group-item">
+                                        <b>Կարգավիճակը՝</b>
+                                        @if($statement->status == \App\Models\Statement::INACTIVE)
+                                            <p class="float-right text-warning">Պասիվ</p>
+                                        @elseif($statement->status == \App\Models\Statement::ACTIVE)
+                                            <p class="float-right text-success">Ակտիվ</p>
+                                        @elseif($statement->status == \App\Models\Statement::CANCELED)
+                                            <p class="float-right text-danger">Ավարտված</p>
+                                        @endif
+                                    </li>
                                 </ul>
-                                {{--                                <a onclick="window.print()"><i class="fal fa-print"></i> Natisni oglas</a>--}}
-
                             </div>
                             <!-- /.card-body -->
                         </div>

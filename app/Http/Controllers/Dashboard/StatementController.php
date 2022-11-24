@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\StatementRequest;
 use App\Models\Statement;
+use App\Services\DeleteService;
 use App\Services\FileServices;
 use App\Services\FilterServices;
 use App\Services\StatementServices;
@@ -27,20 +29,27 @@ class StatementController extends Controller
      * @var StatementServices
      */
     private $statementServices;
+    /**
+     * @var DeleteService
+     */
+    private $deleteService;
 
     /**
      * StatementController constructor.
      * @param FilterServices $filterServices
      * @param FileServices $fileServices
      * @param StatementServices $statementServices
+     * @param DeleteService $deleteService
      */
     public function __construct(FilterServices $filterServices,
                                 FileServices $fileServices,
-                                StatementServices $statementServices)
+                                StatementServices $statementServices,
+                                DeleteService $deleteService)
     {
         $this->filterServices = $filterServices;
         $this->fileServices = $fileServices;
         $this->statementServices = $statementServices;
+        $this->deleteService = $deleteService;
     }
 
     /**
@@ -53,7 +62,7 @@ class StatementController extends Controller
         $statements = Statement::query();
 
 //        filter service
-//        $statements = $this->filterServices->statement($statements, $data);
+        $statements = $this->filterServices->statement($statements, $data);
 
         $statements = $statements
             ->orderByDesc('id')
@@ -70,28 +79,25 @@ class StatementController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param StatementRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StatementRequest $request)
     {
-//        $data = $request->validated();
-        $data = $request->all();
-
+        $data = $request->validated();
         $this->statementServices->create($data);
 
         return redirect()->route('statements.index');
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return Application|Factory|View
      */
     public function show($id)
     {
-        //
+        $statement = Statement::find($id);
+        return view('dashboard.statements.show', compact('statement'));
     }
 
     /**
@@ -105,28 +111,28 @@ class StatementController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param StatementRequest $request
      * @param $id
      * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(StatementRequest $request, $id)
     {
-        $data = $request->all();
-//        dd($data);
+        $data = $request->validated();
         $statement = Statement::find($id);
+
         $this->statementServices->update($statement, $data);
 
         return redirect()->route('statements.index');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return RedirectResponse
      */
     public function destroy($id)
     {
-        //
+        $this->deleteService->statement($id);
+
+        return redirect()->route('statements.index');
     }
 }
