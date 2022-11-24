@@ -136,7 +136,7 @@
 
                                             {{--                                                <form action="{{ route('reports.destroy', $report->id) }}" method="POST"--}}
                                             {{--                                                      style="display: none"--}}
-                                            {{--                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել դիմումը?')">--}}
+                                            {{--                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել դիմումը')">--}}
                                             {{--                                                    @csrf--}}
                                             {{--                                                    @method('DELETE')--}}
                                             {{--                                                </form>--}}

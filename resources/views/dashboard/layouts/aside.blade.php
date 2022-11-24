@@ -58,6 +58,15 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a style="color: #fff;" href="{{ route('statements.index') }}"
+                       class="nav-link {{Request::segment(2) == 'statements' ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>
+                            Հայտարարություններ
+                        </p>
+                    </a>
+                </li>
 
                 @if(auth()->user()->role == 'admin')
                     <li class="nav-item">

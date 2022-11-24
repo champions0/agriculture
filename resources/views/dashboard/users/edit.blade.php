@@ -37,7 +37,7 @@
                 </form>
                 <form id="delete-user" action="{{ route('users.destroy', $user->id) }}" method="POST"
                       style="display: none"
-                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել օգտատիրոջը?')">
+                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել օգտատիրոջը')">
                     @csrf
                     @method('DELETE')
                 </form>

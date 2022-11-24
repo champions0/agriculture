@@ -63,7 +63,7 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Վերնագիռ</th>
+                                        <th>Վերնագիր</th>
                                         <th>Թեմա</th>
                                         <th>Տարիք</th>
                                         <th>Սեռ</th>
@@ -107,7 +107,7 @@
 
                                                 <form action="{{ route('events.destroy', $event->id) }}" method="POST"
                                                       style="display: none"
-                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել միջոցառումը?')">
+                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել միջոցառումը')">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>

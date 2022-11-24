@@ -36,6 +36,8 @@ Route::middleware('guest')->group(function () {
     Route::prefix('home')->group(function (){
         Route::get('get-events', [HomeController::class, 'getEvents'])->name('home.get-events');
         Route::get('single-events/{event_id}', [HomeController::class, 'singleEvent'])->name('home.single-events');
+
+        Route::get('get-statements', [HomeController::class, 'getStatements'])->name('home.get-statements');
     });
 
 });

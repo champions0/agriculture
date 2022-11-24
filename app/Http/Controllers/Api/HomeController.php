@@ -47,7 +47,9 @@ class HomeController extends Controller
 
             $events = $this->filterServices->event($events, $data);
 
-            $events = $events->paginate($data['size'] ?? 20);
+            $events = $events
+                ->orderByDesc('id')
+                ->paginate($data['size'] ?? 20);
 
             return $this->response->success(['events' => $events]);
 
@@ -63,6 +65,26 @@ class HomeController extends Controller
 
 
             return $this->response->success(['event' => $event]);
+
+        } catch (\Throwable $e) {
+            return $this->response->badRequest([], $e->getMessage());
+        }
+    }
+
+    public function getStatements(Request $request)
+    {
+        $data = $request->all();
+
+        try {
+            $statements = Event::query();
+
+            $statements = $this->filterServices->statement($statements, $data);
+
+            $statements = $statements
+                ->orderByDesc('id')
+                ->paginate($data['size'] ?? 20);
+
+            return $this->response->success(['statements' => $statements]);
 
         } catch (\Throwable $e) {
             return $this->response->badRequest([], $e->getMessage());

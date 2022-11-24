@@ -13,7 +13,7 @@ class EventUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -35,6 +35,7 @@ class EventUpdateRequest extends FormRequest
             'end_date' => ['required', 'string', 'max:50'],
             'address' => ['required', 'string', 'max:255'],
             'additional_info' => ['required', 'string', 'max:500'],
+            'fee' => ['nullable', 'string', 'max:10'],
             'status' => ['required', 'string', 'max:20'],
         ];
     }
