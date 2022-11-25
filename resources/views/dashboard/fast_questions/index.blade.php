@@ -158,6 +158,9 @@
                                                            class="text-danger decline_fast_message">
                                                             Մերժված <i class="nav-icon fas fa-info-circle"></i>
                                                         </p>
+                                                    @elseif($fastQuestion->status == \App\Models\FastQuestion::REVIEW)
+                                                        <p class="text-warning">
+                                                            Վերանայման ենթական</p>
                                                     @elseif($fastQuestion->status == \App\Models\FastQuestion::NOTFOUND)
                                                         <p class="text-warning">
                                                             Չգտնված</p>
