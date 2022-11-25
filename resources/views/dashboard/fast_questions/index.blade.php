@@ -156,10 +156,10 @@
                                                     @elseif($fastQuestion->status == \App\Models\FastQuestion::DECLINE)
                                                         <p style="cursor: pointer;"
                                                            class="text-danger decline_fast_message">
-                                                            Մերժված</p>
-                                                    @else
-                                                        <p style="cursor: pointer;"
-                                                           class="text-warning decline_fast_message">
+                                                            Մերժված <i class="nav-icon fas fa-info-circle"></i>
+                                                        </p>
+                                                    @elseif($fastQuestion->status == \App\Models\FastQuestion::NOTFOUND)
+                                                        <p class="text-warning">
                                                             Չգտնված</p>
                                                     @endif
 
