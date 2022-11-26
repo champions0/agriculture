@@ -15,7 +15,7 @@ class CreateFastQuestionsTable extends Migration
     {
         Schema::create('fast_questions', function (Blueprint $table) {
             $table->id();
-            $table->string('number');
+            $table->string('number', 500)->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('category_id');
             $table->string('address');

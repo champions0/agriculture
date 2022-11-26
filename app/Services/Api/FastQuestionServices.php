@@ -15,11 +15,18 @@ class FastQuestionServices
      */
     private $fastQuestionRepository;
 
+    /**
+     * @param FastQuestionRepository $fastQuestionRepository
+     */
     public function __construct(FastQuestionRepository $fastQuestionRepository)
     {
         $this->fastQuestionRepository = $fastQuestionRepository;
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     */
     public function create($data)
     {
         return $this->fastQuestionRepository->create($data);

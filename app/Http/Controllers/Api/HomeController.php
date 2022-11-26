@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\Statement;
 use App\Repositories\Api\ResponseRepository;
 use App\Services\FilterServices;
 use Illuminate\Http\JsonResponse;
@@ -37,7 +38,7 @@ class HomeController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function getEvents(Request $request)
+    public function getEvents(Request $request): JsonResponse
     {
         $data = $request->all();
 
@@ -58,7 +59,12 @@ class HomeController extends Controller
         }
     }
 
-    public function singleEvent(Request $request, $id)
+    /**
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function singleEvent(Request $request, $id): JsonResponse
     {
         $event = Event::find($id);
         try {
@@ -71,13 +77,16 @@ class HomeController extends Controller
         }
     }
 
-    public function getStatements(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getStatements(Request $request): JsonResponse
     {
         $data = $request->all();
 
         try {
-            $statements = Event::query();
-
+            $statements = Statement::query();
             $statements = $this->filterServices->statement($statements, $data);
 
             $statements = $statements
@@ -85,6 +94,23 @@ class HomeController extends Controller
                 ->paginate($data['size'] ?? 20);
 
             return $this->response->success(['statements' => $statements]);
+
+        } catch (\Throwable $e) {
+            return $this->response->badRequest([], $e->getMessage());
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function singleStatement(Request $request, $id): JsonResponse
+    {
+        $statement = Statement::find($id);
+        try {
+
+            return $this->response->success(['statement' => $statement]);
 
         } catch (\Throwable $e) {
             return $this->response->badRequest([], $e->getMessage());

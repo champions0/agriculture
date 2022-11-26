@@ -32,7 +32,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label>Հայտարարողի ազգանուն</label>
-                <input type="text" class="form-control" name="declarant_last_name" value="{{ old('declarant_last_name') ?? ($statement->declarant_last_name ?? '' )}}">
+                <input type="text" class="form-control" name="declarant_last_name" value="{{ old('declarant_last_name') ?? ($statement->declarant_last_name ?? '')}}">
                 @error('declarant_last_name')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -63,7 +63,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label>Կարճ նկարագրություն</label>
-                <textarea name="description" class="form-control">{{ $statement->description ?? '' }}</textarea>
+                <textarea name="description" class="form-control">{{ old('description') ?? ($statement->description ?? '') }}</textarea>
                 @error('description')
                 <div class="text-danger">{{ $message }}</div>
                 @enderror

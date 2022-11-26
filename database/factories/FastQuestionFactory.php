@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Crypt;
 
 class FastQuestionFactory extends Factory
 {
@@ -14,7 +15,7 @@ class FastQuestionFactory extends Factory
     public function definition()
     {
         return [
-            'number' => mt_rand(100000, 999999),
+            'number' => Crypt::encrypt(mt_rand(100000, 999999)),
             'user_id' => mt_rand(2, 42),
             'category_id' => mt_rand(1, 14),
             'address' => $this->faker->address(),

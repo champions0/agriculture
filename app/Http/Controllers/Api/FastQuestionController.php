@@ -38,7 +38,7 @@ class FastQuestionController extends Controller
     /**
      * @return JsonResponse
      */
-    public function getFastCategories()
+    public function getFastCategories(): JsonResponse
     {
         try {
             $categories = Category::query()
@@ -51,8 +51,11 @@ class FastQuestionController extends Controller
         }
     }
 
-
-    public function create(FastQuestion $request)
+    /**
+     * @param FastQuestion $request
+     * @return JsonResponse
+     */
+    public function create(FastQuestion $request): JsonResponse
     {
         $data = $request->validated();
         try {
