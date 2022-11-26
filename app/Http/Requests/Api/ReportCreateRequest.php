@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FastQuestion extends FormRequest
+class ReportCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,8 @@ class FastQuestion extends FormRequest
             'description' => ['required', 'string', 'max:255'],
             'is_anonymous' => ['required'],
 //            'images' => ['required', 'array'],
-            'images' => ['required', 'array', 'max:10'],
-            'images.*' => ['image', 'mimes:jpeg,png,jpg', 'max:5000'],
+            'files' => ['required', 'array', 'max:10'],
+            'files.*' => ['file', 'mimes:jpeg,png,jpg,pdf,word', 'max:5000'],
         ];
     }
 }

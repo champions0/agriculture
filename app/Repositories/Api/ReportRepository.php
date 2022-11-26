@@ -2,17 +2,17 @@
 
 namespace App\Repositories\Api;
 
-use App\Models\FastQuestion;
 use App\Models\Image;
+use App\Models\Report;
 use App\Services\FileServices;
 use Illuminate\Support\Str;
 
 //use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 
 /**
- * Class FastQuestionRepository.
+ * Class ReportRepository.
  */
-class FastQuestionRepository
+class ReportRepository
 {
     /**
      * @var FileServices
@@ -20,7 +20,6 @@ class FastQuestionRepository
     private $fileServices;
 
     /**
-     * FastQuestionRepository constructor.
      * @param FileServices $fileServices
      */
     public function __construct(FileServices $fileServices)
@@ -33,7 +32,7 @@ class FastQuestionRepository
      */
     public function model(): string
     {
-        return FastQuestion::class;
+        return Report::class;
     }
 
     /**
@@ -43,29 +42,28 @@ class FastQuestionRepository
     public function create(array $data)
     {
         $user = auth()->user();
-        $data['number'] = $user->number;
         $data['user_id'] = $user->id;
 
-        $fastQuestion = FastQuestion::create($data);
+        $report = Report::create($data);
 
-        if(isset($data['images'])){
-            foreach ($data['images'] as $item){
-                $imageFileName = rand(1000000, 99999999999) . Str::slug($item->getClientOriginalName(), '.');
-                $path = $this->fileServices->savePhoto(500, $item, 'fastQuestions/' . $fastQuestion->id, $imageFileName);
+        if(isset($data['files'])){
+            foreach ($data['files'] as $item){
+                $fileName = rand(1000000, 99999999999) . Str::slug($item->getClientOriginalName(), '.');
+                $path = $this->fileServices->savePhoto(500, $item, 'reportFiles/' . $report->id, $fileName);
 //                $user->update([
 //                    'avatar' => $path // '/storage/' . $path
 //                ]);
                 Image::create([
                     'path' => $path,
-                    'type' => 'fast question image',
-                    'imageable_type' => FastQuestion::class,
-                    'imageable_id' => $fastQuestion->id,
+                    'type' => 'report file',
+                    'imageable_type' => Report::class,
+                    'imageable_id' => $report->id,
                 ]);
             }
 
 
         }
 
-        return $fastQuestion;
+        return $report;
     }
 }

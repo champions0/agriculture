@@ -99,7 +99,7 @@
                                     @foreach($fastQuestions as $fastQuestion)
                                         <tr>
                                             <td class="fast_question_id">{{ $fastQuestion->id }}</td>
-                                            <td>{{ $fastQuestion->number }}</td>
+                                            <td>{{ isset($fastQuestion->number) ? \Illuminate\Support\Facades\Crypt::decrypt($fastQuestion->number) : '' }}</td>
                                             <td>
                                                 @if($fastQuestion->is_anonymous)
                                                     @if(auth()->user()->role == 'municipality')

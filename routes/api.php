@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FastQuestionController;
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,10 +35,12 @@ Route::middleware('guest')->group(function () {
     Route::get('get-subjects', [AuthController::class, 'getSubjects'])->name('get-subjects');
 
     Route::prefix('home')->group(function (){
-        Route::get('get-events', [HomeController::class, 'getEvents'])->name('home.get-events');
-        Route::get('single-events/{event_id}', [HomeController::class, 'singleEvent'])->name('home.single-events');
+        Route::get('get-events', [HomeController::class, 'getEvents'])->name('home.get-event');
+        Route::get('single-event/{event_id}', [HomeController::class, 'singleEvent'])->name('home.single-events');
 
         Route::get('get-statements', [HomeController::class, 'getStatements'])->name('home.get-statements');
+        Route::get('single-statement/{statement_id}', [HomeController::class, 'singleStatement'])->name('home.single-statement');
+
     });
 
 });
@@ -46,6 +49,10 @@ Route::middleware(['auth:api'])->group(function () {
     Route::prefix('fast-question')->group(function () {
         Route::get('categories', [FastQuestionController::class, 'getFastCategories'])->name('get.fast.categories');
         Route::post('create', [FastQuestionController::class, 'create'])->name('fast.create');
+    });
+
+    Route::prefix('reports')->group(function () {
+        Route::post('create', [ReportController::class, 'create'])->name('fast.create');
     });
 
     Route::get('get-user', [AuthController::class, 'getUser'])->name('get-user');
