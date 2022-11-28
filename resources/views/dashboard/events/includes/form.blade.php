@@ -122,7 +122,6 @@
                 <label>Բնակավայր</label>
                 <select class="form-control select2" name="residences[]" multiple>
                     @foreach($residences as $key => $residence)
-
                         <option {{ old('residences') && in_array($key, old('residences')) ? 'selected' : (isset($eventResidences) && count($eventResidences) && in_array($key, $eventResidences) ? 'selected' : '') }} value="{{ $key }}">
                             {{ $residence }}</option>
                     @endforeach

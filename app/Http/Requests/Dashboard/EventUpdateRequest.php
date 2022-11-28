@@ -37,6 +37,7 @@ class EventUpdateRequest extends FormRequest
             'additional_info' => ['required', 'string', 'max:500'],
             'fee' => ['nullable', 'string', 'max:10'],
             'status' => ['required', 'string', 'max:20'],
+            'residences' => ['required'],
         ];
     }
 }

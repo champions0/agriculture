@@ -92,7 +92,7 @@ class EventServices
                 'wallpaper' => $path // '/storage/' . $path
             ]);
         }
-
+//dd($data);
         if(count($data['residences'])){
             foreach ($event->residences as $item){
                 $item->delete();
