@@ -49,10 +49,12 @@ class ReportRepository
         if(isset($data['files'])){
             foreach ($data['files'] as $item){
                 $fileName = rand(1000000, 99999999999) . Str::slug($item->getClientOriginalName(), '.');
-                $path = $this->fileServices->savePhoto(500, $item, 'reportFiles/' . $report->id, $fileName);
-//                $user->update([
-//                    'avatar' => $path // '/storage/' . $path
-//                ]);
+
+                if($item->getClientMimeType() == 'application/pdf' || $item->getClientMimeType() == 'application/msword'){
+                    $path = $this->fileServices->saveFile($item, 'reportFiles/' . $report->id, $fileName);
+                }else{
+                    $path = $this->fileServices->savePhoto(500, $item, 'reportFiles/' . $report->id, $fileName);
+                }
                 Image::create([
                     'path' => $path,
                     'type' => 'report file',

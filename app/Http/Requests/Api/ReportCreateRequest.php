@@ -24,13 +24,10 @@ class ReportCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'category_id' => ['required'],
-            'address' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
-            'is_anonymous' => ['required'],
-//            'images' => ['required', 'array'],
+            'title' => ['required', 'string', 'max:255'],
+            'text' => ['required', 'string', 'max:255'],
             'files' => ['required', 'array', 'max:10'],
-            'files.*' => ['file', 'mimes:jpeg,png,jpg,pdf,word', 'max:5000'],
+            'files.*' => ['file', 'mimes:jpeg,png,jpg,pdf,doc,docx', 'max:5000'],
         ];
     }
 }

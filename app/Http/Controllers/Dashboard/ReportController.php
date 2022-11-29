@@ -48,7 +48,8 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
-        $reports = Report::query();
+        $reports = Report::query()
+            ->with('files');
 
 //        filter service
         $reports = $this->filterServices->report($reports, $data);
@@ -56,6 +57,7 @@ class ReportController extends Controller
         $reports = $reports
             ->orderByDesc('id')
             ->paginate(config('constants.per_page'));
+
         return view('dashboard.reports.index', compact('reports'));
     }
 
@@ -81,14 +83,16 @@ class ReportController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param $id
+     * @return Application|Factory|View
      */
     public function show($id)
     {
-        //
+        $report = Report::with('files')
+            ->where('id', $id)
+            ->first();
+
+        return view('dashboard.reports.show', compact('report'));
     }
 
     /**

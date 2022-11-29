@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\ReportCreateRequest;
 use App\Repositories\Api\ResponseRepository;
 use App\Services\Api\ReportServices;
 use Illuminate\Http\JsonResponse;
@@ -31,16 +32,20 @@ class ReportController extends Controller
         $this->response = $response;
         $this->reportServices = $reportServices;
     }
-    public function create(Request $request): JsonResponse
+
+    /**
+     * @param ReportCreateRequest $request
+     * @return JsonResponse
+     */
+    public function create(ReportCreateRequest $request): JsonResponse
     {
-//        $data = $request->validated();
-        $data = $request->all();
+        $data = $request->validated();
         try {
             DB::beginTransaction();
             $report = $this->reportServices->create($data);
             DB::commit();
 
-            return $this->response->success(['fastQuestion' => $fastQuestion]);
+            return $this->response->success(['report' => $report]);
 
         } catch (\Throwable $e) {
             return $this->response->badRequest([], $e->getMessage());

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class FastQuestion extends Model
 {
@@ -43,6 +44,9 @@ class FastQuestion extends Model
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * @return MorphMany
+     */
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');
