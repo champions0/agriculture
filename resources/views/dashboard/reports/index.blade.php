@@ -76,7 +76,7 @@
                                         <th>Կարգավիճակ</th>
                                         <th>PDF</th>
                                         <th>Ավելացվել է</th>
-                                        {{--                                        <th>Գործողություններ</th>--}}
+                                        <th>Գործողություններ</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -128,22 +128,13 @@
                                                 </form>
                                             </td>
                                             <td>{{ $report->created_at }}</td>
-                                            {{--                                            <td>--}}
-                                            {{--                                                <a href="{{ route('reports.edit', $report->id) }}" class="btn"--}}
-                                            {{--                                                   title="Edit details">--}}
-                                            {{--                                                    <i class="text-success nav-icon fas fa-edit"></i>--}}
-                                            {{--                                                </a>--}}
-
-                                            {{--                                                <form action="{{ route('reports.destroy', $report->id) }}" method="POST"--}}
-                                            {{--                                                      style="display: none"--}}
-                                            {{--                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել դիմումը')">--}}
-                                            {{--                                                    @csrf--}}
-                                            {{--                                                    @method('DELETE')--}}
-                                            {{--                                                </form>--}}
-                                            {{--                                                <a href="#" onclick="$(this).prev().submit()" title="Delete">--}}
-                                            {{--                                                    <i class="text-danger nav-icon fas fa-trash"></i>--}}
-                                            {{--                                                </a>--}}
-                                            {{--                                            </td>--}}
+                                            <td>
+                                                <a href="{{ route('reports.show', $report->id) }}"
+                                                   class="btn"
+                                                   title="Show details">
+                                                    <i class="text-success nav-icon fas fa-eye"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
