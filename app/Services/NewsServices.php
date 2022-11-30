@@ -36,7 +36,7 @@ class NewsServices
 
         $news = News::create([
             'title' => $data['title'],
-            'description' => $data['title'],
+            'description' => $data['description'],
             'news_date' => date('Y-m-d H:i:s', strtotime($data['news_date'])),
             'status' => $data['status'],
         ]);
@@ -61,7 +61,7 @@ class NewsServices
         DB::beginTransaction();
         $news->update([
             'title' => $data['title'],
-            'description' => $data['title'],
+            'description' => $data['description'],
             'news_date' => date('Y-m-d H:i:s', strtotime($data['news_date'])),
             'status' => $data['status'],
         ]);
