@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Event;
+use App\Models\News;
 use App\Models\Statement;
 use Illuminate\Support\Facades\Storage;
 
@@ -34,5 +35,17 @@ class DeleteService
             Storage::deleteDirectory($url);
         }
         $event->delete();
+    }
+
+    /**
+     * @param $id
+     */
+    public function news($id){
+        $news = News::find($id);
+        if(isset($news->wallpaper)){
+            $url = 'public/news/' . $id;
+            Storage::deleteDirectory($url);
+        }
+        $news->delete();
     }
 }

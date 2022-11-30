@@ -163,4 +163,23 @@ class FilterServices
 
         return $query;
     }
+
+    /**
+     * @param $query
+     * @param $data
+     * @return mixed
+     */
+    public function news($query, $data){
+        if (isset($data['search']) && $data['search'] !== null) {
+            $query = $query->where(function ($q) use ($data) {
+                $q->where('title', 'like', '%' . $data['search'] . '%');
+            });
+        }
+
+        if (isset($data['status']) && $data['status'] !== null) {
+            $query = $query->where('status', $data['status']);
+        }
+
+        return $query;
+    }
 }
