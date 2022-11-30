@@ -67,6 +67,15 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a style="color: #fff;" href="{{ route('news.index') }}"
+                       class="nav-link {{Request::segment(2) == 'news' ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-newspaper"></i>
+                        <p>
+                            Նորություններ
+                        </p>
+                    </a>
+                </li>
 
                 @if(auth()->user()->role == 'admin')
                     <li class="nav-item">
@@ -88,66 +97,6 @@
                         </a>
                     </li>
                 @endif
-
-                    {{--                <li class="nav-item">--}}
-                    {{--                    <a href="{{ route('filters.index') }}" class="nav-link {{Request::segment(2) == 'filters' ? 'active' : ''}}">--}}
-                    {{--                        <i class="nav-icon fas fa-filter"></i>--}}
-                    {{--                        <p>--}}
-                    {{--                           Filtri--}}
-                    {{--                        </p>--}}
-                    {{--                    </a>--}}
-                    {{--                </li>--}}
-
-                    {{--                <li class="nav-item {{Request::segment(2) == 'parentCategories' || Request::segment(2) == 'childCategories' ? 'menu-open' : ''}}">--}}
-                    {{--                    <a href="#" class="nav-link {{Request::segment(2) == 'parentCategories' || Request::segment(2) == 'childCategories' ? 'active' : ''}}">--}}
-                    {{--                        <i class="nav-icon fas fa-table"></i>--}}
-                    {{--                        <p>--}}
-                    {{--                            Kategorije--}}
-                    {{--                            <i class="fas fa-angle-left right"></i>--}}
-                    {{--                        </p>--}}
-                    {{--                    </a>--}}
-                    {{--                    <ul class="nav nav-treeview">--}}
-                    {{--                        <li class="nav-item">--}}
-                    {{--                            <a href="{{ route('parentCategories.index') }}" class="nav-link {{Request::segment(2) == 'parentCategories' ? 'active' : ''}}">--}}
-                    {{--                                <i class="far fa-circle nav-icon"></i>--}}
-                    {{--                                <p>Nadrejene kategorije </p>--}}
-                    {{--                            </a>--}}
-                    {{--                        </li>--}}
-                    {{--                        <li class="nav-item">--}}
-                    {{--                            <a href="{{ route('childCategories.index') }}" class="nav-link {{Request::segment(2) == 'childCategories' ? 'active' : ''}}">--}}
-                    {{--                                <i class="far fa-circle nav-icon"></i>--}}
-                    {{--                                <p>Podrejene kategorije </p>--}}
-                    {{--                            </a>--}}
-                    {{--                        </li>--}}
-                    {{--                    </ul>--}}
-                    {{--                </li>--}}
-
-                    {{--                <li class="nav-item">--}}
-                    {{--                    <a href="{{ route('payments.index') }}" class="nav-link {{Request::segment(2) == 'payments' ? 'active' : ''}}">--}}
-                    {{--                        <i class="nav-icon fas fa-dollar-sign"></i>--}}
-                    {{--                        <p>--}}
-                    {{--                            Plačila--}}
-                    {{--                        </p>--}}
-                    {{--                    </a>--}}
-                    </li>
-                    {{--                <li class="nav-item">--}}
-                    {{--                    <a href="{{ route('violations.index') }}" class="nav-link {{Request::segment(2) == 'violations' ? 'active' : ''}}">--}}
-                    {{--                        <i class="nav-icon fas fa-file"></i>--}}
-                    {{--                        <p>--}}
-                    {{--                            Zlorabe--}}
-                    {{--                        </p>--}}
-                    {{--                    </a>--}}
-                    {{--                </li>--}}
-                    {{--                <li class="nav-item">--}}
-                    {{--                    <a href="{{ route('phone-numbers.index') }}" class="nav-link {{Request::segment(2) == 'phone-numbers' ? 'active' : ''}}">--}}
-                    {{--                        <i class="nav-icon fas fa-phone"></i>--}}
-                    {{--                        <p>--}}
-                    {{--                           Blokirane številke --}}
-                    {{--                        </p>--}}
-                    {{--                    </a>--}}
-                    {{--                </li>--}}
-
-
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

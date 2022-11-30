@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\ReportController;
 use App\Http\Controllers\Dashboard\EventController;
 use App\Http\Controllers\Dashboard\FastQuestionController;
 use App\Http\Controllers\Dashboard\StatementController;
+use App\Http\Controllers\Dashboard\NewsController;
 
 Route::prefix('dashboard')
     ->middleware(['adminPanel'])
@@ -15,6 +16,7 @@ Route::prefix('dashboard')
         Route::resource('reports', ReportController::class);
         Route::resource('fast-questions', FastQuestionController::class);
         Route::resource('statements', StatementController::class);
+        Route::resource('news', NewsController::class);
         Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 
         Route::middleware('admin')->group(function (){
