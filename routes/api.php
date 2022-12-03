@@ -41,6 +41,8 @@ Route::middleware('guest')->group(function () {
         Route::get('get-statements', [HomeController::class, 'getStatements'])->name('home.get-statements');
         Route::get('single-statement/{statement_id}', [HomeController::class, 'singleStatement'])->name('home.single-statement');
 
+        Route::get('get-news', [HomeController::class, 'getNews'])->name('home.get-news');
+        Route::get('single-news/{news_id}', [HomeController::class, 'singleNews'])->name('home.single-news');
     });
 
 });
