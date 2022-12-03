@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\News;
 use App\Models\Statement;
 use App\Repositories\Api\ResponseRepository;
 use App\Services\FilterServices;
@@ -111,6 +112,46 @@ class HomeController extends Controller
         try {
 
             return $this->response->success(['statement' => $statement]);
+
+        } catch (\Throwable $e) {
+            return $this->response->badRequest([], $e->getMessage());
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getNews(Request $request): JsonResponse
+    {
+        $data = $request->all();
+
+        try {
+            $news = News::query();
+            $news = $this->filterServices->news($news, $data);
+
+            $news = $news
+                ->orderByDesc('id')
+                ->paginate($data['size'] ?? 20);
+
+            return $this->response->success(['news' => $news]);
+
+        } catch (\Throwable $e) {
+            return $this->response->badRequest([], $e->getMessage());
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function singleNews(Request $request, $id): JsonResponse
+    {
+        $news = News::find($id);
+        try {
+
+            return $this->response->success(['news' => $news]);
 
         } catch (\Throwable $e) {
             return $this->response->badRequest([], $e->getMessage());

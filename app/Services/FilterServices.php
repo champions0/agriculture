@@ -180,6 +180,15 @@ class FilterServices
             $query = $query->where('status', $data['status']);
         }
 
+        if (isset($data['start_date']) && $data['start_date'] !== null) {
+            $endDate = now();
+            if(isset($data['end_date']) && $data['end_date'] !== null){
+                $endDate = $data['end_date'];
+            }
+            $query = $query
+                ->whereBetween('news_date', [ date('Y-m-d H:i:s', strtotime($data['start_date'])), date('Y-m-d H:i:s', strtotime($endDate))]);
+        }
+
         return $query;
     }
 }
