@@ -41,7 +41,7 @@
                                                 <option value="" selected>Կարգավիճակ</option>
                                                 <option
                                                     value="{{ \App\Models\Report::PENDING }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\Report::PENDING ? 'selected' : '' }}>
-                                                    Դիտառրվող
+                                                    Դիտարկվող
                                                 </option>
                                                 <option
                                                     value="{{ \App\Models\Report::SUCCESS }}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\Report::SUCCESS ? 'selected' : '' }}>
