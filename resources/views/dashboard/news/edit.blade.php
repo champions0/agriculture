@@ -6,12 +6,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Խմբագրել նորությունռ</h1>
+                        <h1>Խմբագրել նորությունը</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Գլխավոր</a></li>
-                            <li class="breadcrumb-item active">Խմբագրել նորությունռ</li>
+                            <li class="breadcrumb-item active">Խմբագրել նորությունը</li>
                         </ol>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
 
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h1 class="card-title">Խմբագրել նորությունռ</h1>
+                                    <h1 class="card-title">Խմբագրել նորությունը</h1>
                                 </div>
 
                                 <form
