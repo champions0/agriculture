@@ -6,6 +6,7 @@ use App\Models\News;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Repositories\Api\NewsRepository;
 
 /**
  * Class NewsServices
@@ -15,16 +16,22 @@ class NewsServices
 {
     /**
      * @var FileServices
+     * @var NewsRepository
      */
     private $fileServices;
+    private $newsRepository;
 
     /**
      * StatementServices constructor.
      * @param FileServices $fileServices
      */
-    public function __construct(FileServices $fileServices)
+    public function __construct(
+        FileServices $fileServices,
+        NewsRepository $newsRepository
+    )
     {
         $this->fileServices = $fileServices;
+        $this->newsRepository = $newsRepository;
     }
 
     /**
@@ -34,20 +41,22 @@ class NewsServices
     {
         DB::beginTransaction();
 
-        $news = News::create([
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'news_date' => date('Y-m-d H:i:s', strtotime($data['news_date'])),
-            'status' => $data['status'],
-        ]);
+        // $news = News::create([
+        //     'title' => $data['title'],
+        //     'description' => $data['description'],
+        //     'news_date' => date('Y-m-d H:i:s', strtotime($data['news_date'])),
+        //     'status' => $data['status'],
+        // ]);
 
-        if (isset($data['wallpaper'])) {
-            $imageFileName = rand(1000000, 99999999999) . Str::slug($data['wallpaper']->getClientOriginalName(), '.');
-            $path = $this->fileServices->savePhoto(500, $data['wallpaper'], 'news/' . $news['id'], $imageFileName);
-            $news->update([
-                'wallpaper' => $path // '/storage/' . $path
-            ]);
-        }
+        // if (isset($data['wallpaper'])) {
+        //     $imageFileName = rand(1000000, 99999999999) . Str::slug($data['wallpaper']->getClientOriginalName(), '.');
+        //     $path = $this->fileServices->savePhoto(500, $data['wallpaper'], 'news/' . $news['id'], $imageFileName);
+        //     $news->update([
+        //         'wallpaper' => $path // '/storage/' . $path
+        //     ]);
+        // }
+        
+        return $this->newsRepository->create($data);
 
         DB::commit();
     }
