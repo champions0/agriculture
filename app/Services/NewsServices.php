@@ -39,26 +39,7 @@ class NewsServices
      */
     public function create($data)
     {
-        DB::beginTransaction();
-
-        // $news = News::create([
-        //     'title' => $data['title'],
-        //     'description' => $data['description'],
-        //     'news_date' => date('Y-m-d H:i:s', strtotime($data['news_date'])),
-        //     'status' => $data['status'],
-        // ]);
-
-        // if (isset($data['wallpaper'])) {
-        //     $imageFileName = rand(1000000, 99999999999) . Str::slug($data['wallpaper']->getClientOriginalName(), '.');
-        //     $path = $this->fileServices->savePhoto(500, $data['wallpaper'], 'news/' . $news['id'], $imageFileName);
-        //     $news->update([
-        //         'wallpaper' => $path // '/storage/' . $path
-        //     ]);
-        // }
-        
         return $this->newsRepository->create($data);
-
-        DB::commit();
     }
 
     /**
