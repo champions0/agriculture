@@ -40,7 +40,7 @@ class FilterServices
     {
         if (isset($data['search']) && $data['search'] !== null) {
             $query = $query->where(function ($q) use ($data) {
-                $q->where('title', $data['search'])
+                $q->where('title', 'like', '%' . $data['search'] . '%')
                     ->orWhere('id', $data['search']);
             });
         }
@@ -71,10 +71,10 @@ class FilterServices
     {
         if (isset($data['search']) && $data['search'] !== null) {
             $query = $query->where(function ($q) use ($data) {
-                $q->where('number', $data['search'])
+                $q->where('number', 'like', '%' . $data['search'] . '%')
                     ->orWhere('id', $data['search'])
                     ->orWhereHas('category', function ($query) use ($data) {
-                        $query->where('name', $data['search']);
+                        $query->where('name', 'like', '%' . $data['search'] . '%');
                     });
             });
         }
