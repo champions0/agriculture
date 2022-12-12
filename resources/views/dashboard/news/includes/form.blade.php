@@ -12,9 +12,19 @@
 
         <div class="col-md-4">
             <div class="form-group">
-                <label>Նկար</label>
+                <label>Գլխավոր նկար</label>
                 <input type="file" class="form-control" name="wallpaper">
                 @error('wallpaper')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Նկարներ</label>
+                <input type="file" multiple class="form-control" name="images[]">
+                @error('images')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
