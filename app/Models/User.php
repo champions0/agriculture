@@ -38,6 +38,7 @@ class User extends Authenticatable
         'role',
         'gender',
         'avatar',
+        'fcm_token',
         'sms_verified_at',
     ];
 
