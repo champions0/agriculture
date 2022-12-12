@@ -53,7 +53,7 @@ class NewsRepository
 
         if (isset($data['wallpaper'])) {
             $imageFileName = rand(1000000, 99999999999) . Str::slug($data['wallpaper']->getClientOriginalName(), '.');
-            $path = $this->fileServices->savePhoto(500, $data['wallpaper'], 'news/' . $news['id'] . '/wallpaper//', $imageFileName);
+            $path = $this->fileServices->savePhoto(500, $data['wallpaper'], 'news/' . $news['id'] . '/wallpaper/', $imageFileName);
             $news->update([
                 'wallpaper' => $path // '/storage/' . $path
             ]);
@@ -62,7 +62,7 @@ class NewsRepository
         if(isset($data['images'])){
             foreach ($data['images'] as $item){
                 $imageFileName = rand(1000000, 99999999999) . Str::slug($item->getClientOriginalName(), '.');
-                $path = $this->fileServices->savePhoto(500, $item, 'news/' . $news->id . '/images//', $imageFileName);
+                $path = $this->fileServices->savePhoto(500, $item, 'news/' . $news->id . '/images/', $imageFileName);
 
                 Image::create([
                     'path' => $path,
