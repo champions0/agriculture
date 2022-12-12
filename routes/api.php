@@ -33,18 +33,6 @@ Route::middleware('guest')->group(function () {
 
     Route::get('get-residences', [AuthController::class, 'getResidences'])->name('get-residences');
     Route::get('get-subjects', [AuthController::class, 'getSubjects'])->name('get-subjects');
-
-    Route::prefix('home')->group(function (){
-        Route::get('get-events', [HomeController::class, 'getEvents'])->name('home.get-event');
-        Route::get('single-event/{event_id}', [HomeController::class, 'singleEvent'])->name('home.single-events');
-
-        Route::get('get-statements', [HomeController::class, 'getStatements'])->name('home.get-statements');
-        Route::get('single-statement/{statement_id}', [HomeController::class, 'singleStatement'])->name('home.single-statement');
-
-        Route::get('get-news', [HomeController::class, 'getNews'])->name('home.get-news');
-        Route::get('single-news/{news_id}', [HomeController::class, 'singleNews'])->name('home.single-news');
-    });
-
 });
 
 Route::middleware(['auth:api'])->group(function () {
@@ -58,4 +46,15 @@ Route::middleware(['auth:api'])->group(function () {
     });
 
     Route::get('get-user', [AuthController::class, 'getUser'])->name('get-user');
+
+    Route::prefix('home')->group(function (){
+        Route::get('get-events', [HomeController::class, 'getEvents'])->name('home.get-event');
+        Route::get('single-event/{event_id}', [HomeController::class, 'singleEvent'])->name('home.single-events');
+
+        Route::get('get-statements', [HomeController::class, 'getStatements'])->name('home.get-statements');
+        Route::get('single-statement/{statement_id}', [HomeController::class, 'singleStatement'])->name('home.single-statement');
+
+        Route::get('get-news', [HomeController::class, 'getNews'])->name('home.get-news');
+        Route::get('single-news/{news_id}', [HomeController::class, 'singleNews'])->name('home.single-news');
+    });
 });
