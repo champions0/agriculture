@@ -30,23 +30,17 @@
                             <h3 class="d-inline-block d-sm-none"></h3>
 
                             <div class="col-12">
-                                @if( $news->wallpaper || count($news->images) )
-                                    <img src="{{ \App\Services\FileServices::getImageAttribute($news->wallpaper) }}"
-                                            class="product-image"
-                                            alt="Product Image"
-                                            style="object-fit: contain; height: 500px;"
+                                @if(count($news->images))
+                                    <img src="{{ \App\Services\FileServices::getImageAttribute($news->images[0]['path']) }}"
+                                         class="product-image"
+                                         alt="Product Image"
+                                         style="object-fit: contain; height: 500px;"
                                     >
                                     @else
-                                    Նկար չկան
+                                    Նկարներ չկան
                                 @endif
                             </div>
                             <div class="col-12 product-image-thumbs">
-
-                                @if( $news->wallpaper )
-                                    <div class="product-image-thumb active"><img
-                                        src="{{ \App\Services\FileServices::getImageAttribute($news->wallpaper) }}" alt="Product Image"></div>
-                                @endif
-
                                 @if(count($news->images))
                                     @foreach($news->images as $image)
                                     <div class="product-image-thumb {{ $loop->first ? 'active' : '' }}"><img
@@ -58,6 +52,15 @@
                         </div>
                         <div class="col-12 col-sm-6">
                             <h3 class="my-3">Տվյալներ</h3>
+                            @if( $news->wallpaper )
+                            <hr>
+                                <div>
+                                    <img src="{{ \App\Services\FileServices::getImageAttribute($news->wallpaper) }}"
+                                            alt="Product Image"
+                                            style="object-fit: contain; height: 90px;"
+                                    >
+                                </div>
+                            @endif
                             <hr>
                             <h4>Կարգավիճակ՝</h4>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
