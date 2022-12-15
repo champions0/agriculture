@@ -127,7 +127,7 @@ class HomeController extends Controller
         $data = $request->all();
 
         try {
-            $news = News::query();
+            $news = News::query()->with('images');
             $news = $this->filterServices->news($news, $data);
 
             $news = $news
@@ -148,7 +148,7 @@ class HomeController extends Controller
      */
     public function singleNews(Request $request, $id): JsonResponse
     {
-        $news = News::find($id);
+        $news = News::with('images')->find($id);
         try {
 
             return $this->response->success(['news' => $news]);

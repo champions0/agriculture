@@ -28,6 +28,4 @@ class News extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
-
-
 }
