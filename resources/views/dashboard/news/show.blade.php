@@ -21,55 +21,77 @@
 
         <!-- Main content -->
         <section class="content">
-            <div class="container-fluid">
-                <div class="row row justify-content-center">
-                    <div class="col-md-8">
 
-                        <!-- Profile Image -->
-                        <div class="card card-primary card-outline">
-                            <div class="card-body box-profile">
-                                <div class="text-center">
-                                    <img class=""
-                                         @if(isset($news->wallpaper))
-                                         {{--                                            src="{{ env('APP_URL'). '/storage/' . $user->avatar }}"--}}
-                                         src="{{ \App\Services\FileServices::getImageAttribute($news->wallpaper) }}"
-                                         @else
-                                         src="{{ asset('/assets/dist/img/noImage.jpg') }}"
-                                         @endif
-                                         alt="Statement profile picture">
-                                </div>
+            <!-- Default box -->
+            <div class="card card-solid">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <h3 class="d-inline-block d-sm-none"></h3>
 
-                                <h3 class="profile-username text-center">{{ $news->title }}</h3>
-
-                                <ul class="list-group list-group-unbordered mb-3">
-                                    <li class="list-group-item">
-                                        <b>Ավելացման ամսաթիվը՝</b>
-                                        <p class="float-right">{{ $news->news_date }}</p>
-                                    </li>
-
-                                    <li class="list-group-item">
-                                        <b>Նկարագրությունր՝</b>
-                                        <p class="float-right">{{ $news->description }}</p>
-                                    </li>
-
-                                    <li class="list-group-item">
-                                        <b>Կարգավիճակը՝</b>
-                                        @if($news->status == \App\Models\News::INACTIVE)
-                                            <p class="float-right text-warning">Պասիվ</p>
-                                        @elseif($news->status == \App\Models\News::ACTIVE)
-                                            <p class="float-right text-success">Ակտիվ</p>
-                                        @endif
-                                    </li>
-                                </ul>
+                            <div class="col-12">
+                                @if(count($news->images))
+                                    <img src="{{ \App\Services\FileServices::getImageAttribute($news->images[0]['path']) }}"
+                                         class="product-image"
+                                         alt="Product Image"
+                                         style="object-fit: contain; height: 500px;"
+                                    >
+                                    @else
+                                    Նկարներ չկան
+                                @endif
                             </div>
-                            <!-- /.card-body -->
+                            <div class="col-12 product-image-thumbs">
+                                @if(count($news->images))
+                                    @foreach($news->images as $image)
+                                    <div class="product-image-thumb {{ $loop->first ? 'active' : '' }}"><img
+                                            src="{{ \App\Services\FileServices::getImageAttribute($image->path) }}" alt="Product Image"></div>
+                                    @endforeach
+                                @endif
+
+                            </div>
                         </div>
+                        <div class="col-12 col-sm-6">
+                            <h3 class="my-3">Տվյալներ</h3>
+                            @if( $news->wallpaper )
+                            <hr>
+                                <div>
+                                    <img src="{{ \App\Services\FileServices::getImageAttribute($news->wallpaper) }}"
+                                            alt="Product Image"
+                                            style="object-fit: contain; height: 90px;"
+                                    >
+                                </div>
+                            @endif
+                            <hr>
+                            <h4>Կարգավիճակ՝</h4>
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <input type="hidden" class="fast_question_id" name="fast_question_id"
+                                        value="{{ $news->id }}">
+                                @if($news->status == \App\Models\News::INACTIVE)
+                                    <p class="float-right text-warning">Պասիվ</p>
+                                @elseif($news->status == \App\Models\News::ACTIVE)
+                                    <p class="float-right text-success">Ակտիվ</p>
+                                @endif
+                            </div>
 
+                            <h4 class="mt-3">Ավելացման ամսաթիվը՝</h4>
+                            <div class="btn-group">
+                                <p class="float-right">{{ $news->news_date }}</p>
+                            </div>
+
+                            <h4 class="mt-3">Նկարագրությունր՝</h4>
+                            <div class="btn-group">
+                                <p class="float-right">{{ $news->description }}</p>
+                            </div>
+
+                        </div>
                     </div>
-
                 </div>
-                <!-- /.row -->
-            </div><!-- /.container-fluid -->
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+
+
         </section>
     </div>
 @endsection

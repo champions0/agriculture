@@ -96,7 +96,8 @@ class NewsController extends Controller
      */
     public function show($id)
     {
-        $news = News::find($id);
+        $news = News::with('images')
+        ->find($id);
         return view('dashboard.news.show', compact('news'));
     }
 
