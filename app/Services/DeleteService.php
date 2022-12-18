@@ -41,7 +41,13 @@ class DeleteService
      * @param $id
      */
     public function news($id){
-        $news = News::find($id);
+        $news = News::with('images')->find($id);
+        if ( $news->images ) {
+            foreach ($news->images as $img) {
+                $img->delete();
+            }
+        }
+
         if(isset($news->wallpaper)){
             $url = 'public/news/' . $id;
             Storage::deleteDirectory($url);
