@@ -119,7 +119,7 @@ class NewsController extends Controller
     public function update(NewsRequest $request, $id)
     {
         $data = $request->validated();
-        $news = News::find($id);
+        $news = News::with('images')->find($id);
 
         $this->newsServices->update($news, $data);
 
