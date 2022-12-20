@@ -79,6 +79,11 @@ class NewsRepository
         return $news;
     }
 
+    /**
+     * @param $news
+     * @param $data
+     * @return mixed
+     */
     public function update($news, $data)
     {
         DB::beginTransaction();
@@ -123,5 +128,7 @@ class NewsRepository
         }
 
         DB::commit();
+
+        return $news;
     }
 }

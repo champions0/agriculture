@@ -2,10 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\News;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use App\Repositories\Api\NewsRepository;
 
 /**
@@ -19,11 +15,17 @@ class NewsServices
      * @var NewsRepository
      */
     private $fileServices;
-    private $newsRepository;
 
     /**
-     * StatementServices constructor.
+     * @var NewsRepository
+     */
+    private $newsRepository;
+
+
+    /**
+     * NewsServices constructor.
      * @param FileServices $fileServices
+     * @param NewsRepository $newsRepository
      */
     public function __construct(
         FileServices $fileServices,
@@ -36,6 +38,7 @@ class NewsServices
 
     /**
      * @param $data
+     * @return mixed
      */
     public function create($data)
     {
@@ -45,6 +48,7 @@ class NewsServices
     /**
      * @param $news
      * @param $data
+     * @return mixed
      */
     public function update($news, $data)
     {
