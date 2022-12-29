@@ -103,6 +103,7 @@ class AuthServices
      */
     public function registerStep2($userId, $data)
     {
+        $data['number'] = $this->cryptServices->mdEncrypt($data['soc_number']);
         $data['soc_number'] = $this->cryptServices->encrypt($data['soc_number']);
         return $this->userService->update($userId, $data);
     }

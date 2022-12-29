@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
-                <label>Title</label>
+                <label>Վերնագիր</label>
                 <input type="text" class="form-control" name="title" value="{{ old('title') ?? ($event->title ?? '' )}}">
                 @error('title')
                 <div class="text-danger">{{ $message }}</div>

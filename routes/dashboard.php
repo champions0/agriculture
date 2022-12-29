@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\EventController;
 use App\Http\Controllers\Dashboard\FastQuestionController;
 use App\Http\Controllers\Dashboard\StatementController;
 use App\Http\Controllers\Dashboard\NewsController;
+use App\Http\Controllers\Dashboard\NotificationController;
 
 Route::prefix('dashboard')
     ->middleware(['adminPanel'])
@@ -17,6 +18,8 @@ Route::prefix('dashboard')
         Route::resource('fast-questions', FastQuestionController::class);
         Route::resource('statements', StatementController::class);
         Route::resource('news', NewsController::class);
+        Route::resource('notifications', NotificationController::class);
+
         Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 
         Route::middleware('admin')->group(function (){

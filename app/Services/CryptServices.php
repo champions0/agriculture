@@ -17,7 +17,6 @@ class CryptServices
      */
     public function getResetPasswordHash($user)
     {
-//        dd($user);
         return Crypt::encrypt([
             'user_id' => $user->id,
             'expires' => Carbon::now()->addHours(24)->timestamp
@@ -41,4 +40,14 @@ class CryptServices
     {
         return Crypt::decrypt($hash);
     }
+
+    /**
+     * @param $content
+     * @return string
+     */
+    public function mdEncrypt($content)
+    {
+        return md5($content);
+    }
+
 }

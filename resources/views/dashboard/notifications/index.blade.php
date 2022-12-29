@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Օգտատերերի ցուցակ</h1>
+                        <h1>Հաղորդագրությունների ցուցակ</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Գլխավոր</a></li>
-                            <li class="breadcrumb-item active">Օգտատերերի ցուցակ</li>
+                            <li class="breadcrumb-item active">Հաղորդագրությունների ցուցակ</li>
                         </ol>
                     </div>
                 </div>
@@ -26,10 +26,10 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Օգտատերեր</h3>
+                                <h3 class="card-title">Հաղորդագրություններ</h3>
 
                                 <div class="card-tools">
-                                    <form action="{{ route('users.index') }}" method="GET">
+                                    <form action="{{ route('notifications.index') }}" method="GET">
                                         <div class="input-group input-group-sm" style="width: 450px;">
                                             <select name="status" class="custom-select form-control-borde">
                                                 <option value="" selected>Կարգավիճակ</option>
@@ -46,7 +46,9 @@
                                             </div>
                                         </div>
                                     </form>
-
+                                    <div class="box-tools mr-0" style="margin-top: 20px; float: right">
+                                        <a href="{{route('notifications.create')}}" class="btn btn-primary">Ավելացնել Հաղորդագրություն</a>
+                                    </div>
                                 </div>
                             </div>
                             <!-- /.card-header -->
@@ -55,44 +57,35 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>ՀՎՀՀ</th>
-                                        <th>Անուն</th>
-{{--                                        <th>Էլ․ հասցե</th>--}}
-                                        <th>Հեռախոսահամար</th>
-                                        <th>Ծննդյան ամսաթիվ</th>
-                                        <th>Դեր</th>
+                                        <th>Վերնագիր</th>
+                                        <th>Տեսակ</th>
                                         <th>Կարգավիճակ</th>
                                         <th>Ավելացվել է</th>
                                         <th>Գործողություններ</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($users as $user)
+                                    @foreach($notifications as $notification)
                                         <tr>
-                                            <td>{{ $user->id }}</td>
-                                            <td>{{ isset($user->number) ? \Illuminate\Support\Facades\Crypt::decrypt($user->soc_number) : '' }}</td>
-                                            <td>
-                                                <a target="_blank" href="{{ route('users.show', $user->id) }}"
-                                                   title="Show details">
-                                                    {{ $user->first_name . ' ' . $user->last_name . ' ' . $user->surname }}
-                                                </a>
-                                            </td>
-{{--                                            <td>{{ $user->email }}</td>--}}
-                                            <td>{{ $user->country_code . $user->phone }}</td>
-                                            <td>{{ $user->birth_date }}</td>
-                                            <td>{{ $user->role }}</td>
-                                            @if($user->status == 1)
+                                            <td>{{ $notification->id }}</td>
+                                            <td>{{ $notification->title }}</td>
+                                            <td>{{ $notification->type ?? 'Տեսակավորված չէ' }}</td>
+                                            @if($notification->status == 1)
                                                 <td>
-                                                    <i class="text-success">Ակտիվ</i>
+                                                    <i class="text-success">Կարդացված</i>
+                                                </td>
+                                            @elseif($notification->status == 0)
+                                                <td>
+                                                    <i class="text-danger">Նոր</i>
                                                 </td>
                                             @else
                                                 <td>
-                                                    <i class="text-danger">Պասիվ</i>
+                                                    <i class="text-danger">Բացված</i>
                                                 </td>
                                             @endif
                                             <td>{{ $user->created_at }}</td>
                                             <td>
-                                                <a href="{{ route('users.show', $user->id) }}" class="btn"
+                                                <a href="{{ route('notifications.show', $notification->id) }}" class="btn"
                                                    title="Show details">
                                                     <i class="text-success nav-icon fas fa-eye"></i>
                                                 </a>
@@ -102,7 +95,7 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                                {!! $users->links() !!}
+                                {!! $notifications->links() !!}
                             </div>
                             <!-- /.card-body -->
                         </div>

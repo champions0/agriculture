@@ -17,10 +17,9 @@ class FilterServices
     {
         if (isset($data['search']) && $data['search'] !== null) {
             $query = $query->where(function ($q) use ($data) {
-                $q->where('first_name', $data['search'])
-                    ->orWhere('last_name', $data['search'])
-                    ->orWhere('last_name', $data['search'])
-                    ->orWhere('number', $data['search'])
+                $q->where('first_name', 'like', '%' .  $data['search'] . '%')
+                    ->orWhere('last_name', 'like', '%' .  $data['search'] . '%')
+                    ->orWhere('number', md5($data['search']))
                     ->orWhere('id', $data['search']);
             });
         }
@@ -191,4 +190,27 @@ class FilterServices
 
         return $query;
     }
+
+    /**
+     * @param $query
+     * @param $data
+     * @return mixed
+     */
+    public function notification($query, $data)
+    {
+//        if (isset($data['search']) && $data['search'] !== null) {
+//            $query = $query->where(function ($q) use ($data) {
+//                $q->where('first_name', 'like', '%' .  $data['search'] . '%')
+//                    ->orWhere('last_name', 'like', '%' .  $data['search'] . '%')
+//                    ->orWhere('number', md5($data['search']))
+//                    ->orWhere('id', $data['search']);
+//            });
+//        }
+//
+//        if (isset($data['status']) && $data['status'] !== null) {
+//            $query = $query->where('status', $data['status']);
+//        }
+        return $query;
+    }
+
 }

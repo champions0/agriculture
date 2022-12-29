@@ -10,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    use HasApiTokens, HasFactory, Notifiable;
+
     const INACTIVE = 0;
     const ACTIVE = 1;
     const DRAFT = 2;
@@ -41,8 +43,6 @@ class User extends Authenticatable
         'fcm_token',
         'sms_verified_at',
     ];
-
-    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that should be hidden for serialization.
