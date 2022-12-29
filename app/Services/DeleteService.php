@@ -43,6 +43,10 @@ class DeleteService
      */
     public function notification($id){
         $notification = Notification::find($id);
+        if(count($notification->userNotifications)){
+            $notification->userNotifications()->delete();
+        }
+
         $notification->delete();
     }
 

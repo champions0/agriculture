@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\NotificationCreateRequest;
+use App\Http\Requests\Dashboard\NotificationUpdateRequest;
 use App\Models\Notification;
 use App\Services\DeleteService;
 use App\Services\FilterServices;
@@ -70,15 +72,17 @@ class NotificationController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param NotificationCreateRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(NotificationCreateRequest $request)
     {
-//        $data = $request->validated();
-        $data = $request->all();
+        $data = $request->validated();
 
-        $this->notificationService->create($data);
+        $notification = $this->notificationService->create($data);
+        if($notification == null){
+            return back()->withErrors(['number' => 'Այս ՀՎՀՀ-ով օգտատեր չի գտնվել']);
+        }
 
         return redirect()->route('notifications.index');
     }
@@ -108,12 +112,11 @@ class NotificationController extends Controller
      * @param $id
      * @return Application|Factory|View
      */
-    public function update(Request $request, $id)
+    public function update(NotificationUpdateRequest $request, $id)
     {
 //        $data = $request->validated();
-        $data = $request->all();
-        $notification = Notification::find($id);
-        return view('dashboard.notifications.edit', compact('notification'));
+//        $notification = Notification::find($id);
+//        return view('dashboard.notifications.edit', compact('notification'));
     }
 
     /**

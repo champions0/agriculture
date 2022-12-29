@@ -33,8 +33,14 @@
                                         <div class="input-group input-group-sm" style="width: 450px;">
                                             <select name="status" class="custom-select form-control-borde">
                                                 <option value="" selected>Կարգավիճակ</option>
-                                                <option value="1" {{ isset($_GET['status']) && $_GET['status'] == '1' ? 'selected' : '' }}>Ակտիվ</option>
-                                                <option value="0" {{ isset($_GET['status']) && $_GET['status'] == '0' ? 'selected' : '' }}>Պասիվ</option>
+                                                <option value="{{\App\Models\Notification::UNREAD}}" {{ isset($_GET['status']) && $_GET['status'] == \App\Models\Notification::UNREAD ? 'selected' : '' }}>Չկարդացված</option>
+                                                <option value="{{\App\Models\Notification::READ}}" {{ isset($_GET['status']) && $_GET['status'] ==  \App\Models\Notification::READ ? 'selected' : '' }}>Կարդացված</option>
+                                                <option value="{{\App\Models\Notification::OPENED}}" {{ isset($_GET['status']) && $_GET['status'] ==  \App\Models\Notification::OPENED ? 'selected' : '' }}>Չբացված</option>
+                                            </select>
+                                            <select name="type" class="custom-select form-control-borde">
+                                                <option value="" selected>Տեսակ</option>
+                                                <option value="{{\App\Models\Notification::OTHER}}" {{ isset($_GET['type']) && $_GET['type'] == \App\Models\Notification::OTHER ? 'selected' : '' }}>Տեսակավորված չէ</option>
+                                                <option value="{{\App\Models\Notification::TAX}}" {{ isset($_GET['type']) && $_GET['type'] ==  \App\Models\Notification::TAX ? 'selected' : '' }}>Հարկային</option>
                                             </select>
                                             <input type="text" name="search" class="form-control float-right"
                                                    placeholder="Փնտրել" value="{{ $_GET['search'] ?? '' }}">
@@ -69,7 +75,7 @@
                                         <tr>
                                             <td>{{ $notification->id }}</td>
                                             <td>{{ $notification->title }}</td>
-                                            <td>{{ $notification->type ?? 'Տեսակավորված չէ' }}</td>
+                                            <td>{{ isset($notification->type) && $notification->type == \App\Models\Notification::TAX ? 'Հարկային' : 'Տեսակավորված չէ' }}</td>
                                             @if($notification->status == 1)
                                                 <td>
                                                     <i class="text-success">Կարդացված</i>
@@ -83,8 +89,17 @@
                                                     <i class="text-danger">Բացված</i>
                                                 </td>
                                             @endif
-                                            <td>{{ $user->created_at }}</td>
+                                            <td>{{ $notification->created_at }}</td>
                                             <td>
+                                                <form action="{{ route('notifications.destroy', $notification->id) }}" method="POST"
+                                                      style="display: none"
+                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել հաղորդագրությունը')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                                <a href="#" onclick="$(this).prev().submit()" title="Delete">
+                                                    <i class="text-danger nav-icon fas fa-trash"></i>
+                                                </a>
                                                 <a href="{{ route('notifications.show', $notification->id) }}" class="btn"
                                                    title="Show details">
                                                     <i class="text-success nav-icon fas fa-eye"></i>

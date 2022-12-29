@@ -19,14 +19,20 @@ class EventServices
      */
     private $fileServices;
 
+    /**
+     * EventServices constructor.
+     * @param FileServices $fileServices
+     */
     public function __construct(FileServices $fileServices)
     {
         $this->fileServices = $fileServices;
     }
 
+    /**
+     * @param $data
+     */
     public function create($data)
     {
-
         DB::beginTransaction();
 
         $event = Event::create([
@@ -63,6 +69,10 @@ class EventServices
         DB::commit();
     }
 
+    /**
+     * @param $event
+     * @param $data
+     */
     public function update($event, $data)
     {
         DB::beginTransaction();
@@ -92,7 +102,7 @@ class EventServices
                 'wallpaper' => $path // '/storage/' . $path
             ]);
         }
-//dd($data);
+
         if(count($data['residences'])){
             foreach ($event->residences as $item){
                 $item->delete();
@@ -108,7 +118,6 @@ class EventServices
         }
 
         DB::commit();
-
     }
 
 }
