@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Event;
 use App\Models\News;
+use App\Models\Notification;
 use App\Models\Statement;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,6 +36,18 @@ class DeleteService
             Storage::deleteDirectory($url);
         }
         $event->delete();
+    }
+
+    /**
+     * @param $id
+     */
+    public function notification($id){
+        $notification = Notification::find($id);
+        if(count($notification->userNotifications)){
+            $notification->userNotifications()->delete();
+        }
+
+        $notification->delete();
     }
 
     /**

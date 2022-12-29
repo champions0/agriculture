@@ -55,7 +55,7 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Համար</th>
+                                        <th>ՀՎՀՀ</th>
                                         <th>Անուն</th>
 {{--                                        <th>Էլ․ հասցե</th>--}}
                                         <th>Հեռախոսահամար</th>
@@ -70,7 +70,7 @@
                                     @foreach($users as $user)
                                         <tr>
                                             <td>{{ $user->id }}</td>
-                                            <td>{{ isset($user->number) ? \Illuminate\Support\Facades\Crypt::decrypt($user->number) : '' }}</td>
+                                            <td>{{ isset($user->number) ? \Illuminate\Support\Facades\Crypt::decrypt($user->soc_number) : '' }}</td>
                                             <td>
                                                 <a target="_blank" href="{{ route('users.show', $user->id) }}"
                                                    title="Show details">

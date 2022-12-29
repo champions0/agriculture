@@ -57,4 +57,6 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get('get-news', [HomeController::class, 'getNews'])->name('home.get-news');
         Route::get('single-news/{news_id}', [HomeController::class, 'singleNews'])->name('home.single-news');
     });
+
+    Route::get('/notifications', [\App\Http\Controllers\Api\NotificationController::class, 'index']);
 });

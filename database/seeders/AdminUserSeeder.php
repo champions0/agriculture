@@ -20,7 +20,7 @@ class AdminUserSeeder extends Seeder
             'first_name' => 'admin firstname',
             'last_name' => 'admin lastname',
             'surname' => 'admin surname',
-            'number' => Crypt::encrypt(mt_rand(100000, 999999)),
+            'number' => md5(mt_rand(100000, 999999)),
             'soc_number' => Crypt::encrypt(mt_rand(1000000, 9999999)),
             'email' => 'admin@gmail.com',
             'country_code' => '+374',

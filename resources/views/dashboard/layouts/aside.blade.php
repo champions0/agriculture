@@ -20,8 +20,6 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                     with font-awesome or any other icon font library -->
                 <li class="nav-item">
                     <a style="color: #fff;" href="{{ route('dashboard') }}" class="nav-link {{Request::segment(2) == '' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -30,15 +28,6 @@
                         </p>
                     </a>
                 </li>
-
-                {{--                <li class="nav-item">--}}
-                {{--                    <a href="{{ route('citizens.index') }}" class="nav-link {{Request::segment(2) == 'citizens' ? 'active' : ''}}">--}}
-                {{--                        <i class="nav-icon fas fa-users"></i>--}}
-                {{--                        <p>--}}
-                {{--                            Քաղաքացիներ--}}
-                {{--                        </p>--}}
-                {{--                    </a>--}}
-                {{--                </li>--}}
 
                 <li class="nav-item">
                     <a style="color: #fff;" href="{{ route('reports.index') }}"
@@ -55,6 +44,15 @@
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                             Շտապ հարցեր
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a style="color: #fff;" href="{{ route('notifications.index') }}"
+                       class="nav-link {{Request::segment(2) == 'notifications' ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-envelope"></i>
+                        <p>
+                            Հաղորդագրություն
                         </p>
                     </a>
                 </li>
