@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Notification extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     const UNREAD = 0;
     const READ = 1;
@@ -24,6 +25,7 @@ class Notification extends Model
       'type',
       'status',
       'icon',
+      'deleted_at',
     ];
 
     /**
