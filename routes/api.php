@@ -58,5 +58,10 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get('single-news/{news_id}', [HomeController::class, 'singleNews'])->name('home.single-news');
     });
 
-    Route::get('/notifications', [\App\Http\Controllers\Api\NotificationController::class, 'index']);
+
+    Route::prefix('notifications')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Api\NotificationController::class, 'index']);
+        Route::post('/change-status', [\App\Http\Controllers\Api\NotificationController::class, 'changeStatus']);
+        Route::get('/single-page/{id}', [\App\Http\Controllers\Api\NotificationController::class, 'singlePage']);
+    });
 });
