@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Repositories\Api\ResponseRepository;
 use App\Services\FilterServices;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -33,7 +34,7 @@ class NotificationController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(Request $request)
     {
@@ -51,8 +52,32 @@ class NotificationController extends Controller
         } catch (\Throwable $e) {
             return $this->response->badRequest([], $e->getMessage());
         }
+    }
 
+    /**
+     * @param Request $request
+     */
+    public function changeStatus(Request $request)
+    {
+        $data = $request->all();
+        $notifications = Notification::whereIn('id', $data['notification_ids'])->get();
+        foreach ($notifications as $notification){
+            $notification->status = $data['status'];
+            $notification->save();
+        }
+    }
 
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function singlePage($id)
+    {
+        $notification = Notification::find($id);
+        $notification->status = Notification::READ;
+        $notification->save();
+
+        return $this->response->success(['notification' => $notification]);
     }
 
 }

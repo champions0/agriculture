@@ -54,6 +54,10 @@ class NotificationController extends Controller
         $data = $request->all();
         $notifications = Notification::query();
 
+        if($request->user()->role == 'admin'){
+            $notifications = $notifications->withTrashed();
+        }
+
 //        filter service
         $notifications = $this->filterServices->notification($notifications, $data);
 
