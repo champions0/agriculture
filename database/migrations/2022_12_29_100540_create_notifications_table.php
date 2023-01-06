@@ -16,11 +16,12 @@ class CreateNotificationsTable extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description')->nullable();
+            $table->binary('description')->nullable();
             $table->string('type')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('icon')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
