@@ -45,7 +45,7 @@ class NotificationController extends Controller
 
             $notifications = $this->filterServices->notification($notifications, $data);
 
-            $notifications = $notifications->get();
+            $notifications = $notifications->paginate($data['size'] ?? 20);
 
             return $this->response->success(['notifications' => $notifications]);
 
