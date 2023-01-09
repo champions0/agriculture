@@ -6,12 +6,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Ավելացնել Հաղորդագրություն</h1>
+                        <h1>Ավելացնել Ծանուցում</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Գլխավոր</a></li>
-                            <li class="breadcrumb-item active">Ավելացնել Հաղորդագրություն</li>
+                            <li class="breadcrumb-item active">Ավելացնել Ծանուցում</li>
                         </ol>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
 
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h1 class="card-title">Ավելացնել Հաղորդագրություն</h1>
+                                    <h1 class="card-title">Ավելացնել Ծանուցում</h1>
                                 </div>
 
                                 <form
@@ -51,4 +51,14 @@
         </section>
     </div>
 
+@endsection
+
+@section('script')
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
 @endsection

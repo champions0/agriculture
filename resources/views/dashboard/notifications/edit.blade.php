@@ -6,12 +6,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Խմբագրել Հաղորդագրությունը</h1>
+                        <h1>Խմբագրել Ծանուցումը</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Գլխավոր</a></li>
-                            <li class="breadcrumb-item active">Խմբագրել Հաղորդագրությունը</li>
+                            <li class="breadcrumb-item active">Խմբագրել Ծանուցումը</li>
                         </ol>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
 
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Հաղորդագրություն</h3>
+                    <h3 class="card-title">Ծանուցում</h3>
                 </div>
                 <form action="{{ route('notifications.update', $notifications->id) }}" method="POST">
                     @csrf
@@ -35,7 +35,7 @@
                 </form>
                 <form id="delete-notification" action="{{ route('notifications.destroy', $notification->id) }}" method="POST"
                       style="display: none"
-                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել հաղորդագրությունը')">
+                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել Ծանուցումը')">
                     @csrf
                     @method('DELETE')
                 </form>

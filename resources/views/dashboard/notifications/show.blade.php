@@ -39,7 +39,7 @@
                                     </li>
                                     <li class="list-group-item">
                                         <b>Նկարագրություն՝</b>
-                                        <p class="float-right">{{ $notification->description }}</p>
+                                        <div class="float-right">{!! $notification->description !!}</div>
                                     </li>
 
                                     <li class="list-group-item">

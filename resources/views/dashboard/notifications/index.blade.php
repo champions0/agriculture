@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Հաղորդագրությունների ցուցակ</h1>
+                        <h1>Ծանուցումների ցուցակ</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Գլխավոր</a></li>
-                            <li class="breadcrumb-item active">Հաղորդագրությունների ցուցակ</li>
+                            <li class="breadcrumb-item active">Ծանուցումների ցուցակ</li>
                         </ol>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Հաղորդագրություններ</h3>
+                                <h3 class="card-title">Ծանուցումներ</h3>
 
                                 <div class="card-tools">
                                     <form action="{{ route('notifications.index') }}" method="GET">
@@ -53,7 +53,7 @@
                                         </div>
                                     </form>
                                     <div class="box-tools mr-0" style="margin-top: 20px; float: right">
-                                        <a href="{{route('notifications.create')}}" class="btn btn-primary">Ավելացնել Հաղորդագրություն</a>
+                                        <a href="{{route('notifications.create')}}" class="btn btn-primary">Ավելացնել Ծանուցում</a>
                                     </div>
                                 </div>
                             </div>
@@ -91,15 +91,18 @@
                                             @endif
                                             <td>{{ $notification->created_at }}</td>
                                             <td>
-                                                <form action="{{ route('notifications.destroy', $notification->id) }}" method="POST"
-                                                      style="display: none"
-                                                      onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել հաղորդագրությունը')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                                <a href="#" onclick="$(this).prev().submit()" title="Delete">
-                                                    <i class="text-danger nav-icon fas fa-trash"></i>
-                                                </a>
+                                                @if ( auth()->user()->role == 'municipality' )
+                                                    <form action="{{ route('notifications.destroy', $notification->id) }}" method="POST"
+                                                        style="display: none"
+                                                        onsubmit="return confirm('Վստա՞հ եք, որ ուզում եք ջնջել Ծանուցումը')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+
+                                                    <a href="#" onclick="$(this).prev().submit()" title="Delete">
+                                                        <i class="text-danger nav-icon fas fa-trash"></i>
+                                                    </a>
+                                                @endif
                                                 <a href="{{ route('notifications.show', $notification->id) }}" class="btn"
                                                    title="Show details">
                                                     <i class="text-success nav-icon fas fa-eye"></i>
