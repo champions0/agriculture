@@ -14,15 +14,21 @@ use Illuminate\Support\Facades\DB;
 class NotificationService
 {
     /**
-     * @param $data
-     * @return |null
+     * @param $number
+     * @return mixed
      */
-    public function create($data)
+    public function checkNumber($number){
+        return User::where('number', md5($number))->first();
+    }
+
+    /**
+     * @param $data
+     * @param $user
+     * @return mixed
+     */
+    public function create($data, $user)
     {
         $notification = null;
-        $user = User::where('number', md5($data['number']))->first();
-        if ($user) {
-
             DB::beginTransaction();
             $notification = Notification::create([
                 'title' => $data['title'],
@@ -38,7 +44,6 @@ class NotificationService
                 'notification_id' => $notification->id,
             ]);
             DB::commit();
-        }
 
         return $notification;
     }
