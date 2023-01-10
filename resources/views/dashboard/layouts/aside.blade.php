@@ -52,7 +52,7 @@
                        class="nav-link {{Request::segment(2) == 'notifications' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-envelope"></i>
                         <p>
-                            Հաղորդագրություն
+                            Ծանուցում
                         </p>
                     </a>
                 </li>
