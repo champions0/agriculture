@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\NotificationCreateRequest;
 use App\Http\Requests\Dashboard\NotificationUpdateRequest;
 use App\Models\Notification;
+use App\Models\User;
 use App\Services\DeleteService;
 use App\Services\FilterServices;
 use App\Services\NotificationService;
@@ -82,11 +83,14 @@ class NotificationController extends Controller
     public function store(NotificationCreateRequest $request)
     {
         $data = $request->validated();
+        $user = $this->notificationService->checkNumber($data['number']);
 
-        $notification = $this->notificationService->create($data);
-        if($notification == null){
-            return back()->withErrors(['number' => 'Այս ՀՎՀՀ-ով օգտատեր չի գտնվել']);
+        if($user){
+            $notification = $this->notificationService->create($data, $user);
         }
+//        if($notification == null){
+//            return back()->withErrors(['number' => 'Այս ՀՎՀՀ-ով օգտատեր չի գտնվել']);
+//        }
 
         return redirect()->route('notifications.index');
     }

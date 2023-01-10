@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Dashboard;
 
+use App\Services\NotificationService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NotificationCreateRequest extends FormRequest
@@ -24,7 +25,16 @@ class NotificationCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'number' => ['required', 'string', 'max:255'],
+            'number' => [
+                'required', 'string', 'max:255',
+                function ($attribute, $value, $fail) {
+                    $number = NotificationService::checkNumber($value);
+
+                    if ($number == null) {
+                        $fail('Նման օգտատեր չի գտնվել');
+                    }
+                },
+            ],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:255'],
             'type' => ['nullable'],
